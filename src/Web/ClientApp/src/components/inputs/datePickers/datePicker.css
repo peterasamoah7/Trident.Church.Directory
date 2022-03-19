@@ -1,0 +1,36 @@
+.react-datepicker__input-container .input-container {
+	--padding-left: 15px;
+	width: 10rem;
+
+	cursor: pointer;
+}
+
+.react-datepicker__input-container .input-container * {
+	cursor: pointer;
+}
+
+.react-datepicker__input-container
+	.input-container
+	.form-control:not(:placeholder-shown),
+.react-datepicker__input-container
+	.input-container
+	.form-select:not(:placeholder-shown) {
+	background-color: var(--bs-white) !important;
+	color: var(--bs-dark2);
+	font-weight: 500;
+
+	border: 1px solid var(--bs-border2) !important;
+}
+
+.react-datepicker__input-container
+	.input-container
+	.form-select
+	~ .input-label {
+	display: none;
+}
+
+.react-datepicker__input-container .input-container .date-select {
+	width: 8rem;
+	width: 100%;
+	/* --padding-left: 8px; */
+}

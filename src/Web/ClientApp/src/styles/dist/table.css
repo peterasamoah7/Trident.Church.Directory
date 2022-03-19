@@ -1,0 +1,64 @@
+table {
+	border-collapse: collapse;
+	margin-bottom: 1rem;
+	width: 100%;
+	background-color: var(--bs-white);
+}
+td {
+	color: #555;
+	font-weight: 500 !important;
+}
+th,
+td {
+	padding: 0.8rem 0.8rem;
+	font-weight: 600;
+	max-width: 10rem;
+}
+tr,
+th {
+	border-bottom: 1px solid #ddd;
+}
+tr:last-child {
+	border-bottom: 0;
+}
+
+td.illustration {
+	text-align: center;
+	padding-block: 4rem;
+	border-bottom: 0;
+}
+
+tfoot td {
+	vertical-align: middle;
+	text-align: end;
+}
+
+#rowsPerPage {
+	border: 0;
+	background-color: transparent;
+	margin-left: 2rem;
+}
+
+.iconEllipses {
+	width: 1.8em;
+	color: #222;
+}
+
+tr.selected {
+	background-color: #eff7ff;
+}
+
+.member-details {
+	display: grid;
+	grid-template-columns: repeat(3, 1fr);
+	align-items: start;
+	gap: 0.6em;
+}
+
+.detail__home-address {
+	grid-column: 1/-1;
+}
+.detail__date-of-birth,
+.detail__postal-code {
+	grid-column: 1/3;
+}

@@ -1,0 +1,84 @@
+[
+	{
+		"parishName": "His Royal Priesthood",
+		"location": "Accra",
+		"priest": "Bishop David Jonhson",
+		"creationDate": "November, 2021",
+		"members": "1034",
+		"id": "001"
+	},
+
+	{
+		"parishName": "Holy Trinity",
+		"location": "Kumasi",
+		"priest": "Rev James Kumasi",
+		"creationDate": "November, 2021",
+		"members": "2340",
+		"id": "010"
+	},
+
+	{
+		"parishName": "Ebenezer Presbyterian",
+		"location": "Tamale",
+		"priest": "Min. Peterson Okonjo",
+		"creationDate": "June, 2021",
+		"members": "567",
+		"id": "002"
+	},
+	{
+		"parishName": "St Peter’s Cathedral",
+		"location": "Sekondi-Takoradi",
+		"priest": "Pastor James Peter",
+		"creationDate": "June, 2021",
+		"members": "330",
+		"id": "003"
+	},
+	{
+		"parishName": "Ramseyer Memorial Presbyterian",
+		"location": "Tema New Town",
+		"priest": "Pastor Danielle Jackson",
+		"creationDate": "May, 2021",
+		"members": "7098",
+		"id": "004"
+	},
+	{
+		"parishName": "Fountain of Life & Truth",
+		"location": "Madina",
+		"priest": "Bishop Jane James",
+		"creationDate": "March, 2021",
+		"members": "50",
+		"id": "005"
+	},
+	{
+		"parishName": "Basilica Interntions",
+		"location": "Gbawe",
+		"priest": "Min. Dunsin Amoah",
+		"creationDate": "March 2021",
+		"members": "10563",
+		"id": "006"
+	},
+	{
+		"parishName": "St Barbara Catholic",
+		"location": "Cape Coast",
+		"priest": "Min. Nathaniel Kane",
+		"creationDate": "January 2021",
+		"members": "342",
+		"id": "007"
+	},
+	{
+		"parishName": "Perez Chaplel International",
+		"location": "Oduponkpehe",
+		"priest": "Peter James",
+		"creationDate": "November 2020",
+		"members": "91",
+		"id": "008"
+	},
+	{
+		"parishName": "Fransica Priscilla",
+		"location": "Adenta East",
+		"priest": "Joy Adebpoye",
+		"creationDate": "October 2020",
+		"members": "896",
+		"id": "009"
+	}
+]

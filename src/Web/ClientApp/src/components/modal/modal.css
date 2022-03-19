@@ -1,0 +1,35 @@
+.modal-container {
+  background-color: #3f3f3fcc;
+  display: grid;
+  place-items: center;
+  height: 100%;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+
+  top: 0;
+  left: 0;
+
+  padding-inline: 10rem;
+}
+
+.modal-content {
+  width: max-content;
+  /* max-width: 27rem; */
+  padding: 1.3rem 2rem;
+  position: relative;
+}
+
+.modal-close {
+  position: absolute;
+  top: 0.5rem;
+  right: 1.4rem;
+  padding: 5px;
+}
+.modal-close:hover {
+  color: var(--bs-dark2) !important;
+}
+
+.modal__hidden {
+  display: none;
+}

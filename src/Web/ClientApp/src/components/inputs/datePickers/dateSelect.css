@@ -1,0 +1,20 @@
+.react-datepicker__input-container .input-container {
+	--padding-left: 12px;
+	width: 8rem;
+
+	cursor: pointer;
+}
+
+.react-datepicker__input-container
+	.input-container
+	.form-control:not(:placeholder-shown),
+.react-datepicker__input-container
+	.input-container
+	.form-select:not(:placeholder-shown) {
+	background-image: none;
+	padding-right: 1.5em;
+}
+
+.react-datepicker__close-icon::after {
+	right: 0.8em;
+}

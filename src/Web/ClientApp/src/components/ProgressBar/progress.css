@@ -1,0 +1,43 @@
+.progressBar {
+	font-weight: 600;
+	color: var(--bs-gray1);
+
+	--level: 21%;
+	--height: 3px;
+}
+
+.current-stage {
+	color: var(--bs-primary);
+}
+
+.stageNames {
+	padding-inline: 14%;
+}
+
+.bar {
+	height: var(--height);
+	background-color: var(--bs-gray-300);
+
+	position: relative;
+}
+.bar::before {
+	position: absolute;
+	content: "";
+	height: var(--height);
+	background-color: var(--bs-primary);
+	width: var(--level);
+
+	transition: width 0.6s ease-in-out;
+}
+.bar::after {
+	position: absolute;
+	content: "";
+	height: 0.7rem;
+	width: 0.7rem;
+	border-radius: 50%;
+	background-color: var(--bs-primary);
+
+	top: -0.25rem;
+	left: var(--level);
+	transition: left 0.5s ease-in-out;
+}

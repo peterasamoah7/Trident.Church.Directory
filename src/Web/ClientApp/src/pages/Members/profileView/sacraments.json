@@ -1,0 +1,23 @@
+[
+	{
+		"day": "25",
+		"month": "sept",
+		"sacramentTitle": "Sacraments of a Christian Initiation",
+		"role": "Eucharist",
+		"parish": "Fountain of life & Truth"
+	},
+	{
+		"day": "18",
+		"month": "jul",
+		"sacramentTitle": "Sacraments of Service",
+		"role": "Matrimony",
+		"parish": "His Royal Priesthood"
+	},
+	{
+		"day": "15",
+		"month": "may",
+		"sacramentTitle": "Sacraments of a Healing",
+		"role": "Eucharist",
+		"parish": "Fountain of life & Truth"
+	}
+]

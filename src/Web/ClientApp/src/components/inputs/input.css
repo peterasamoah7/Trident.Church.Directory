@@ -1,0 +1,114 @@
+.input-container {
+	display: grid;
+	place-items: center;
+	width: 100%;
+
+	justify-items: flex-start;
+
+	position: relative;
+
+	--padding-left: 2.3em;
+	--padding-block: 0.4rem;
+}
+.input-container__lg {
+	--padding-block: 0.8rem;
+}
+
+.input-container label {
+	width: 100%;
+
+	display: grid;
+	place-items: center;
+}
+.input-label {
+	display: inline-block;
+	position: absolute;
+	left: var(--padding-left);
+
+	margin-bottom: 0;
+	top: calc(var(--padding-block) + 0.15rem);
+
+	transition: top 0.2s ease, font-size 0.2s ease;
+	font-size: 0.85rem;
+
+	cursor: text;
+	color: var(--bs-gray3);
+}
+.icon-one {
+	display: inline-block;
+	position: absolute;
+	color: var(--bs-dark1);
+
+	left: 0.5em;
+}
+.icon-two {
+	display: inline-block;
+	position: absolute;
+	cursor: pointer;
+	color: var(--bs-dark2);
+
+	right: 0.8em;
+	top: calc(var(--padding-block) + 0px);
+}
+.input {
+	display: inline-block;
+	width: 100%;
+
+	padding-left: var(--padding-left) !important;
+	padding-block: var(--padding-block);
+}
+.input:focus {
+	box-shadow: none;
+}
+
+.input-container label:focus-within .input-label,
+.input:not(:placeholder-shown) ~ .input-label {
+	top: -0.9em;
+	font-size: 0.6em;
+
+	transition: top 0.2s ease, font-size 0.2s ease;
+	padding: 0 5px 0px 2px;
+
+	background-color: var(--bs-white);
+	background-blend-mode: darken;
+	z-index: 30;
+}
+
+.input-container.icon-0 {
+	--padding-left: 1em !important;
+}
+.input-container.icon-0 .icon-one,
+.input-container.icon-0 .icon-two {
+	display: none;
+}
+.error-msg .bad {
+	color: var(--bs-danger);
+}
+.error-msg .good {
+	color: var(--bs-success);
+}
+.input-error .input {
+	border-color: var(--bs-danger);
+}
+.input-error .input:focus {
+	border-color: var(--bs-danger);
+}
+
+/*  */
+/*  */
+
+/* .input-group .input {
+	border-radius: 0;
+} */
+.input-group .input-container:first-child .input {
+	border-top-left-radius: 0.25rem;
+	border-bottom-left-radius: 0.25rem;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+.input-group .input-container:last-child .input {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+	border-top-right-radius: 0.25rem;
+	border-bottom-right-radius: 0.25rem;
+}

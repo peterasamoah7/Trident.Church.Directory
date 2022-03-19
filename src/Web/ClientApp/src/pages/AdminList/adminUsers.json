@@ -1,0 +1,37 @@
+[
+	{
+		"name": "Peter James",
+		"parishName": "His Royal Priesthood",
+		"email": "example@gmail.com"
+	},
+	{
+		"name": "Timothy Micheal",
+		"parishName": "Holy Trinity",
+		"email": "sample@twitter.com"
+	},
+	{
+		"name": "Ebenezer Adegoke",
+		"parishName": "Ebenezer Presbyterian",
+		"email": "david@facebook.com"
+	},
+	{
+		"name": "Franklin Fabunmi",
+		"parishName": "St Peter's Cathedral",
+		"email": "james@wix.com"
+	},
+	{
+		"name": "Ramseyer Ghana",
+		"parishName": "Ramseyer Memorial Presbyterian",
+		"email": "josiah@hootsuite.com"
+	},
+	{
+		"name": "Francisca Xanotech",
+		"parishName": "Fountain of Life & Truth",
+		"email": "timothy@example.com"
+	},
+	{
+		"name": "James Peter",
+		"parishName": "Basilica Interntions",
+		"email": "charles@church.com"
+	}
+]

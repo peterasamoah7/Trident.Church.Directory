@@ -1,0 +1,45 @@
+[
+	{
+		"name": "Peter",
+		"role": "Member",
+		"gender": "M",
+		"age": "43",
+		"phone": "098724355"
+	},
+	{
+		"name": "Timothy",
+		"role": "Priest",
+		"gender": "M",
+		"age": "54",
+		"phone": "071652748"
+	},
+	{
+		"name": "Ebenezer",
+		"role": "Priest",
+		"gender": "M",
+		"age": "48",
+		"phone": "098735612"
+	},
+	{
+		"name": "Franklin",
+		"role": "Member",
+		"gender": "F",
+		"age": "35",
+		"phone": "092736723"
+	},
+	{
+		"name": "Ramseyer",
+		"role": "Member",
+		"gender": "M",
+		"age": "27",
+		"phone": "056382732"
+	},
+
+	{
+		"name": "Ramseyer",
+		"role": "Member",
+		"gender": "M",
+		"age": "27",
+		"phone": "056382732"
+	}
+]
