@@ -36,7 +36,7 @@ namespace Data.Entities
         /// <summary>
         /// Church groups
         /// </summary>
-        public ICollection<ParishGroup> ChurchGroups { get; set; } = new List<ParishGroup>(); 
+        public ICollection<ParishGroup> ChurchGroups { get; set; } = new List<ParishGroup>();
 
         /// <summary>
         /// Parishioners

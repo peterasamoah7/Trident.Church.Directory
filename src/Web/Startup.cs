@@ -1,23 +1,23 @@
 using Application;
+using Core.MappingProfile;
 using Data.Database;
+using Data.Entities;
+using Data.Models;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.SpaServices.ReactDevelopmentServer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Threading.Tasks;
-using System.Linq;
-using Data.Entities;
-using System.Collections.Generic;
-using Data.Models;
-using Core.MappingProfile;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Web
 {
@@ -34,7 +34,7 @@ namespace Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options => 
+                .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
                 {
                     options.ExpireTimeSpan = new TimeSpan(24, 0, 0); // Expires in 24 hours
                     options.Events.OnRedirectToLogin = (context) =>
@@ -115,7 +115,7 @@ namespace Web
                 .ServiceProvider
                 .GetRequiredService<ChurchContext>();
 
-            if(!context.Users.Any())
+            if (!context.Users.Any())
             {
                 var parish = new Parish
                 {
@@ -136,7 +136,7 @@ namespace Web
                             Email = "test@test.com",
                             HomeAddress = "1 Asamoah Way",
                             PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer",                            
+                            Occupation = "Software Engineer",
                         },
                         new Parishioner
                         {
@@ -151,13 +151,13 @@ namespace Web
                             HomeAddress = "1 Asamoah Way",
                             PostCode = "GA-1234-AA",
                             Occupation = "Software Engineer",
-                        }                       
+                        }
                     }
                 };
 
                 context.Parishes.Add(parish);
 
-                context.ParishGroups.AddRange(new List<ParishGroup>() 
+                context.ParishGroups.AddRange(new List<ParishGroup>()
                 {
                     new ParishGroup
                     {
@@ -192,7 +192,7 @@ namespace Web
                                 HomeAddress = "1 Asamoah Way",
                                 PostCode = "GA-1234-AA",
                                 Occupation = "Software Engineer",
-                            }                                                                                                
+                            }
                         }
                     },
                     new ParishGroup
@@ -241,12 +241,12 @@ namespace Web
                         Location = "Ashongman Estate",
                         Address = "1 Jesus Way",
                         PostCode = "G-12345-AA",
-                    },                   
+                    },
                 });
 
                 context.SaveChanges();
 
-                context.Users.AddRange(new List<ApplicationUser> 
+                context.Users.AddRange(new List<ApplicationUser>
                 {
                     new ApplicationUser
                     {
@@ -283,7 +283,7 @@ namespace Web
                         Parish = parish.Id,
                         FullName = "Tester005 Test"
                     }
-                });                
+                });
 
                 context.Audits.AddRange(new List<Audit>
                 {

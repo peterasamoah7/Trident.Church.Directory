@@ -12,7 +12,7 @@ namespace Data.Entities
         /// Created on 
         /// </summary>
         public DateTime CreatedOn { get; set; }
-        
+
         /// <summary>
         /// Updated on
         /// </summary>

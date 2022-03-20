@@ -5,12 +5,12 @@ using System.Collections.Generic;
 namespace Core.Models
 {
     public class ParishGroupViewModel : BaseViewModel
-    {       
+    {
         /// <summary>
         /// Church Group Id
         /// </summary>
         public Guid Id { get; set; }
-        
+
         /// <summary>
         /// Name of the parish
         /// </summary>

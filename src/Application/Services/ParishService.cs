@@ -39,7 +39,7 @@ namespace Application.Services
             await _dbContext.Parishes.AddAsync(parish);
             await _dbContext.SaveChangesAsync();
             viewModel.Id = parish.Id;
-            await _auditService.CreateAuditAsync(AuditType.Created,$" Parish {viewModel.Name} Added");
+            await _auditService.CreateAuditAsync(AuditType.Created, $" Parish {viewModel.Name} Added");
             return viewModel;
 
         }
@@ -56,7 +56,7 @@ namespace Application.Services
             {
                 return;
             }
-             _dbContext.Parishes.Remove(isParishExist);
+            _dbContext.Parishes.Remove(isParishExist);
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(AuditType.Deleted, "Parish Deleted");
         }
@@ -70,16 +70,16 @@ namespace Application.Services
         /// <returns></returns>
         public async Task<PageResult<IEnumerable<ParishGroupViewModel>>> GetParishGroups(Guid id, int pageNumber, int pageSize)
         {
-            var resquest = new PageRequest(pageNumber, pageSize);  
+            var resquest = new PageRequest(pageNumber, pageSize);
 
-            var parish = await _dbContext.Parishes.Include(x=> x.ChurchGroups).FirstOrDefaultAsync(x => x.Id == id);
+            var parish = await _dbContext.Parishes.Include(x => x.ChurchGroups).FirstOrDefaultAsync(x => x.Id == id);
 
             var churchGroups = parish.ChurchGroups;
             var count = churchGroups.Count();
             var viewModels = churchGroups.Select(x => _mapper.Map<ParishGroupViewModel>(x))
                 .ToList();
             return new PageResult<IEnumerable<ParishGroupViewModel>>
-                (viewModels, resquest.PageNumber, resquest.PageSize,count);
+                (viewModels, resquest.PageNumber, resquest.PageSize, count);
         }
 
 
@@ -114,10 +114,10 @@ namespace Application.Services
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<PageResult<IEnumerable<ParishViewModel>>> GetAllParishs(string query , int pageNumber, int pageSize)
+        public async Task<PageResult<IEnumerable<ParishViewModel>>> GetAllParishs(string query, int pageNumber, int pageSize)
         {
             var request = new PageRequest(pageNumber, pageSize);
-            var parishQuery = _dbContext.Parishes.AsQueryable(); 
+            var parishQuery = _dbContext.Parishes.AsQueryable();
             if (!string.IsNullOrEmpty(query))
             {
                 parishQuery.Where(x => x.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
@@ -131,20 +131,20 @@ namespace Application.Services
 
             var models = new List<ParishViewModel>();
 
-            foreach(var parish in parishs)
+            foreach (var parish in parishs)
             {
                 var p = ParishMapping.MapDto(parish);
                 p.MemberCount = await _dbContext.Parishioners
                     .CountAsync(x => x.ParishId == parish.Id);
 
-                if(parish.Parishioners.Count > 0)
+                if (parish.Parishioners.Count > 0)
                     p.Priest = ParishionerMapping.MapDto(parish.Parishioners.FirstOrDefault(x => x.Type == ParishionerType.Priest));
 
                 models.Add(p);
             }
 
             var count = await parishQuery.CountAsync();
-           
+
             return new PageResult<IEnumerable<ParishViewModel>>
                 (models, request.PageNumber, request.PageSize, count);
         }
@@ -164,10 +164,10 @@ namespace Application.Services
             {
                 return null;
             }
-            
+
             var viewModel = ParishMapping.MapDto(parish);
 
-            if(parish.Parishioners.Any())
+            if (parish.Parishioners.Any())
                 viewModel.Priest = ParishionerMapping.MapDto(parish.Parishioners.FirstOrDefault(x => x.Type == ParishionerType.Priest));
 
             viewModel.MemberCount = await _dbContext.Parishioners
@@ -190,7 +190,7 @@ namespace Application.Services
             {
                 return null;
             }
-           _mapper.Map(viewModel, parish);            
+            _mapper.Map(viewModel, parish);
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(AuditType.Updated, $"{parish.Name} Details Updated");
             return viewModel;

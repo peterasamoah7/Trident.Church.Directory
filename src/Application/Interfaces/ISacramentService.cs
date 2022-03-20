@@ -3,8 +3,6 @@ using Core.Pagination;
 using Data.Models;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Interfaces
@@ -66,7 +64,7 @@ namespace Application.Interfaces
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<PageResult<IEnumerable<SacramentViewModel>>> GetAllSacramentsBySacramentType(SacramentType type,int pageNumber, int pageSize);
+        Task<PageResult<IEnumerable<SacramentViewModel>>> GetAllSacramentsBySacramentType(SacramentType type, int pageNumber, int pageSize);
 
         /// <summary>
         /// GetAll parishioners by SacramemtType
@@ -75,8 +73,8 @@ namespace Application.Interfaces
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishionersBySacramentType(SacramentType type,int pageNumber, int pageSize);
+        Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishionersBySacramentType(SacramentType type, int pageNumber, int pageSize);
 
-        
+
     }
 }

@@ -10,7 +10,7 @@ namespace Application.Interfaces
     {
         Task CreateAuditAsync(AuditType type, string Message);
         Task<PageResult<IEnumerable<AuditViewModel>>> GetAllAuditsAsnyc(int pageNumber, int pageSize);
-        Task<List<AuditViewModel>> GetAllAuditsAsnyc( );
+        Task<List<AuditViewModel>> GetAllAuditsAsnyc();
 
     }
 }

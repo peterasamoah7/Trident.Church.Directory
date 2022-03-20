@@ -46,5 +46,5 @@ namespace Application.Interfaces
         /// <returns></returns>
         Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(string query, int pageNumber, int pageSize);
 
-       }
+    }
 }

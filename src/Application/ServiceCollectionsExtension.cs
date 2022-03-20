@@ -26,7 +26,7 @@ namespace Application
                 .AddScoped<IAuditService, AuditService>()
                 .AddScoped<IDashboardService, DashboardService>()
                 .AddScoped<IParishionerService, ParishionerService>()
-                .AddScoped<IUserService, UserService>();                              
+                .AddScoped<IUserService, UserService>();
         }
     }
 }

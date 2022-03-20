@@ -25,7 +25,7 @@ namespace Web.Controllers
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<IActionResult> GetAll([FromQuery]PageQuery query)
+        public async Task<IActionResult> GetAll([FromQuery] PageQuery query)
         {
             var parishes = await _parishService.GetAllParishs(query.Query, query.PageNumber, query.PageSize);
 
@@ -52,7 +52,7 @@ namespace Web.Controllers
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpGet("{id}/parishioners")]
-        public async Task<IActionResult> GetParishioners(Guid id, [FromQuery]PageQuery query)
+        public async Task<IActionResult> GetParishioners(Guid id, [FromQuery] PageQuery query)
         {
             var parishioners = await _parishService.GetParishioners(id, query.PageNumber, query.PageSize);
 

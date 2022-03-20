@@ -29,7 +29,7 @@ namespace Web.Controllers
         /// <returns></returns>
         [HttpPost]
         public async Task<ActionResult<ParishGroupViewModel>> Create(ParishGroupViewModel viewModel)
-        {           
+        {
             return await _parishGroupService.CreateParishGroup(User.Parish(), viewModel);
         }
 
@@ -56,7 +56,7 @@ namespace Web.Controllers
             await _parishGroupService.DeleteParishGroup(id);
             return Ok();
         }
-        
+
         /// <summary>
         /// Get a parish group
         /// </summary>
@@ -74,7 +74,7 @@ namespace Web.Controllers
         /// <param name="query"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<PageResult<IEnumerable<ParishGroupViewModel>>>> GetAll([FromQuery]PageQuery query)
+        public async Task<ActionResult<PageResult<IEnumerable<ParishGroupViewModel>>>> GetAll([FromQuery] PageQuery query)
         {
             return await _parishGroupService.GetAllParishGroups(
                 User.Parish(), query.Query, query.PageNumber, query.PageSize);
@@ -89,7 +89,7 @@ namespace Web.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<PageResult<IEnumerable<ParishionerViewModel>>>> GetParishioners(
-            Guid id, [FromQuery]int pageNumber, [FromQuery]int pageSize)
+            Guid id, [FromQuery] int pageNumber, [FromQuery] int pageSize)
         {
             return await _parishGroupService.GetAllParishioners(id, pageNumber, pageSize);
         }

@@ -34,7 +34,7 @@ namespace Application.Services
         public async Task<ParishionerViewModel> CreateParishioner(ParishionerViewModel viewModel)
         {
             var parishioner = _mapper.Map<Parishioner>(viewModel);
-            
+
             await _dbContext.Parishioners.AddAsync(parishioner);
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(AuditType.Created, $" Member {viewModel.ToString()}  Added");
@@ -52,15 +52,15 @@ namespace Application.Services
         {
             var parishioner = await _dbContext.Parishioners.FirstOrDefaultAsync(x => x.Id == id);
 
-            if(parishioner == null)
+            if (parishioner == null)
             {
                 return null;
             }
 
             _mapper.Map(viewModel, parishioner);
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Updated,$"{viewModel.ToString()} Details Updated");
-            return viewModel; 
+            await _auditService.CreateAuditAsync(AuditType.Updated, $"{viewModel.ToString()} Details Updated");
+            return viewModel;
         }
 
         /// <summary>
@@ -91,8 +91,8 @@ namespace Application.Services
         {
             var parishioner = await _dbContext.Parishioners
                 .Include(x => x.Sacraments)
-                    .ThenInclude(x => x.Parish)   
-                .Include(x => x.ParishGroups)               
+                    .ThenInclude(x => x.Parish)
+                .Include(x => x.ParishGroups)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (parishioner == null)
@@ -124,7 +124,7 @@ namespace Application.Services
 
             return viewModel;
         }
-        
+
         /// <summary>
         /// Get all parishioners
         /// </summary>
@@ -133,7 +133,7 @@ namespace Application.Services
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public async Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(
-             string query,int pageNumber, int pageSize)
+             string query, int pageNumber, int pageSize)
         {
             var request = new PageRequest(pageNumber, pageSize);
 
@@ -149,13 +149,13 @@ namespace Application.Services
                  .Select(x => _mapper.Map<ParishionerViewModel>(x))
                 .ToListAsync();
 
-            var count = await parishionerQuery.CountAsync();            
+            var count = await parishionerQuery.CountAsync();
 
             return new PageResult<IEnumerable<ParishionerViewModel>>
                 (parishioners, request.PageNumber, request.PageSize, count);
         }
 
-      
-       
+
+
     }
 }

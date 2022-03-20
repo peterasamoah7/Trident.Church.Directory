@@ -97,6 +97,6 @@ namespace Data.Entities
         /// <summary>
         /// Group Memberships
         /// </summary>
-        public ICollection<ParishGroup> ParishGroups { get; set; } = new List<ParishGroup>(); 
+        public ICollection<ParishGroup> ParishGroups { get; set; } = new List<ParishGroup>();
     }
 }

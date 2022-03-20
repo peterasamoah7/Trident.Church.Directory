@@ -1,5 +1,4 @@
-﻿using AutoMapper;
-using Core.Models;
+﻿using Core.Models;
 using Data.Entities;
 
 namespace Core.MappingProfile

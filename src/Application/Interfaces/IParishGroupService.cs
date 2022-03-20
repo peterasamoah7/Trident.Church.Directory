@@ -53,7 +53,7 @@ namespace Application.Interfaces
         /// <param name="parishGroupId"></param>
         /// <returns></returns>
         public Task AddParishionerToGroup(Guid parishionerId, Guid parishGroupId);
-        
+
         /// <summary>
         /// Get all Parishioners of a church Group
         /// </summary>

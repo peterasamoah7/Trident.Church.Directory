@@ -1,7 +1,4 @@
-﻿using System;
-using System.Text;
-
-namespace Core.Models
+﻿namespace Core.Models
 {
     public class LoginViewModel
     {

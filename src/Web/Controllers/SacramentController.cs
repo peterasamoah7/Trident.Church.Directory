@@ -87,7 +87,7 @@ namespace Web.Controllers
         /// <returns></returns>
         [HttpGet]
         public async Task<ActionResult<PageResult<IEnumerable<SacramentViewModel>>>> GetAllByType(
-            [FromQuery]string type, PageQuery pageQuery)
+            [FromQuery] string type, PageQuery pageQuery)
         {
             return await _sacramentService.GetAllSacramentsBySacramentType(
                 Enum.Parse<SacramentType>(type), pageQuery.PageNumber, pageQuery.PageSize);

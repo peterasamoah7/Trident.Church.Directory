@@ -9,6 +9,6 @@ namespace Application.Interfaces
         /// Get dashbiard information 
         /// </summary>
         /// <returns></returns>
-        Task<DashboardViewModel> GetDashboard( );
+        Task<DashboardViewModel> GetDashboard();
     }
 }

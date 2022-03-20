@@ -77,10 +77,10 @@ namespace Application.Services
         {
             var request = new PageRequest(pageNumber, pageSize);
             var churchgroupQuery = _dbContext.ParishGroups.AsQueryable();
-          
+
             if (!string.IsNullOrEmpty(query))
             {
-                churchgroupQuery.Where(x => x.Name.Contains(query,StringComparison.OrdinalIgnoreCase));
+                churchgroupQuery.Where(x => x.Name.Contains(query, StringComparison.OrdinalIgnoreCase));
             }
 
             var churchGroups = await churchgroupQuery
@@ -92,7 +92,7 @@ namespace Application.Services
 
             var groups = new List<ParishGroupViewModel>();
 
-            foreach(var group in churchGroups)
+            foreach (var group in churchGroups)
             {
                 var model = ParishGroupMapping.MapDto(group);
                 model.MemberCount = group.Parishioners.Count;
@@ -100,8 +100,8 @@ namespace Application.Services
             }
 
             var count = await _dbContext.ParishGroups
-                .CountAsync(x => x.ParishId == parishId);           
-               
+                .CountAsync(x => x.ParishId == parishId);
+
             var response = new PageResult<IEnumerable<ParishGroupViewModel>>
                 (groups, request.PageNumber, request.PageSize, count);
 
@@ -120,7 +120,7 @@ namespace Application.Services
             var pageRequest = new PageRequest(pageNumber, pageSize);
             var churchgroup = await _dbContext.ParishGroups
                 .Include(x => x.Parishioners)
-                .FirstOrDefaultAsync( x => x.Id == ChurchGroupId);
+                .FirstOrDefaultAsync(x => x.Id == ChurchGroupId);
 
             if (churchgroup == null)
             {
@@ -133,7 +133,7 @@ namespace Application.Services
                 .Select(x => ParishionerMapping.MapDto(x))
                 .ToList();
 
-            var count = churchgroup.Parishioners.Count;       
+            var count = churchgroup.Parishioners.Count;
 
             var response = new PageResult<IEnumerable<ParishionerViewModel>>
                 (parishioners, pageRequest.PageNumber, pageRequest.PageSize, count);
@@ -190,7 +190,7 @@ namespace Application.Services
                 return null;
             }
 
-            churchgroup = ParishGroupMapping.MapEntity(viewModel);  
+            churchgroup = ParishGroupMapping.MapEntity(viewModel);
 
             _dbContext.Update(churchgroup);
             await _dbContext.SaveChangesAsync();
@@ -216,18 +216,18 @@ namespace Application.Services
             if (parishioner == null || parishioner.ParishGroups.Any(x => x.Id == parishGroupId))
             {
                 return;
-            } 
+            }
 
-            var churchGroup = await _dbContext.ParishGroups.FirstOrDefaultAsync( x => x.Id == parishGroupId);
-           
+            var churchGroup = await _dbContext.ParishGroups.FirstOrDefaultAsync(x => x.Id == parishGroupId);
+
             if (churchGroup == null)
             {
                 return;
             }
 
             parishioner.ParishGroups.Add(churchGroup);
-            await _dbContext.SaveChangesAsync(); 
-        } 
+            await _dbContext.SaveChangesAsync();
+        }
 
         /// <summary>
         /// Remove parishioner from group
@@ -241,13 +241,13 @@ namespace Application.Services
                 .FirstOrDefaultAsync(x => x.Id == parishionerId);
             var churchGroup = await _dbContext.ParishGroups.FirstOrDefaultAsync(x => x.Id == parishGroupId);
 
-            if (parishioner == null || churchGroup  == null || churchGroup.Parishioners.Any(x => x.Id == parishGroupId))
+            if (parishioner == null || churchGroup == null || churchGroup.Parishioners.Any(x => x.Id == parishGroupId))
             {
                 return;
-            }            
-            
+            }
+
             parishioner.ParishGroups.Remove(churchGroup);
-            await _dbContext.SaveChangesAsync();    
+            await _dbContext.SaveChangesAsync();
         }
     }
 }

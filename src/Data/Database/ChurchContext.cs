@@ -17,7 +17,7 @@ namespace Data.Database
         /// Constructor
         /// </summary>
         /// <param name="options"></param>
-        public ChurchContext(DbContextOptions<ChurchContext>options): base(options)
+        public ChurchContext(DbContextOptions<ChurchContext> options) : base(options)
         {
         }
 
@@ -41,7 +41,7 @@ namespace Data.Database
         /// </summary>
         public DbSet<Audit> Audits { get; set; }
 
-       
+
         /// <summary>
         /// Church Sacraments
         /// </summary>
@@ -57,7 +57,7 @@ namespace Data.Database
         /// </summary>
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {      
+        {
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);

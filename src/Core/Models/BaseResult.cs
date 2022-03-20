@@ -2,7 +2,7 @@
 
 namespace Core.Models
 {
-    public  class BaseResult
+    public class BaseResult
     {
         /// <summary>
         /// Response Status Code

@@ -32,14 +32,14 @@ namespace Application.Services
             };
             await _context.Audits.AddAsync(model);
             await _context.SaveChangesAsync();
-            
+
         }
 
         public async Task<PageResult<IEnumerable<AuditViewModel>>> GetAllAuditsAsnyc(int pageNumber, int pageSize)
         {
             var request = new PageRequest(pageNumber, pageSize);
             var audits = _context.Audits.AsQueryable();
-            var  count = audits.Count();
+            var count = audits.Count();
             var model = await audits.OrderByDescending(x => x.CreatedOn)
                 .Skip(request.PageNumber - 1)
                 .Take(request.PageSize)

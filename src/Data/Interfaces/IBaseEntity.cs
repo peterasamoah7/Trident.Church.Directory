@@ -11,7 +11,7 @@ namespace Data.Interfaces
         /// Created on
         /// </summary>
         DateTime CreatedOn { get; set; }
-        
+
         /// <summary>
         /// Updted on
         /// </summary>

@@ -53,7 +53,7 @@ namespace Application.Services
                 .Include(x => x.Parish)
                 .FirstOrDefaultAsync(x => x.Email == model.Email);
 
-            if(userProfile != null && userProfile.Parish.Id != parishId)
+            if (userProfile != null && userProfile.Parish.Id != parishId)
             {
                 return;
             }
@@ -69,7 +69,7 @@ namespace Application.Services
             await _dbContext.SaveChangesAsync();
 
             await _emailClient.SendAsync("Parish Portal Invite",
-                "noreply@parishportal.com", user.Email, 
+                "noreply@parishportal.com", user.Email,
                 "Welcome to Parish Portal. Please follow this <a>link</a> to login. " +
                 "Your password is Psalm23. Please change this in the " +
                 "profile page after you login. Thank you.");
@@ -106,7 +106,7 @@ namespace Application.Services
 
             if (user == null) return;
 
-            await _emailClient.SendAsync("Reset Password", 
+            await _emailClient.SendAsync("Reset Password",
                 "noreply@parishportal.com", email, "Reset your password here");
         }
 
@@ -158,7 +158,7 @@ namespace Application.Services
 
             var userQueryable = _dbContext.Users.AsQueryable();
 
-            if(!string.IsNullOrEmpty(query.Query))
+            if (!string.IsNullOrEmpty(query.Query))
             {
                 userQueryable.Where(x => x.FullName.Contains(query.Query));
             }

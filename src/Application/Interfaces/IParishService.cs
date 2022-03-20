@@ -2,8 +2,6 @@
 using Core.Pagination;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.Interfaces
@@ -57,7 +55,7 @@ namespace Application.Interfaces
         /// <param name="pageSize"></param>
         /// <returns></returns>
         Task<PageResult<IEnumerable<ParishGroupViewModel>>> GetParishGroups(Guid id, int pageNumber, int pageSize);
-            
+
         /// <summary>
         /// SearchParishs
         /// </summary>
