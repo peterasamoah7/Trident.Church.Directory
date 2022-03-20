@@ -1,51 +1,51 @@
 [
-	{
-		"id": "1",
-		"name": "Peter",
-		"parish": "His Royal Priesthood",
-		"role": "Member",
-		"phone": "098724355"
-	},
-	{
-		"id": "2",
-		"name": "Timothy",
-		"parish": "Holy Trinity",
-		"role": "Priest",
-		"phone": "071652748"
-	},
-	{
-		"id": "3",
-		"name": "Ebenezer",
-		"parish": "Ebenezer Presbyterian",
-		"role": "Priest",
-		"phone": "098735612"
-	},
-	{
-		"id": "4",
-		"name": "Franklin",
-		"parish": "St. Peter's Cathedral",
-		"role": "Member",
-		"phone": "092736723"
-	},
-	{
-		"id": "5",
-		"name": "Ramseyer",
-		"parish": "Ramseyer Memorial Presbyterian",
-		"role": "Member",
-		"phone": "056382732"
-	},
-	{
-		"id": "6",
-		"name": "Francisca",
-		"parish": "Fountain of Life & truth",
-		"role": "Member",
-		"phone": "056382732"
-	},
-	{
-		"id": "7",
-		"name": "James",
-		"parish": "Basillica Interntions",
-		"role": "Member",
-		"phone": "087136334"
-	}
+  {
+    "id": "1",
+    "name": "Peter",
+    "parish": "His Royal Priesthood",
+    "role": "Member",
+    "phone": "098724355"
+  },
+  {
+    "id": "2",
+    "name": "Timothy",
+    "parish": "Holy Trinity",
+    "role": "Priest",
+    "phone": "071652748"
+  },
+  {
+    "id": "3",
+    "name": "Ebenezer",
+    "parish": "Ebenezer Presbyterian",
+    "role": "Priest",
+    "phone": "098735612"
+  },
+  {
+    "id": "4",
+    "name": "Franklin",
+    "parish": "St. Peter's Cathedral",
+    "role": "Member",
+    "phone": "092736723"
+  },
+  {
+    "id": "5",
+    "name": "Ramseyer",
+    "parish": "Ramseyer Memorial Presbyterian",
+    "role": "Member",
+    "phone": "056382732"
+  },
+  {
+    "id": "6",
+    "name": "Francisca",
+    "parish": "Fountain of Life & truth",
+    "role": "Member",
+    "phone": "056382732"
+  },
+  {
+    "id": "7",
+    "name": "James",
+    "parish": "Basillica Interntions",
+    "role": "Member",
+    "phone": "087136334"
+  }
 ]

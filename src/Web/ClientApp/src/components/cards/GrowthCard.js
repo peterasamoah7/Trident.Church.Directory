@@ -16,9 +16,7 @@ function GrowthCard({ ...props }) {
       <div className="d-flex align-items-start justify-content-between">
         <div>
           <h6>{title}</h6>
-          <p className="text-muted summary small">
-            {summary}
-          </p>
+          <p className="text-muted summary small">{summary}</p>
         </div>
 
         <CircledPlus style={{ color: "var(--bs-primary)" }} />
@@ -34,9 +32,7 @@ function GrowthCard({ ...props }) {
               : {}
           }
         />
-        <span className="gowth-card__metric m-0 ms-1 fs-2 h6">
-          {metric}
-        </span>
+        <span className="gowth-card__metric m-0 ms-1 fs-2 h6">{metric}</span>
       </div>
     </section>
   );

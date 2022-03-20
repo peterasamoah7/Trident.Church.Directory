@@ -1,47 +1,47 @@
 [
-	{
-		"number": "1",
-		"id": "001",
-		"name": "Peter",
-		"role": "Member",
-		"gender": "M",
-		"age": "43",
-		"phone": "098724355"
-	},
-	{
-		"number": "2",
-		"id": "002",
-		"name": "Timothy",
-		"role": "Priest",
-		"gender": "54",
-		"age": "M",
-		"phone": "071652748"
-	},
-	{
-		"number": "3",
-		"id": "003",
-		"name": "Ebenezer",
-		"role": "Priest",
-		"gender": "M",
-		"age": "48",
-		"phone": "098735612"
-	},
-	{
-		"number": "4",
-		"id": "004",
-		"name": "Franklin",
-		"role": "Member",
-		"gender": "F",
-		"age": "35",
-		"phone": "092736723"
-	},
-	{
-		"number": "5",
-		"id": "005",
-		"name": "Ramseyer",
-		"role": "Member",
-		"gender": "M",
-		"age": "27",
-		"phone": "056382732"
-	}
+  {
+    "number": "1",
+    "id": "001",
+    "name": "Peter",
+    "role": "Member",
+    "gender": "M",
+    "age": "43",
+    "phone": "098724355"
+  },
+  {
+    "number": "2",
+    "id": "002",
+    "name": "Timothy",
+    "role": "Priest",
+    "gender": "54",
+    "age": "M",
+    "phone": "071652748"
+  },
+  {
+    "number": "3",
+    "id": "003",
+    "name": "Ebenezer",
+    "role": "Priest",
+    "gender": "M",
+    "age": "48",
+    "phone": "098735612"
+  },
+  {
+    "number": "4",
+    "id": "004",
+    "name": "Franklin",
+    "role": "Member",
+    "gender": "F",
+    "age": "35",
+    "phone": "092736723"
+  },
+  {
+    "number": "5",
+    "id": "005",
+    "name": "Ramseyer",
+    "role": "Member",
+    "gender": "M",
+    "age": "27",
+    "phone": "056382732"
+  }
 ]

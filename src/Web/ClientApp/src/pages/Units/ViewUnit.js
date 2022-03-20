@@ -16,184 +16,196 @@ import Layout from "../../components/Layout";
 
 import axios from "axios";
 
-function ViewUnit({ onLayoutType }) {	
+function ViewUnit({ onLayoutType }) {
+  const [group, setGroup] = useState(null);
+  const [members, setMembers] = useState(null);
+  const [nextPage, setNextPage] = useState(null);
+  const [prevPage, setPrevPage] = useState(null);
 
-	const [group, setGroup] = useState(null);
-	const [members, setMembers] = useState(null);
-	const [nextPage, setNextPage] = useState(null);
-	const [prevPage, setPrevPage] = useState(null);
+  let params = useParams();
+  let id = params.id;
 
-	let params = useParams();
-	let id = params.id;
+  useEffect(() => {
+    axios.get(`/api/parishgroup/get/${id}`).then((response) => {
+      if (response.status === 200) {
+        setGroup(response.data);
+        setMembers(response.data.parishioners);
+        setNextPage(response.data.parishioners.nextPage);
+        setPrevPage(response.data.parishioners.previousPage);
+      } else {
+        //show error
+      }
+    });
+  }, []);
 
-	useEffect(() => {
-		axios.get(`/api/parishgroup/get/${id}`)
-			.then((response) => {
-				if(response.status === 200){
-					setGroup(response.data);
-					setMembers(response.data.parishioners);
-					setNextPage(response.data.parishioners.nextPage);
-					setPrevPage(response.data.parishioners.previousPage);
-				}else{
-					//show error
-				}
-			})
-	}, [])
+  const searchMember = (query) => {
+    axios.get(`/api/parishgroup/getall/query=${query}`).then((response) => {
+      if (response.status === 200) {
+        setMembers(null);
+        setMembers(response.data);
+        setNextPage(response.data.nextPage);
+        setPrevPage(response.data.previousPage);
+      } else {
+        //show errors
+      }
+    });
+  };
 
-	const searchMember = (query) => {
-		axios.get(`/api/parishgroup/getall/query=${query}`)
-			.then((response) => {
-				if(response.status === 200){
-					setMembers(null);
-					setMembers(response.data);
-					setNextPage(response.data.nextPage);
-					setPrevPage(response.data.previousPage);
-				}else{
-					//show errors
-				}
-			})
-	}
+  const deletemember = (memberId) => {
+    axios
+      .post(`api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          getMembers();
+        } else {
+          //show errors
+        }
+      });
+  };
 
-	const deletemember = (memberId) => {
-		axios.post(`api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`)
-			.then((response) => {
-				if(response.status === 200){
-					getMembers();
-				}else{
-					//show errors
-				}
-			})
-	}
+  const next = () => {
+    getMembers(nextPage);
+  };
 
-	const next = () => {
-		getMembers(nextPage);
-	}
+  const prev = () => {
+    getMembers(prevPage);
+  };
 
-	const prev = () => {
-		getMembers(prevPage);
-	}
+  const getMembers = (path) => {
+    axios
+      .get(`/api/parishgroup/getparishioners/${id}/${path}`)
+      .then((response) => {
+        if (response.status === 200) {
+          setMembers(null);
+          setMembers(response.data);
+          setNextPage(response.data.nextPage);
+          setPrevPage(response.data.previousPage);
+        } else {
+          //show errors
+        }
+      });
+  };
 
-	const getMembers = (path) => {
-		axios.get(`/api/parishgroup/getparishioners/${id}/${path}`)
-			.then((response) => {
-				if(response.status === 200){
-					setMembers(null);
-					setMembers(response.data);
-					setNextPage(response.data.nextPage);
-					setPrevPage(response.data.previousPage);
-				}else{
-					//show errors
-				}
-			})
-	}
+  return (
+    <Layout>
+      <main>
+        <header className="d-flex align-items-start justify-content-between mb-3">
+          <div className="d-flex align-items-start" style={{ gap: "1rem" }}>
+            <SvgHashTag style={{ color: "var(--bs-hash3)" }} />
+            <div>
+              <h5 className="mb-1">{group?.name}</h5>
+            </div>
+          </div>
+          <Link to="/groups" className="text-decoration-none">
+            &lt; Back to Groups Overview
+          </Link>
+        </header>
 
-	return (
-		<Layout>
-			<main>
-				<header className="d-flex align-items-start justify-content-between mb-3">
-					<div className="d-flex align-items-start" style={{ gap: "1rem" }}>
-						<SvgHashTag style={{ color: "var(--bs-hash3)" }} />
-						<div>
-							<h5 className="mb-1">{group?.name}</h5>
-						</div>
-					</div>
-					<Link to="/groups" className="text-decoration-none">
-						&lt; Back to Groups Overview
-					</Link>
-				</header>
+        <p class="m-0 text-muted">{group?.description}</p>
 
-				<p class="m-0 text-muted">
-					{group?.description}
-				</p>
+        <div class="d-flex align-items-center my-4 border-bottom border-white border-2">
+          <figure class="d-flex align-items-center">
+            <Person
+              width="1em"
+              height="1em"
+              className="text-primary"
+              opacity={1}
+            />
+            <figcaption class="ms-2">
+              <span>{group?.memberCount}</span> members
+            </figcaption>
+          </figure>
+          <Link to={`/groups/add-member/${group?.id}`} className=" ms-5">
+            <figure class="d-flex align-items-center">
+              <GreenPlus />
+              <figcaption class="ms-3">
+                <span class="ps-3 border-start border-primary">
+                  Add a new member
+                </span>
+              </figcaption>
+            </figure>
+          </Link>
+        </div>
 
-				<div class="d-flex align-items-center my-4 border-bottom border-white border-2">
-					<figure class="d-flex align-items-center">
-						<Person
-							width="1em"
-							height="1em"
-							className="text-primary"
-							opacity={1}
-						/>
-						<figcaption class="ms-2">
-							<span>{group?.memberCount}</span> members
-						</figcaption>
-					</figure>
-					<Link to={`/groups/add-member/${group?.id}`} className=" ms-5">
-						<figure class="d-flex align-items-center">
-							<GreenPlus />
-							<figcaption class="ms-3">
-								<span class="ps-3 border-start border-primary">
-									Add a new member
-								</span>
-							</figcaption>
-						</figure>
-					</Link>
-				</div>
+        <section className="my-4 d-flex align-items-center justify-content-between">
+          <div className="col-4">
+            <SearchInput />
+          </div>
+        </section>
 
-				<section className="my-4 d-flex align-items-center justify-content-between">
-					<div className="col-4">
-						<SearchInput />
-					</div>				
-				</section>
-
-				<div
-					class="d-flex justify-content-between data-tables p-0 m-0 mt-4"
-					style={{ gap: "3rem" }}
-				>
-					<table class="bg-white">
-						<thead>
-							<tr>
-								<th></th>
-								<th>Name</th>
-								<th>Role</th>
-								<th>Location</th>
-								<th>Phone No.</th>
-								<th>Occupation</th>
-								<th>Action</th>
-							</tr>
-						</thead>
-						<tbody>
-							{members && members.data.map((item, index) => {
-								return (
-									<>
-										<tr>
-											<td class="num text-center">{index + 1}.</td>
-											<td>{item.firstName} {item.lastName}</td>
-											<td>{item.type}</td>
-											<td>{item.location}</td>
-											<td>{item.phoneNumber}</td>
-											<td>{item.occupation}</td>
-											<td>
-												<EllipseNModal />
-											</td>
-										</tr>
-									</>
-								);
-							})}
-						</tbody>
-						<tfoot>
-						<tr>
-							<td colSpan="7" className="small p-1">
-								<div className="d-flex align-items-center justify-content-end me-4">
-									<span className="col-5">Rows per page: </span>
-									<select name="rowsPerPage" id="rowsPerPage" className="ms-5">
-										<option value="10" className="">
-											{members && members.data.length}
-										</option>
-									</select>
-									<div className="tableNav ms-4">
-										{prevPage && <button onClick={prev} className="btn border-none p-2">&lt;</button>}
-										{nextPage && <button onClick={next} className="btn border-none p-2">&gt;</button>}
-									</div>
-								</div>
-							</td>
-						</tr>
-					</tfoot>
-					</table>
-				</div>
-			</main>
-		</Layout>
-	);
+        <div
+          class="d-flex justify-content-between data-tables p-0 m-0 mt-4"
+          style={{ gap: "3rem" }}
+        >
+          <table class="bg-white">
+            <thead>
+              <tr>
+                <th></th>
+                <th>Name</th>
+                <th>Role</th>
+                <th>Location</th>
+                <th>Phone No.</th>
+                <th>Occupation</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {members &&
+                members.data.map((item, index) => {
+                  return (
+                    <>
+                      <tr>
+                        <td class="num text-center">{index + 1}.</td>
+                        <td>
+                          {item.firstName} {item.lastName}
+                        </td>
+                        <td>{item.type}</td>
+                        <td>{item.location}</td>
+                        <td>{item.phoneNumber}</td>
+                        <td>{item.occupation}</td>
+                        <td>
+                          <EllipseNModal />
+                        </td>
+                      </tr>
+                    </>
+                  );
+                })}
+            </tbody>
+            <tfoot>
+              <tr>
+                <td colSpan="7" className="small p-1">
+                  <div className="d-flex align-items-center justify-content-end me-4">
+                    <span className="col-5">Rows per page: </span>
+                    <select
+                      name="rowsPerPage"
+                      id="rowsPerPage"
+                      className="ms-5"
+                    >
+                      <option value="10" className="">
+                        {members && members.data.length}
+                      </option>
+                    </select>
+                    <div className="tableNav ms-4">
+                      {prevPage && (
+                        <button onClick={prev} className="btn border-none p-2">
+                          &lt;
+                        </button>
+                      )}
+                      {nextPage && (
+                        <button onClick={next} className="btn border-none p-2">
+                          &gt;
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+      </main>
+    </Layout>
+  );
 }
 
 export default ViewUnit;

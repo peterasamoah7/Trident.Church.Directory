@@ -9,50 +9,50 @@ import SearchInput from "../../components/inputs/specialInputs/SearchInput";
 import DateSelect from "../../components/inputs/datePickers/DateSelect";
 
 function RecentActivities() {
-	return (
-		<Layout type={1}>
-			<header className="d-flex align-items-center justify-content-between">
-				<h5 className="m-0">Recent Activities</h5>
-				<Link to="/" className="text-decoration-none">
-					&lt; Back to Dashboard
-				</Link>
-			</header>
-			<div className="my-5 d-flex align-items-center justify-content-between">
-				<div className="col-5">
-					<SearchInput />
-				</div>
-				<div
-					className="d-flex align-items-center"
-					style={{
-						gap: "5px",
-					}}
-				>
-					<DateSelect placeholder="Date" />
-					<select
-						name="parish"
-						id="parish"
-						className="form-select"
-						style={{
-							width: "6rem",
-						}}
-					>
-						<option value="">Parish</option>
-					</select>
-					<select
-						name="parish"
-						id="parish"
-						className="form-select sort-select"
-						style={{
-							width: "6rem",
-						}}
-					>
-						<option value="">Sort</option>
-					</select>
-				</div>
-			</div>
-			<RecentActivity type="full" />
-		</Layout>
-	);
+  return (
+    <Layout type={1}>
+      <header className="d-flex align-items-center justify-content-between">
+        <h5 className="m-0">Recent Activities</h5>
+        <Link to="/" className="text-decoration-none">
+          &lt; Back to Dashboard
+        </Link>
+      </header>
+      <div className="my-5 d-flex align-items-center justify-content-between">
+        <div className="col-5">
+          <SearchInput />
+        </div>
+        <div
+          className="d-flex align-items-center"
+          style={{
+            gap: "5px",
+          }}
+        >
+          <DateSelect placeholder="Date" />
+          <select
+            name="parish"
+            id="parish"
+            className="form-select"
+            style={{
+              width: "6rem",
+            }}
+          >
+            <option value="">Parish</option>
+          </select>
+          <select
+            name="parish"
+            id="parish"
+            className="form-select sort-select"
+            style={{
+              width: "6rem",
+            }}
+          >
+            <option value="">Sort</option>
+          </select>
+        </div>
+      </div>
+      <RecentActivity type="full" />
+    </Layout>
+  );
 }
 
 export default RecentActivities;

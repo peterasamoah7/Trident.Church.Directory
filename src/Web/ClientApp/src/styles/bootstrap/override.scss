@@ -8,33 +8,33 @@ $font-family-sans-serif: "Lato", sans-serif;
 @import "../../../node_modules/bootstrap/scss/_variables";
 
 $custom-theme-colors: (
-	"dark1": #212529,
-	"dark2": #2f3a4a,
-	"dark3": #41475e,
-	"dark4": #65676d,
-	// ==============================
-	"gray1": #697386,
-	"gray2": #8e98a1,
-	"gray3": #9ea2a9,
-	// ==============================
-	"bg-body": #f7f7f4,
-	"bg-modal": hsla(249, 4%, 66%, 0.8),
-	"border1": hsla(0, 0%, 0%, 0.349),
-	"border2": hsla(0, 0%, 0%, 0.2),
-	// ==============================
-	"hash1": #4c9333,
-	"hash2": #3974cc,
-	"hash3": #921abc,
-	"hash4": #ddc33d,
-	"hash5": #6d84d7,
-	"hash6": #c8cb22,
-	"hash7": #45b932,
-	"hash8": #1e49b9,
-	"hash9": #1e981c,
-	// ==============================
-	"highlight": #edf3fc,
-	// ==============================
-	"yellow1": #fba63c,
+  "dark1": #212529,
+  "dark2": #2f3a4a,
+  "dark3": #41475e,
+  "dark4": #65676d,
+  // ==============================
+  "gray1": #697386,
+  "gray2": #8e98a1,
+  "gray3": #9ea2a9,
+  // ==============================
+  "bg-body": #f7f7f4,
+  "bg-modal": hsla(249, 4%, 66%, 0.8),
+  "border1": hsla(0, 0%, 0%, 0.349),
+  "border2": hsla(0, 0%, 0%, 0.2),
+  // ==============================
+  "hash1": #4c9333,
+  "hash2": #3974cc,
+  "hash3": #921abc,
+  "hash4": #ddc33d,
+  "hash5": #6d84d7,
+  "hash6": #c8cb22,
+  "hash7": #45b932,
+  "hash8": #1e49b9,
+  "hash9": #1e981c,
+  // ==============================
+  "highlight": #edf3fc,
+  // ==============================
+  "yellow1": #fba63c,
 );
 
 $theme-colors: map-merge($custom-theme-colors, $theme-colors);
@@ -45,11 +45,11 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 .btn,
 button {
-	font-family: "Roboto", sans-serif;
+  font-family: "Roboto", sans-serif;
 }
 
 @import "../../../node_modules/bootstrap/scss/bootstrap";

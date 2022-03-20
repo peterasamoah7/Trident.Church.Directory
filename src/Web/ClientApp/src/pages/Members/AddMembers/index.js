@@ -5,12 +5,12 @@ import BasicInformation from "./BasicInformation";
 import ContactInformation from "./ContactInformation";
 
 function Index() {
-	return (
-		<>
-			{" "}
-			<Outlet />
-		</>
-	);
+  return (
+    <>
+      {" "}
+      <Outlet />
+    </>
+  );
 }
 
 export default Index;

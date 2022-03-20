@@ -1,25 +1,25 @@
 .navbar {
-	border-radius: 0.4rem;
-	font-family: "Roboto", sans-serif;
+  border-radius: 0.4rem;
+  font-family: "Roboto", sans-serif;
 }
 .nav-link {
-	color: var(--bs-dark4) !important;
+  color: var(--bs-dark4) !important;
 }
 .nav-link:hover {
-	filter: brightness(0.5);
+  filter: brightness(0.5);
 }
 
 .active {
-	color: var(--bs-primary) !important;
-	position: relative;
+  color: var(--bs-primary) !important;
+  position: relative;
 }
 .active::after {
-	content: " ";
-	width: 5px;
-	height: 5px;
-	border-radius: 80%;
-	background-color: var(--bs-primary);
-	position: absolute;
-	bottom: 0;
-	left: 0.55em;
+  content: " ";
+  width: 5px;
+  height: 5px;
+  border-radius: 80%;
+  background-color: var(--bs-primary);
+  position: absolute;
+  bottom: 0;
+  left: 0.55em;
 }

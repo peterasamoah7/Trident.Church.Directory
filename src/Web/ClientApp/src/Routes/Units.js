@@ -8,14 +8,14 @@ import AddUnitMember from "../pages/Units/AddMembers";
 import CreateUnit from "../pages/Units/CreateUnit";
 
 function UnitsRoute() {
-	return (
-		<Routes>
-			<Route index element={<Units />} />
-			<Route path="add-group" element={<CreateUnit />} />
-			<Route path="view-group/:id" element={<ViewUnit />} />			
-			<Route path="add-member/:id" element={<AddUnitMember />} />
-		</Routes>
-	);
+  return (
+    <Routes>
+      <Route index element={<Units />} />
+      <Route path="add-group" element={<CreateUnit />} />
+      <Route path="view-group/:id" element={<ViewUnit />} />
+      <Route path="add-member/:id" element={<AddUnitMember />} />
+    </Routes>
+  );
 }
 
 export default UnitsRoute;

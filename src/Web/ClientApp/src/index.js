@@ -9,12 +9,12 @@ const baseUrl = document.getElementsByTagName("base")[0].getAttribute("href");
 const rootElement = document.getElementById("root");
 
 ReactDOM.render(
-	<React.StrictMode>
-		<BrowserRouter basename={baseUrl}>
-			<App />
-		</BrowserRouter>
-	</React.StrictMode>,
-	rootElement
+  <React.StrictMode>
+    <BrowserRouter basename={baseUrl}>
+      <App />
+    </BrowserRouter>
+  </React.StrictMode>,
+  rootElement
 );
 
 registerServiceWorker();

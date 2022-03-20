@@ -8,15 +8,15 @@ import AdminUsersList from "../pages/AdminList/AdminUsersList";
 import RecentActivities from "../pages/RecentActivities/RecentActivities";
 
 function Home() {
-	return (
-		<Routes>
-			{/* home */}
-			<Route index element={<Dashboard />} />
-			<Route path="invite" element={<InviteMember />} />
-			<Route path="admin-users" element={<AdminUsersList />} />
-			<Route path="recent-activities" element={<RecentActivities />} />
-		</Routes>
-	);
+  return (
+    <Routes>
+      {/* home */}
+      <Route index element={<Dashboard />} />
+      <Route path="invite" element={<InviteMember />} />
+      <Route path="admin-users" element={<AdminUsersList />} />
+      <Route path="recent-activities" element={<RecentActivities />} />
+    </Routes>
+  );
 }
 
 export default Home;

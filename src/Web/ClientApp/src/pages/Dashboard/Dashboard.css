@@ -1,44 +1,44 @@
 .dashboard {
-	display: grid;
+  display: grid;
 
-	grid-template-columns: repeat(20, 1fr);
+  grid-template-columns: repeat(20, 1fr);
 
-	column-gap: 1.6rem;
-	row-gap: 2.4rem;
+  column-gap: 1.6rem;
+  row-gap: 2.4rem;
 }
 
 .search {
-	grid-column: 1/8;
+  grid-column: 1/8;
 }
 
 .links {
-	grid-column: 12/-1;
+  grid-column: 12/-1;
 
-	gap: 2rem;
-	justify-self: flex-end;
+  gap: 2rem;
+  justify-self: flex-end;
 }
 
 .gChart {
-	grid-column: 1/11;
+  grid-column: 1/11;
 }
 .gChart .cards {
-	display: grid;
-	grid-template-columns: repeat(2, 1fr);
-	gap: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1rem;
 }
 
 .recent-activities {
-	grid-column: 11/-1;
+  grid-column: 11/-1;
 }
 
 .sumCards {
-	grid-column: 1/-1;
+  grid-column: 1/-1;
 
-	display: flex;
-	align-items: center;
-	gap: 2.1%;
+  display: flex;
+  align-items: center;
+  gap: 2.1%;
 }
 
 .footer {
-	grid-column: 1/-1;
+  grid-column: 1/-1;
 }

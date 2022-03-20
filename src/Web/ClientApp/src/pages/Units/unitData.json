@@ -1,64 +1,64 @@
 [
-	{
-		"name": "Sanctuary Keepers",
-		"parish": "Fountain of Life & Truth",
-		"about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
-		"memberCount": "142 members"
-	},
+  {
+    "name": "Sanctuary Keepers",
+    "parish": "Fountain of Life & Truth",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
+    "memberCount": "142 members"
+  },
 
-	{
-		"name": "Gate Keepers",
-		"parish": "Fountain of Life & Truth",
-		"about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
-		"memberCount": "142 members"
-	},
+  {
+    "name": "Gate Keepers",
+    "parish": "Fountain of Life & Truth",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
+    "memberCount": "142 members"
+  },
 
-	{
-		"name": "Protocol",
-		"parish": "Fountain of Life & Truth",
-		"about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
-		"memberCount": "142 members"
-	},
+  {
+    "name": "Protocol",
+    "parish": "Fountain of Life & Truth",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
+    "memberCount": "142 members"
+  },
 
-	{
-		"name": "Women's Affairs",
-		"parish": "Fountain of Life & Truth",
-		"about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
-		"memberCount": "142 members"
-	},
+  {
+    "name": "Women's Affairs",
+    "parish": "Fountain of Life & Truth",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
+    "memberCount": "142 members"
+  },
 
-	{
-		"name": "Men of Valor",
-		"parish": "Fountain of Life & Truth",
-		"about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
-		"memberCount": "142 members"
-	},
+  {
+    "name": "Men of Valor",
+    "parish": "Fountain of Life & Truth",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
+    "memberCount": "142 members"
+  },
 
-	{
-		"name": "Music Department",
-		"parish": "Fountain of Life & Truth",
-		"about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
-		"memberCount": "142 members"
-	},
+  {
+    "name": "Music Department",
+    "parish": "Fountain of Life & Truth",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
+    "memberCount": "142 members"
+  },
 
-	{
-		"name": "Word Grooming",
-		"parish": "Fountain of Life & Truth",
-		"about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu ",
-		"memberCount": "142 members"
-	},
+  {
+    "name": "Word Grooming",
+    "parish": "Fountain of Life & Truth",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu ",
+    "memberCount": "142 members"
+  },
 
-	{
-		"name": "Kid's keepers",
-		"parish": "Fountain of Life & Truth",
-		"about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
-		"memberCount": "142 members"
-	},
+  {
+    "name": "Kid's keepers",
+    "parish": "Fountain of Life & Truth",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
+    "memberCount": "142 members"
+  },
 
-	{
-		"name": "Motion of Grace",
-		"parish": "Fountain of Life & Truth",
-		"about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
-		"memberCount": "142 members"
-	}
+  {
+    "name": "Motion of Grace",
+    "parish": "Fountain of Life & Truth",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Varius etiam tortor rhoncu",
+    "memberCount": "142 members"
+  }
 ]

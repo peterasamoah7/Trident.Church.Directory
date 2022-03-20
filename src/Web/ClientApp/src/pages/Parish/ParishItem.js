@@ -5,23 +5,23 @@ import { useNavigate } from "react-router-dom";
 import EllipseNModal from "../../components/modal/EllipseNModal";
 
 function ParishItem(props) {
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-	return (
-		<>
-			<tr>
-				<td>{props.name}</td>
-				<td>{props.location}</td>
-				<td>{props?.priest?.firstName} {props?.priest?.lastName}</td>
-				<td>{props.memberCount}</td>
-				<td>
-					<EllipseNModal
-						onView={() => navigate(`view-parish/${props.id}`)}
-					/>
-				</td>
-			</tr>
-		</>
-	);
+  return (
+    <>
+      <tr>
+        <td>{props.name}</td>
+        <td>{props.location}</td>
+        <td>
+          {props?.priest?.firstName} {props?.priest?.lastName}
+        </td>
+        <td>{props.memberCount}</td>
+        <td>
+          <EllipseNModal onView={() => navigate(`view-parish/${props.id}`)} />
+        </td>
+      </tr>
+    </>
+  );
 }
 
 export default ParishItem;
