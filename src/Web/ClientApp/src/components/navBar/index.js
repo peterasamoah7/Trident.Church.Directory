@@ -34,8 +34,8 @@ function Navbar() {
 						</NavLink>
 					</li>
 					<li className="nav-item">
-						<NavLink to="/units" className="nav-link">
-							Units
+						<NavLink to="/groups" className="nav-link">
+							Groups
 						</NavLink>
 					</li>
 					<li className="nav-item">

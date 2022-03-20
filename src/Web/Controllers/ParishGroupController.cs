@@ -6,11 +6,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Web.Extensions;
 
 namespace Web.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [Authorize]
     public class ParishGroupController : ControllerBase
     {
@@ -26,10 +27,10 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        [HttpPost("{id}")]
-        public async Task<ActionResult<ParishGroupViewModel>> Create(Guid id, ParishGroupViewModel viewModel)
-        {
-            return await _parishGroupService.CreateParishGroup(id, viewModel);
+        [HttpPost]
+        public async Task<ActionResult<ParishGroupViewModel>> Create(ParishGroupViewModel viewModel)
+        {           
+            return await _parishGroupService.CreateParishGroup(User.Parish(), viewModel);
         }
 
         /// <summary>
@@ -75,7 +76,8 @@ namespace Web.Controllers
         [HttpGet]
         public async Task<ActionResult<PageResult<IEnumerable<ParishGroupViewModel>>>> GetAll([FromQuery]PageQuery query)
         {
-            return await _parishGroupService.GetAllParishGroups(query.Query, query.PageNumber, query.PageSize);
+            return await _parishGroupService.GetAllParishGroups(
+                User.Parish(), query.Query, query.PageNumber, query.PageSize);
         }
 
         /// <summary>
@@ -89,7 +91,7 @@ namespace Web.Controllers
         public async Task<ActionResult<PageResult<IEnumerable<ParishionerViewModel>>>> GetParishioners(
             Guid id, [FromQuery]int pageNumber, [FromQuery]int pageSize)
         {
-            return await _parishGroupService.GetAllParishionersByChurchGroupId(id, pageNumber, pageSize);
+            return await _parishGroupService.GetAllParishioners(id, pageNumber, pageSize);
         }
 
         /// <summary>
@@ -101,7 +103,7 @@ namespace Web.Controllers
         [HttpPost("{parishId}/parishioner/{parishionerId}")]
         public async Task<IActionResult> AddParishioner(Guid parishId, Guid parishionerId)
         {
-            await _parishGroupService.AddParishionerToGroup(parishId, parishionerId);
+            await _parishGroupService.AddParishionerToGroup(parishionerId, parishId);
             return Ok();
         }
 

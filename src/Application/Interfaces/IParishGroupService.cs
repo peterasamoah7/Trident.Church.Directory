@@ -8,22 +8,6 @@ namespace Application.Interfaces
 {
     public interface IParishGroupService
     {
-
-        ///create a church group
-        ///edit a church group
-        ///update a church group
-        ///delete a church group 
-        ///search for a church group
-        ///get all church groups 
-        ///get a church group 
-        ///add a parishioner to a church group
-        ///remove a parishioner from a church group       
-       
-        
-        ///get all parishioner for a church group
-      
-        ///search for a parishioner in a church group
-
         /// <summary>
         /// CreateParishGroup
         /// </summary>
@@ -60,7 +44,7 @@ namespace Application.Interfaces
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<PageResult<IEnumerable<ParishGroupViewModel>>> GetAllParishGroups(string query, int pageNumber, int pageSize);
+        Task<PageResult<IEnumerable<ParishGroupViewModel>>> GetAllParishGroups(Guid parishId, string query, int pageNumber, int pageSize);
 
         /// <summary>
         /// Add Parishioner To Group
@@ -77,7 +61,7 @@ namespace Application.Interfaces
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishionersByChurchGroupId(Guid ChurchGroupId, int pageNumber, int pageSize);
+        public Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(Guid ChurchGroupId, int pageNumber, int pageSize);
 
 
         /// <summary>

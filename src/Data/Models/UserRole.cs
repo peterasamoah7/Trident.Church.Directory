@@ -8,7 +8,7 @@ namespace Data.Models
 {
     public enum UserRole
     {
-        Parish,
+        Parish = 1,
         Admin
     }
 }

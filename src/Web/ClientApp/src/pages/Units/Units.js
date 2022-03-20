@@ -9,32 +9,60 @@ import Layout from "../../components/Layout";
 import People from "../../Elements/svgs/People";
 import GreenFolder from "../../Elements/svgs/GreenFolder";
 import HashTag from "../../Elements/svgs/HashTag";
+import CircledPlus from "../../Elements/svgs/CircledPlus";
 
 import axios from 'axios';
 
 function Units(props) {
 
-	const[units, setUnits] = useState(null);
+	const [groups, setGroups] = useState(null);
+	const [nextPage, setNextPage] = useState(null);
+	const [prevPage, setPrevPage] = useState(null);
 
 	useEffect(() => {
-		axios.get("api/parishgroup/getall").then((response) => {
-			if (response.status === 200) {
-				setUnits(response.data);
-			} else {
-				//show error message
-			}
-		});
-	}, []);
+		let path = '';
+		getGroups(path);
+	}, [])
+
+	const next = () => {
+		getGroups(nextPage);
+	}
+
+	const prev = () => {
+		getGroups(prevPage);
+	}
+
+	const getGroups = (path) => {
+		axios.get(`/api/parishgroup/getall/${path}`)
+			.then((response) => {
+				if(response.status === 200){
+					setGroups(null);
+					setGroups(response.data);
+					setNextPage(response.data.nextPage);
+					setPrevPage(response.data.previousPage);
+				}else{
+					//show errors
+				}
+			})
+	};
 
 
 	return (
 		<Layout>
 			<main>
-				<header className="mt-3">
-					<h3>Parish Groups Overview</h3>
-					<p className="text-muted m-0">
-						List of registered and approved parish groups
-					</p>
+				<header className="d-flex justify-content-between align-items-center">
+					<div>
+						<h3>Parish Groups Overview</h3>
+						<p className="text-muted m-0">
+							List of registered and approved parish groups
+						</p>
+					</div>
+					<Link to="/groups/add-group" className="btn-group">
+					<button className="btn btn-primary ">Add Group</button>
+					<button className="btn btn-primary py-0">
+						<CircledPlus size={25} />
+					</button>
+				</Link>
 				</header>
 				<section className="my-4 d-flex align-items-center justify-content-between">
 					<div className="col-4">
@@ -52,7 +80,7 @@ function Units(props) {
 						gap: "3rem",
 					}}
 				>
-					{units && units.data.map((item, index) => {
+					{groups && groups.data.map((item, index) => {
 						return <UnitCard key={item.id} item={item} index={index} />;
 					})}
 				</section>
@@ -74,7 +102,6 @@ function UnitCard(props) {
 				/>
 				<div className="ms-3">
 					<h5 className="mb-0">{props.item.name}</h5>
-					<p className="text-muted mb-0">{props.item.parish.name}</p>
 				</div>
 			</header>
 			<p className="my-3 text-muted">{props.item.description}</p>
@@ -85,7 +112,7 @@ function UnitCard(props) {
 						<span className="member-count">{props.item.memberCount}</span>
 					</figcaption>
 				</figure>
-				<Link to={`view-unit/${props.item.id}`} className="d-flex align-items-center">
+				<Link to={`view-group/${props.item.id}`} className="d-flex align-items-center">
 					<GreenFolder />
 					<span className="ms-3 ps-3 border-start border-primary border-1">
 						View Unit

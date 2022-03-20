@@ -26,7 +26,7 @@ function App() {
 				<Route path="/*" element={<RequireAuth redirectTo="/login"><Home /></RequireAuth>} />
 
 				{/* Units */}
-				<Route path="/units/*" element={<RequireAuth redirectTo="/login"><Units /></RequireAuth>} />
+				<Route path="/groups/*" element={<RequireAuth redirectTo="/login"><Units /></RequireAuth>} />
 
 				{/* Members */}
 				<Route path="/members/*" element={<RequireAuth redirectTo="/login"><Members /></RequireAuth>} />

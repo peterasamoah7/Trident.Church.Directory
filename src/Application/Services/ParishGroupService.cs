@@ -1,5 +1,4 @@
 ﻿using Application.Interfaces;
-using AutoMapper;
 using Core.MappingProfile;
 using Core.Models;
 using Core.Pagination;
@@ -73,7 +72,8 @@ namespace Application.Services
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<PageResult<IEnumerable<ParishGroupViewModel>>> GetAllParishGroups(string query, int pageNumber, int pageSize)
+        public async Task<PageResult<IEnumerable<ParishGroupViewModel>>> GetAllParishGroups(
+            Guid parishId, string query, int pageNumber, int pageSize)
         {
             var request = new PageRequest(pageNumber, pageSize);
             var churchgroupQuery = _dbContext.ParishGroups.AsQueryable();
@@ -85,25 +85,25 @@ namespace Application.Services
 
             var churchGroups = await churchgroupQuery
                 .Include(x => x.Parishioners)
-                .Include(x => x.Parish)
-                .Skip(request.PageNumber - 1)
+                .Where(x => x.ParishId == parishId)
+                .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToListAsync();
 
-            var viewModel = new List<ParishGroupViewModel>();
+            var groups = new List<ParishGroupViewModel>();
 
-            foreach (var item in churchGroups)
+            foreach(var group in churchGroups)
             {
-                var model = ParishGroupMapping.MapDto(item);
-                model.Parish = ParishMapping.MapDto(item.Parish);
-                model.MemberCount = item.Parishioners.Count;
-                viewModel.Add(model);
+                var model = ParishGroupMapping.MapDto(group);
+                model.MemberCount = group.Parishioners.Count;
+                groups.Add(model);
             }
 
-            var count = await _dbContext.ParishGroups.CountAsync();           
+            var count = await _dbContext.ParishGroups
+                .CountAsync(x => x.ParishId == parishId);           
                
             var response = new PageResult<IEnumerable<ParishGroupViewModel>>
-                (viewModel, request.PageNumber, request.PageSize, count);
+                (groups, request.PageNumber, request.PageSize, count);
 
             return response;
         }
@@ -115,9 +115,9 @@ namespace Application.Services
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishionersByChurchGroupId(Guid ChurchGroupId, int pageNumber, int pageSize)
+        public async Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(Guid ChurchGroupId, int pageNumber, int pageSize)
         {
-            var request = new PageRequest(pageNumber, pageSize);
+            var pageRequest = new PageRequest(pageNumber, pageSize);
             var churchgroup = await _dbContext.ParishGroups
                 .Include(x => x.Parishioners)
                 .FirstOrDefaultAsync( x => x.Id == ChurchGroupId);
@@ -128,14 +128,17 @@ namespace Application.Services
             }
 
             var parishioners = churchgroup.Parishioners
-                .Skip(request.PageNumber - 1)
-                .Take(request.PageSize)
-                .Select(x => ParishionerMapping.MapDto(x)).ToList();
+                .Skip((pageRequest.PageNumber - 1) * pageRequest.PageSize)
+                .Take(pageRequest.PageSize)
+                .Select(x => ParishionerMapping.MapDto(x))
+                .ToList();
 
-            var count = parishioners.Count();       
+            var count = churchgroup.Parishioners.Count;       
 
-            return new PageResult<IEnumerable<ParishionerViewModel>>
-                (parishioners, request.PageNumber, request.PageSize, count);
+            var response = new PageResult<IEnumerable<ParishionerViewModel>>
+                (parishioners, pageRequest.PageNumber, pageRequest.PageSize, count);
+
+            return response;
         }
 
         /// <summary>
@@ -147,7 +150,6 @@ namespace Application.Services
         {
             var parishGroup = await _dbContext.ParishGroups
                 .Include(x => x.Parishioners)
-                .Include(x => x.Parish)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (parishGroup == null)
@@ -156,11 +158,18 @@ namespace Application.Services
             }
 
             var viewModel = ParishGroupMapping.MapDto(parishGroup);
-            viewModel.Parish = ParishMapping.MapDto(parishGroup.Parish);
-            viewModel.Parishioners = parishGroup.Parishioners
-                .Take(20)
+            viewModel.MemberCount = parishGroup.Parishioners.Count;
+
+            var pageRequest = new PageRequest();
+
+            var parishioners = parishGroup.Parishioners
+                .Skip((pageRequest.PageNumber - 1) * pageRequest.PageSize)
+                .Take(pageRequest.PageSize)
                 .Select(x => ParishionerMapping.MapDto(x))
                 .ToList();
+
+            viewModel.Parishioners = new PageResult<IEnumerable<ParishionerViewModel>>
+                (parishioners, pageRequest.PageNumber, pageRequest.PageSize, viewModel.MemberCount);
 
             return viewModel;
         }

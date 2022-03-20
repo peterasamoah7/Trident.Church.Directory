@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 // components
 import Modal from "../../components/modal/Modal";
@@ -10,16 +10,31 @@ import EmojiMail from "../../Elements/svgs/EmojiMail";
 import BlueTick from "../../Elements/svgs/BlueTick";
 import GreenChat from "../../Elements/svgs/GreenChat";
 import Layout from "../../components/Layout";
+import axios from "axios";
 
 function AddMembers(props) {
+
+	let params = useParams();
+	let id = params.id;
+
 	const navigate = useNavigate();
 
 	const modalRef = useRef();
 
+	const addmember = (memberId) => {
+		axios.post(`api/parishgroup/addparishioner/${id}/parishioner/${memberId}`)
+			.then((response) => {
+				if(response.status === 200){
+					modalRef.current.classList.toggle("modal__hidden");
+				}else{
+					//show errors
+				}
+			})
+	}
+
 	function handleSubmit(e) {
 		e.preventDefault();
-
-		modalRef.current.classList.toggle("modal__hidden");
+		addmember("9a90d801-ed7f-4315-af1f-a98286fdc87b");
 	}
 
 	function handleCancel(e) {
@@ -38,8 +53,8 @@ function AddMembers(props) {
 							List of registered and approved parishes
 						</p>
 					</div>
-					<Link to="/units" className="text-decoration-none">
-						&lt; Back to Unit Overview
+					<Link to="/groups" className="text-decoration-none">
+						&lt; Back to Groups Overview
 					</Link>
 				</header>
 
@@ -91,11 +106,10 @@ function AddMembers(props) {
 							Peter Asamoah has been successfully added to <br /> the Sanctuary
 							Keepers unit
 						</p>
-						<button className="btn btn-primary px-4 py-2">View Unit</button>
-						<Link to="/units" className="d-flex align-items-center mt-3">
+						<Link to={`/groups/view-group/${id}`} className="d-flex align-items-center mt-3">
 							<GreenChat />
 							<span className="ms-3 ps-3 border-start border-1 border-primary">
-								Back to unit overview
+								Back to group overview
 							</span>
 						</Link>
 					</div>

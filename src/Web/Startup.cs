@@ -136,324 +136,102 @@ namespace Web
                             Email = "test@test.com",
                             HomeAddress = "1 Asamoah Way",
                             PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
+                            Occupation = "Software Engineer",                            
                         },
                         new Parishioner
                         {
-                            FirstName = "TestUser2",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("30/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser3",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("26/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser4",
+                            Id = Guid.Parse("9a90d801-ed7f-4315-af1f-a98286fdc81b"),
+                            FirstName = "TestUser1",
                             LastName = "Asamoah",
                             DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
+                            Type = ParishionerType.Priest,
                             Location = "Accra",
                             PhoneNumber = "07123456789",
                             Email = "test@test.com",
                             HomeAddress = "1 Asamoah Way",
                             PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser4",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("30/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser5",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("26/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser6",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser7",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("30/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser8",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("26/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser2",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("30/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser3",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("26/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser4",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser4",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("30/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser5",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("26/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser6",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser7",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("30/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser8",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("26/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser2",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("30/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser3",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("26/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser4",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser4",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("30/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser5",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("26/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser6",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser7",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("30/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "TestUser8",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("26/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        }
+                            Occupation = "Software Engineer",
+                        }                       
                     }
                 };
 
                 context.Parishes.Add(parish);
+
+                context.ParishGroups.AddRange(new List<ParishGroup>() 
+                {
+                    new ParishGroup
+                    {
+                        Name = "Sunday Groups",
+                        Active = true,
+                        Description = "A group for Sunday borns",
+                        ParishId = parish.Id,
+                        Parishioners = new List<Parishioner>
+                        {
+                            new Parishioner
+                            {
+                                FirstName = "TestUser1",
+                                LastName = "Asamoah",
+                                DateOfBirth = DateTime.Parse("07/07/1991"),
+                                Type = ParishionerType.Priest,
+                                Location = "Accra",
+                                PhoneNumber = "07123456789",
+                                Email = "test@test.com",
+                                HomeAddress = "1 Asamoah Way",
+                                PostCode = "GA-1234-AA",
+                                Occupation = "Software Engineer",
+                            },
+                            new Parishioner
+                            {
+                                FirstName = "TestUser1",
+                                LastName = "Asamoah",
+                                DateOfBirth = DateTime.Parse("07/07/1991"),
+                                Type = ParishionerType.Priest,
+                                Location = "Accra",
+                                PhoneNumber = "07123456789",
+                                Email = "test@test.com",
+                                HomeAddress = "1 Asamoah Way",
+                                PostCode = "GA-1234-AA",
+                                Occupation = "Software Engineer",
+                            }                                                                                                
+                        }
+                    },
+                    new ParishGroup
+                    {
+                        Name = "Monday Groups",
+                        Active = true,
+                        Description = "A group for Sunday borns",
+                        ParishId = parish.Id,
+                        Parishioners = new List<Parishioner>
+                        {
+                            new Parishioner
+                            {
+                                FirstName = "TestUser1",
+                                LastName = "Asamoah",
+                                DateOfBirth = DateTime.Parse("07/07/1991"),
+                                Type = ParishionerType.Priest,
+                                Location = "Accra",
+                                PhoneNumber = "07123456789",
+                                Email = "test@test.com",
+                                HomeAddress = "1 Asamoah Way",
+                                PostCode = "GA-1234-AA",
+                                Occupation = "Software Engineer",
+                            },
+                            new Parishioner
+                            {
+                                FirstName = "TestUser1",
+                                LastName = "Asamoah",
+                                DateOfBirth = DateTime.Parse("07/07/1991"),
+                                Type = ParishionerType.Priest,
+                                Location = "Accra",
+                                PhoneNumber = "07123456789",
+                                Email = "test@test.com",
+                                HomeAddress = "1 Asamoah Way",
+                                PostCode = "GA-1234-AA",
+                                Occupation = "Software Engineer",
+                            }
+                        }
+                    }
+                });
 
                 context.Parishes.AddRange(new List<Parish>
                 {
@@ -463,159 +241,7 @@ namespace Web
                         Location = "Ashongman Estate",
                         Address = "1 Jesus Way",
                         PostCode = "G-12345-AA",
-                    },
-                    new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },
-                    new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },
-                    new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },
-                    new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },
-                    new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },
-                    new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },
-                    new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },
-                    new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    }
+                    },                   
                 });
 
                 context.SaveChanges();
@@ -657,187 +283,7 @@ namespace Web
                         Parish = parish.Id,
                         FullName = "Tester005 Test"
                     }
-                });
-
-                context.Parishes.Add(new Parish
-                {
-                    Id = Guid.NewGuid(),
-                    Name = "St Mark's Catholic Church",
-                    Location = "Ashongman Estate",
-                    Address = "1 Jesus Way",
-                    PostCode = "G-12345-AA",
-                    
-                    ChurchGroups = new List<ParishGroup>
-                    {
-                        new ParishGroup
-                        {
-                            Name = "Sunday Born's Group",
-                            Active = true,
-                            Description = "Group for Sunday Borns",
-                            Parishioners = new List<Parishioner>
-                            {                             
-                                new Parishioner
-                                {
-                                    FirstName = "TestUser2",
-                                    LastName = "Asamoah",
-                                    DateOfBirth = DateTime.Parse("30/10/1960"),
-                                    Type = ParishionerType.Member,
-                                    Location = "Accra",
-                                    PhoneNumber = "07123456789",
-                                    Email = "test@test.com",
-                                    HomeAddress = "1 Asamoah Way",
-                                    PostCode = "GA-1234-AA",
-                                    Occupation = "Valuer"
-                                },
-                                new Parishioner
-                                {
-                                    FirstName = "TestUser3",
-                                    LastName = "Asamoah",
-                                    DateOfBirth = DateTime.Parse("26/12/1971"),
-                                    Type = ParishionerType.Member,
-                                    Location = "Accra",
-                                    PhoneNumber = "07123456789",
-                                    Email = "test@test.com",
-                                    HomeAddress = "1 Asamoah Way",
-                                    PostCode = "GA-1234-AA",
-                                    Occupation = "Trader"
-                                },
-                                new Parishioner
-                                {
-                                    FirstName = "TestUser4",
-                                    LastName = "Asamoah",
-                                    DateOfBirth = DateTime.Parse("07/07/1991"),
-                                    Type = ParishionerType.Member,
-                                    Location = "Accra",
-                                    PhoneNumber = "07123456789",
-                                    Email = "test@test.com",
-                                    HomeAddress = "1 Asamoah Way",
-                                    PostCode = "GA-1234-AA",
-                                    Occupation = "Software Engineer"
-                                },
-                                new Parishioner
-                                {
-                                    FirstName = "TestUser4",
-                                    LastName = "Asamoah",
-                                    DateOfBirth = DateTime.Parse("30/10/1960"),
-                                    Type = ParishionerType.Member,
-                                    Location = "Accra",
-                                    PhoneNumber = "07123456789",
-                                    Email = "test@test.com",
-                                    HomeAddress = "1 Asamoah Way",
-                                    PostCode = "GA-1234-AA",
-                                    Occupation = "Valuer"
-                                },
-                                new Parishioner
-                                {
-                                    FirstName = "TestUser5",
-                                    LastName = "Asamoah",
-                                    DateOfBirth = DateTime.Parse("26/12/1971"),
-                                    Type = ParishionerType.Member,
-                                    Location = "Accra",
-                                    PhoneNumber = "07123456789",
-                                    Email = "test@test.com",
-                                    HomeAddress = "1 Asamoah Way",
-                                    PostCode = "GA-1234-AA",
-                                    Occupation = "Trader"
-                                },
-                                new Parishioner
-                                {
-                                    FirstName = "TestUser6",
-                                    LastName = "Asamoah",
-                                    DateOfBirth = DateTime.Parse("07/07/1991"),
-                                    Type = ParishionerType.Member,
-                                    Location = "Accra",
-                                    PhoneNumber = "07123456789",
-                                    Email = "test@test.com",
-                                    HomeAddress = "1 Asamoah Way",
-                                    PostCode = "GA-1234-AA",
-                                    Occupation = "Software Engineer"
-                                },
-                                new Parishioner
-                                {
-                                    FirstName = "TestUser7",
-                                    LastName = "Asamoah",
-                                    DateOfBirth = DateTime.Parse("30/10/1960"),
-                                    Type = ParishionerType.Member,
-                                    Location = "Accra",
-                                    PhoneNumber = "07123456789",
-                                    Email = "test@test.com",
-                                    HomeAddress = "1 Asamoah Way",
-                                    PostCode = "GA-1234-AA",
-                                    Occupation = "Valuer"
-                                },
-                                new Parishioner
-                                {
-                                    FirstName = "TestUser8",
-                                    LastName = "Asamoah",
-                                    DateOfBirth = DateTime.Parse("26/12/1971"),
-                                    Type = ParishionerType.Member,
-                                    Location = "Accra",
-                                    PhoneNumber = "07123456789",
-                                    Email = "test@test.com",
-                                    HomeAddress = "1 Asamoah Way",
-                                    PostCode = "GA-1234-AA",
-                                    Occupation = "Trader"
-                                }
-                            }
-                        },
-                        new ParishGroup
-                        {
-                            Name = "Monday Born's Group",
-                            Active = true,
-                            Description = "Group for Monday Borns"
-                        },
-                        new ParishGroup
-                        {
-                            Name = "Tuesday Born's Group",
-                            Active = true,
-                            Description = "Group for Tuesday Borns"
-                        }
-                    },
-                    Parishioners = new List<Parishioner>
-                    {
-                        new Parishioner
-                        {
-                            FirstName = "Peter",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Priest,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "Andrew",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("10/10/1960"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Valuer"
-                        },
-                        new Parishioner
-                        {
-                            FirstName = "Sarah",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("10/12/1971"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Trader"
-                        }
-                    }
-                });
+                });                
 
                 context.Audits.AddRange(new List<Audit>
                 {

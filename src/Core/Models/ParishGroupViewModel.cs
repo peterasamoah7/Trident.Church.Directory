@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Core.Pagination;
+using System;
 using System.Collections.Generic;
 
 namespace Core.Models
@@ -31,13 +32,8 @@ namespace Core.Models
         public int MemberCount { get; set; }
 
         /// <summary>
-        /// Name of Parish
-        /// </summary>
-        public ParishViewModel Parish { get; set; }
-
-        /// <summary>
         /// Group Memberships
         /// </summary>
-        public ICollection<ParishionerViewModel> Parishioners { get; set; } = new List<ParishionerViewModel>();
+        public PageResult<IEnumerable<ParishionerViewModel>> Parishioners { get; set; }
     }
 }

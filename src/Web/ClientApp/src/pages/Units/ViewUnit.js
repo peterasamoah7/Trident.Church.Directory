@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 
 //  Styles
 import "../../styles/dist/table.css";
@@ -7,20 +7,86 @@ import "../../styles/dist/table.css";
 // components
 import EllipseNModal from "../../components/modal/EllipseNModal";
 import SearchInput from "../../components/inputs/specialInputs/SearchInput";
-import DateSelect from "../../components/inputs/datePickers/DateSelect";
 
 // Elements
 import SvgHashTag from "../../Elements/svgs/HashTag";
 import Person from "../../Elements/svgs/Person";
 import GreenPlus from "../../Elements/svgs/GreenPlus";
-import EyesEmoji from "../../Elements/svgs/EyesEmoji";
-import SelectionIllustration from "../../Elements/svgs/SelectionIllustration";
-
-// data
-import data from "./unitMembers.json";
 import Layout from "../../components/Layout";
 
-function ViewUnit({ onLayoutType }) {
+import axios from "axios";
+
+function ViewUnit({ onLayoutType }) {	
+
+	const [group, setGroup] = useState(null);
+	const [members, setMembers] = useState(null);
+	const [nextPage, setNextPage] = useState(null);
+	const [prevPage, setPrevPage] = useState(null);
+
+	let params = useParams();
+	let id = params.id;
+
+	useEffect(() => {
+		axios.get(`/api/parishgroup/get/${id}`)
+			.then((response) => {
+				if(response.status === 200){
+					setGroup(response.data);
+					setMembers(response.data.parishioners);
+					setNextPage(response.data.parishioners.nextPage);
+					setPrevPage(response.data.parishioners.previousPage);
+				}else{
+					//show error
+				}
+			})
+	}, [])
+
+	const searchMember = (query) => {
+		axios.get(`/api/parishgroup/getall/query=${query}`)
+			.then((response) => {
+				if(response.status === 200){
+					setMembers(null);
+					setMembers(response.data);
+					setNextPage(response.data.nextPage);
+					setPrevPage(response.data.previousPage);
+				}else{
+					//show errors
+				}
+			})
+	}
+
+	const deletemember = (memberId) => {
+		axios.post(`api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`)
+			.then((response) => {
+				if(response.status === 200){
+					getMembers();
+				}else{
+					//show errors
+				}
+			})
+	}
+
+	const next = () => {
+		getMembers(nextPage);
+	}
+
+	const prev = () => {
+		getMembers(prevPage);
+	}
+
+	const getMembers = (path) => {
+		axios.get(`/api/parishgroup/getparishioners/${id}/${path}`)
+			.then((response) => {
+				if(response.status === 200){
+					setMembers(null);
+					setMembers(response.data);
+					setNextPage(response.data.nextPage);
+					setPrevPage(response.data.previousPage);
+				}else{
+					//show errors
+				}
+			})
+	}
+
 	return (
 		<Layout>
 			<main>
@@ -28,20 +94,16 @@ function ViewUnit({ onLayoutType }) {
 					<div className="d-flex align-items-start" style={{ gap: "1rem" }}>
 						<SvgHashTag style={{ color: "var(--bs-hash3)" }} />
 						<div>
-							<h5 className="mb-1">Sanctuary Keepers</h5>
-							<p className="text-muted m-0">Fountain of Life & Truth</p>
+							<h5 className="mb-1">{group?.name}</h5>
 						</div>
 					</div>
-					<Link to="/units" className="text-decoration-none">
-						&lt; Back to Unit Overview
+					<Link to="/groups" className="text-decoration-none">
+						&lt; Back to Groups Overview
 					</Link>
 				</header>
 
 				<p class="m-0 text-muted">
-					Lorem ipsum dolor sit amet consectetur adipisicing elit.
-					Necessitatibus molestias, enim consequuntur aliquam repellendus
-					quisquam accusantium ducimus distinctio eum facere vero eos maxime vel
-					laboriosam cumque, dolorum veniam.
+					{group?.description}
 				</p>
 
 				<div class="d-flex align-items-center my-4 border-bottom border-white border-2">
@@ -53,10 +115,10 @@ function ViewUnit({ onLayoutType }) {
 							opacity={1}
 						/>
 						<figcaption class="ms-2">
-							<span>3456 members</span>
+							<span>{group?.memberCount}</span> members
 						</figcaption>
 					</figure>
-					<Link to="/units/add-member" className=" ms-5">
+					<Link to={`/groups/add-member/${group?.id}`} className=" ms-5">
 						<figure class="d-flex align-items-center">
 							<GreenPlus />
 							<figcaption class="ms-3">
@@ -71,66 +133,36 @@ function ViewUnit({ onLayoutType }) {
 				<section className="my-4 d-flex align-items-center justify-content-between">
 					<div className="col-4">
 						<SearchInput />
-					</div>
-
-					<div
-						className="d-flex align-items-center"
-						style={{
-							gap: "5px",
-						}}
-					>
-						<DateSelect placeholder="Date" />
-						<select
-							name="parish"
-							id="parish"
-							className="form-select"
-							style={{
-								width: "max-content",
-							}}
-						>
-							<option value="">Location</option>
-						</select>
-						<select
-							name="parish"
-							id="parish"
-							className="form-select sort-select"
-							style={{
-								width: "6rem",
-							}}
-						>
-							<option value="">Sort</option>
-						</select>
-					</div>
+					</div>				
 				</section>
 
 				<div
 					class="d-flex justify-content-between data-tables p-0 m-0 mt-4"
 					style={{ gap: "3rem" }}
 				>
-					<table class="bg-white col-8 mb-0">
+					<table class="bg-white">
 						<thead>
 							<tr>
 								<th></th>
-								<th>First Name</th>
+								<th>Name</th>
 								<th>Role</th>
-								<th>Gender</th>
-								<th>Age</th>
+								<th>Location</th>
 								<th>Phone No.</th>
+								<th>Occupation</th>
 								<th>Action</th>
 							</tr>
 						</thead>
 						<tbody>
-							{data.map((item, index) => {
-								let { name, role, gender, age, phone } = item;
+							{members && members.data.map((item, index) => {
 								return (
 									<>
 										<tr>
 											<td class="num text-center">{index + 1}.</td>
-											<td>{name}</td>
-											<td>{role}</td>
-											<td>{gender}</td>
-											<td>{age}</td>
-											<td>{phone}</td>
+											<td>{item.firstName} {item.lastName}</td>
+											<td>{item.type}</td>
+											<td>{item.location}</td>
+											<td>{item.phoneNumber}</td>
+											<td>{item.occupation}</td>
 											<td>
 												<EllipseNModal />
 											</td>
@@ -139,24 +171,25 @@ function ViewUnit({ onLayoutType }) {
 								);
 							})}
 						</tbody>
+						<tfoot>
+						<tr>
+							<td colSpan="7" className="small p-1">
+								<div className="d-flex align-items-center justify-content-end me-4">
+									<span className="col-5">Rows per page: </span>
+									<select name="rowsPerPage" id="rowsPerPage" className="ms-5">
+										<option value="10" className="">
+											{members && members.data.length}
+										</option>
+									</select>
+									<div className="tableNav ms-4">
+										{prevPage && <button onClick={prev} className="btn border-none p-2">&lt;</button>}
+										{nextPage && <button onClick={next} className="btn border-none p-2">&gt;</button>}
+									</div>
+								</div>
+							</td>
+						</tr>
+					</tfoot>
 					</table>
-					<div
-						class="data-details bg-white col d-flex justify-content-start align-items-center flex-column p-0"
-						style={{
-							maxHeight: "30rem",
-						}}
-					>
-						<div class="py-5 border-bottom d-flex justify-content-center align-items-center col-12">
-							<EyesEmoji />
-						</div>
-
-						<figure class="d-flex flex-column justify-content-center align-items-center mt-5">
-							<SelectionIllustration />
-							<figcaption>
-								<p class="text-muted">Select a member to view the bio data</p>
-							</figcaption>
-						</figure>
-					</div>
 				</div>
 			</main>
 		</Layout>
