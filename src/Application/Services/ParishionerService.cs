@@ -1,5 +1,7 @@
 ﻿using Application.Interfaces;
 using AutoMapper;
+using Core.Enums;
+using Core.MappingProfile;
 using Core.Models;
 using Core.Pagination;
 using Data.Database;
@@ -31,13 +33,15 @@ namespace Application.Services
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishionerViewModel> CreateParishioner(ParishionerViewModel viewModel)
+        public async Task<ParishionerViewModel> CreateParishioner(Guid parishId, ParishionerViewModel viewModel)
         {
-            var parishioner = _mapper.Map<Parishioner>(viewModel);
+            var parishioner = ParishionerMapping.MapEntity(viewModel);
+            parishioner.ParishId = parishId;
 
             await _dbContext.Parishioners.AddAsync(parishioner);
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Created, $" Member {viewModel.ToString()}  Added");
+            await _auditService.CreateAuditAsync(AuditType.Created, $" Member {viewModel} Created");
+
             viewModel.Id = parishioner.Id;
             return viewModel;
         }
@@ -50,16 +54,19 @@ namespace Application.Services
         /// <returns></returns>
         public async Task<ParishionerViewModel> UpdateParishioner(Guid id, ParishionerViewModel viewModel)
         {
-            var parishioner = await _dbContext.Parishioners.FirstOrDefaultAsync(x => x.Id == id);
+            var parishioner = await _dbContext.Parishioners
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (parishioner == null)
             {
                 return null;
             }
 
-            _mapper.Map(viewModel, parishioner);
+            parishioner = ParishionerMapping.MapEntity(viewModel);
+            _dbContext.Parishioners.Update(parishioner);
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Updated, $"{viewModel.ToString()} Details Updated");
+            await _auditService.CreateAuditAsync(AuditType.Updated, $"{viewModel} Details Updated");
+
             return viewModel;
         }
 
@@ -70,7 +77,10 @@ namespace Application.Services
         /// <returns></returns>
         public async Task DeleteParishioner(Guid id)
         {
-            var parishioner = await _dbContext.Parishioners.FirstOrDefaultAsync(x => x.Id == id);
+            var parishioner = await _dbContext.Parishioners
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            var memberDetail = $"{parishioner.FirstName} {parishioner.LastName}";
 
             if (parishioner == null)
             {
@@ -79,7 +89,8 @@ namespace Application.Services
 
             _dbContext.Remove(parishioner);
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Deleted, "Member Deleted");
+
+            await _auditService.CreateAuditAsync(AuditType.Deleted, $"Member {memberDetail} Deleted");
         }
 
         /// <summary>
@@ -91,7 +102,6 @@ namespace Application.Services
         {
             var parishioner = await _dbContext.Parishioners
                 .Include(x => x.Sacraments)
-                    .ThenInclude(x => x.Parish)
                 .Include(x => x.ParishGroups)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -109,17 +119,17 @@ namespace Application.Services
             var partner = await _dbContext.Parishioners
                 .FirstOrDefaultAsync(x => x.Id == parishioner.Partner);
 
-            var viewModel = _mapper.Map<ParishionerViewModel>(parishioner);
-            viewModel.Father = father != null ? _mapper.Map<ParishionerViewModel>(father) : null;
-            viewModel.Mother = mother != null ? _mapper.Map<ParishionerViewModel>(mother) : null;
-            viewModel.Partner = partner != null ? _mapper.Map<ParishionerViewModel>(partner) : null;
+            var viewModel = ParishionerMapping.MapDto(parishioner);
+            viewModel.Father = father != null ? ParishionerMapping.MapDto(father) : null;
+            viewModel.Mother = mother != null ? ParishionerMapping.MapDto(mother) : null;
+            viewModel.Partner = partner != null ? ParishionerMapping.MapDto(partner) : null;
 
             viewModel.Sacraments = parishioner.Sacraments
-                .Select(x => _mapper.Map<SacramentViewModel>(parishioner.Sacraments))
+                .Select(x => SacramentMapping.MapDto(x))
                 .ToList();
 
             viewModel.ParishGroups = parishioner.ParishGroups
-                .Select(x => _mapper.Map<ParishGroupViewModel>(x))
+                .Select(x => ParishGroupMapping.MapDto(x))
                 .ToList();
 
             return viewModel;
@@ -133,9 +143,9 @@ namespace Application.Services
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public async Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(
-             string query, int pageNumber, int pageSize)
+             Guid parishId, string query, int pageNumber, int pageSize)
         {
-            var request = new PageRequest(pageNumber, pageSize);
+            var pageRequest = new PageRequest(pageNumber, pageSize);
 
             var parishionerQuery = _dbContext.Parishioners.AsQueryable();
             if (!string.IsNullOrEmpty(query))
@@ -143,19 +153,75 @@ namespace Application.Services
                 parishionerQuery.Where(x => x.LastName
                     .Contains(query, StringComparison.OrdinalIgnoreCase));
             }
+
             var parishioners = await _dbContext.Parishioners
-                .Skip(request.PageNumber - 1)
-                .Take(request.PageSize)
-                 .Select(x => _mapper.Map<ParishionerViewModel>(x))
+                .Where(x => x.ParishId == parishId)
+                .Skip((pageRequest.PageNumber - 1) * pageRequest.PageSize)
+                .Take(pageRequest.PageSize)
+                .Select(x => ParishionerMapping.MapDto(x))
                 .ToListAsync();
 
-            var count = await parishionerQuery.CountAsync();
+            var count = await parishionerQuery.CountAsync(x => x.ParishId == parishId);
 
             return new PageResult<IEnumerable<ParishionerViewModel>>
-                (parishioners, request.PageNumber, request.PageSize, count);
+                (parishioners, pageRequest.PageNumber, pageRequest.PageSize, count);
         }
 
+        /// <summary>
+        /// Add Sacrament
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sacrament"></param>
+        /// <returns></returns>
+        public async Task AddSacrament(Guid id, SacramentViewModel sacrament)
+        {
+            var parishioner = await _dbContext.Parishioners
+                .Include(x => x.Sacraments)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
+            if (parishioner == null)
+            {
+                return;
+            }
 
+            var sacramentEntity = SacramentMapping.MapEntity(sacrament);
+
+            parishioner.Sacraments.Add(sacramentEntity);
+            _dbContext.SaveChanges();
+        }
+
+        /// <summary>
+        /// Add a parishioner relative
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="relativeId"></param>
+        /// <param name="relativeType"></param>
+        /// <returns></returns>
+        /// <exception cref="ArgumentOutOfRangeException"></exception>
+        public async Task AddRelative(Guid id, Guid relativeId, RelativeType relativeType)
+        {
+            if(!await _dbContext.Parishioners.AnyAsync(x => x.Id == id)
+                && !await _dbContext.Parishioners.AnyAsync(x => x.Id == relativeId))
+            {
+                return;
+            }
+
+            var parishioner = await _dbContext.Parishioners
+                .FirstOrDefaultAsync(x => x.Id == id);
+
+            switch (relativeType)
+            {
+                case RelativeType.Father:
+                    parishioner.FatherId = relativeId;
+                    break;
+                case RelativeType.Mother:
+                    parishioner.MotherId = relativeId;
+                    break;
+                case RelativeType.Partner:
+                    parishioner.Partner = relativeId;
+                    break;
+                default: throw new ArgumentOutOfRangeException(nameof(relativeType));
+            }
+        }
     }
 }

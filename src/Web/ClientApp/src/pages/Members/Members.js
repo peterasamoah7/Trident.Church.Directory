@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 // style
 import "../../styles/dist/table.css";
@@ -6,35 +6,51 @@ import "../../styles/dist/table.css";
 // components
 import EllipseNModal from "../../components/modal/EllipseNModal";
 import SearchInput from "../../components/inputs/specialInputs/SearchInput";
-import NotSelected from "../../components/TableItemNotSelected";
-import DataDetails from "../../components/TableDataDetails";
 
 // Elements
 import CircledPlus from "../../Elements/svgs/CircledPlus";
-import BluePhone from "../../Elements/svgs/BluePhone";
-import BlueMail from "../../Elements/svgs/BlueMail";
-
 // data
 import data from "./data.json";
 import Layout from "../../components/Layout";
+import axios from "axios";
 
 function Members() {
-  const [selectedRow, setSelectedRow] = useState(null);
+  const [members, setMembers] = useState(null);
+  const [nextPage, setNextPage] = useState(null);
+  const [prevPage, setPrevPage] = useState(null);
 
-  function handleSelect(e) {
-    setSelectedRow((oldRow) => {
-      if (oldRow === e) {
-        return null;
-      } else return e;
-    });
+  useEffect(() => {
+    let path = '';
+    getMembers(path);
+  }, [])
+
+  const getMembers = (path) => {
+    axios.get(`/api/parishioner/getall/${path}`)
+      .then((response) => {
+        if(response.status === 200){
+          setMembers(response.data);
+          setNextPage(response.data.nextPage);
+          setPrevPage(response.data.previousPage);
+        }else{
+          //show error
+        }
+      })
   }
+
+  const next = () => {
+    getMembers(nextPage);
+  };
+
+  const prev = () => {
+    getMembers(prevPage);
+  };
 
   return (
     <Layout type={1}>
       <header className="d-flex justify-content-between align-items-center">
         <div>
           <h5>Members Overview</h5>
-          <p className="text-muted m-0">List of members and bio data</p>
+          <p className="text-muted m-0">List of members</p>
         </div>
         <Link to="/members/add-member" className="btn-group">
           <button className="btn btn-primary ">Add Member</button>
@@ -55,36 +71,54 @@ function Members() {
           gap: "2rem",
         }}
       >
-        <table class="bg-white col-8 mb-0">
+        <table class="bg-white">
           <thead>
             <tr>
               <th></th>
-              <th>First Name</th>
-              <th>Parish Name</th>
+              <th>Name</th>
               <th>Role</th>
+              <th>Location</th>
               <th>Phone No.</th>
+              <th>Occupation</th>
               <th>Action</th>
             </tr>
           </thead>
           <tbody>
-            {data.map((item) => {
-              return item.id === selectedRow ? (
-                <MemberItem {...item} onSelect={handleSelect} selected />
-              ) : (
-                <MemberItem {...item} onSelect={handleSelect} />
-              );
+            {members && members.data.map((item, index) => {
+              return <MemberItem item={item} index={index + 1}/>
             })}
           </tbody>
+          <tfoot>
+              <tr>
+                <td colSpan="7" className="small p-1">
+                  <div className="d-flex align-items-center justify-content-end me-4">
+                    <span className="col-5">Rows per page: </span>
+                    <select
+                      name="rowsPerPage"
+                      id="rowsPerPage"
+                      className="ms-5"
+                    >
+                      <option value="10" className="">
+                        {members && members.data.length}
+                      </option>
+                    </select>
+                    <div className="tableNav ms-4">
+                      {prevPage && (
+                        <button onClick={prev} className="btn border-none p-2">
+                          &lt;
+                        </button>
+                      )}
+                      {nextPage && (
+                        <button onClick={next} className="btn border-none p-2">
+                          &gt;
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tfoot>
         </table>
-        {selectedRow !== null ? (
-          <DataDetails
-            {...data.filter((value) => {
-              return value.id === selectedRow;
-            })[0]}
-          />
-        ) : (
-          <NotSelected />
-        )}
       </div>
     </Layout>
   );
@@ -92,26 +126,21 @@ function Members() {
 
 export default Members;
 
-function MemberItem({ onSelect, name, parish, role, phone, id, selected }) {
+function MemberItem(props) {
   const navigate = useNavigate();
 
   return (
-    <tr
-      onClick={() => onSelect(id)}
-      className={`${selected ? "selected" : ""}`}
-      style={{
-        cursor: "pointer",
-      }}
-    >
-      <td class="num text-center">{id}.</td>
-      <td>{name}</td>
-      <td>{parish}</td>
-      <td>{role}</td>
-      <td>{phone}</td>
+    <tr>
+      <td class="num text-center">{props.index}.</td>
+      <td>{props.item.firstName} {props.item.lastName}</td>
+      <td>{props.item.type}</td>
+      <td>{props.item.location}</td>
+      <td>{props.item.phoneNumber}</td>
+      <td>{props.item.occupation}</td>
       <td>
         <EllipseNModal
-          onEdit={() => navigate(`edit-member/${id}`)}
-          onView={() => navigate(`/members/view-member/${id}`)}
+          onEdit={() => navigate(`edit-member/${props.item.id}`)}
+          onView={() => navigate(`/members/view-member/${props.item.id}`)}
         />
       </td>
     </tr>

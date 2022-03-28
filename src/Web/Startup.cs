@@ -119,6 +119,7 @@ namespace Web
             {
                 var parish = new Parish
                 {
+                    Id = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b"),
                     Name = "St Patrick's Catholic Church",
                     Location = "Ashongman Estate",
                     Address = "1 Jesus Way",
@@ -127,6 +128,7 @@ namespace Web
                     {
                         new Parishioner
                         {
+                            Id = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
                             FirstName = "TestUser1",
                             LastName = "Asamoah",
                             DateOfBirth = DateTime.Parse("07/07/1991"),
@@ -140,18 +142,105 @@ namespace Web
                         },
                         new Parishioner
                         {
-                            Id = Guid.Parse("9a90d801-ed7f-4315-af1f-a98286fdc81b"),
-                            FirstName = "TestUser1",
+                            Id = Guid.Parse("6C72E801-ed7f-4315-af1f-a98286fdc81b"),
+                            FirstName = "TestUser100",
                             LastName = "Asamoah",
                             DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Priest,
+                            Type = ParishionerType.Member,
                             Location = "Accra",
                             PhoneNumber = "07123456789",
                             Email = "test@test.com",
                             HomeAddress = "1 Asamoah Way",
                             PostCode = "GA-1234-AA",
                             Occupation = "Software Engineer",
-                        }
+                        },
+                        new Parishioner
+                        {
+                            Id = Guid.Parse("8C61d801-fe7f-3415-fa1f-a89286fdc81b"),
+                            FirstName = "TestUser102",
+                            LastName = "Asamoah",
+                            DateOfBirth = DateTime.Parse("07/07/1991"),
+                            Type = ParishionerType.Member,
+                            Location = "Accra",
+                            PhoneNumber = "07123456789",
+                            Email = "test@test.com",
+                            HomeAddress = "1 Asamoah Way",
+                            PostCode = "GA-1234-AA",
+                            Occupation = "Software Engineer"
+                        },
+                        new Parishioner
+                        {
+                            Id = Guid.Parse("8C61d801-fe7f-3415-fa1f-a29886fdc81b"),
+                            FirstName = "TestUser104",
+                            LastName = "Asamoah",
+                            DateOfBirth = DateTime.Parse("07/07/1991"),
+                            Type = ParishionerType.Member,
+                            Location = "Accra",
+                            PhoneNumber = "07123456789",
+                            Email = "test@test.com",
+                            HomeAddress = "1 Asamoah Way",
+                            PostCode = "GA-1234-AA",
+                            Occupation = "Software Engineer"
+                        },
+                        new Parishioner
+                        {
+                            Id = Guid.Parse("9a90d801-ed7f-4315-af1f-a98286fdc81b"),
+                            FirstName = "TestUser103",
+                            LastName = "Asamoah",
+                            DateOfBirth = DateTime.Parse("07/07/1991"),
+                            Type = ParishionerType.Member,
+                            Location = "Accra",
+                            PhoneNumber = "07123456789",
+                            Email = "test@test.com",
+                            HomeAddress = "1 Asamoah Way",
+                            PostCode = "GA-1234-AA",
+                            Occupation = "Software Engineer",
+                            FatherId = Guid.Parse("6C72E801-ed7f-4315-af1f-a98286fdc81b"),
+                            MotherId = Guid.Parse("8C61d801-fe7f-3415-fa1f-a89286fdc81b"),
+                            Partner = Guid.Parse("8C61d801-fe7f-3415-fa1f-a29886fdc81b"),
+                            Sacraments = new List<Sacrament>
+                            {
+                                new Sacrament
+                                {
+                                    Type = SacramentType.Baptism,
+                                    PriestId = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
+                                    ParishId = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b")
+                                },
+                                new Sacrament
+                                {
+                                    Type = SacramentType.FirstCommunion,
+                                    PriestId = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
+                                    ParishId = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b")
+                                },
+                                new Sacrament
+                                {
+                                    Type = SacramentType.HolyMatrimory,
+                                    PriestId = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
+                                    ParishId = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b")
+                                },
+                                new Sacrament
+                                {
+                                    Type = SacramentType.HolyOrders,
+                                    PriestId = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
+                                    ParishId = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b")
+                                }
+                            },
+                            ParishGroups = new List<ParishGroup>
+                            {
+                                new ParishGroup
+                                {
+                                    Name = "Men's Fellowship",
+                                    Active = true,
+                                    Description = "A group for Christian men",
+                                },
+                                new ParishGroup
+                                {
+                                    Name = "Youth Choir",
+                                    Active = true,
+                                    Description = "A group for youth singers",
+                                }
+                            }
+                        }                                                                      
                     }
                 };
 
@@ -185,7 +274,7 @@ namespace Web
                                 FirstName = "TestUser1",
                                 LastName = "Asamoah",
                                 DateOfBirth = DateTime.Parse("07/07/1991"),
-                                Type = ParishionerType.Priest,
+                                Type = ParishionerType.Member,
                                 Location = "Accra",
                                 PhoneNumber = "07123456789",
                                 Email = "test@test.com",
@@ -221,7 +310,7 @@ namespace Web
                                 FirstName = "TestUser1",
                                 LastName = "Asamoah",
                                 DateOfBirth = DateTime.Parse("07/07/1991"),
-                                Type = ParishionerType.Priest,
+                                Type = ParishionerType.Member,
                                 Location = "Accra",
                                 PhoneNumber = "07123456789",
                                 Email = "test@test.com",

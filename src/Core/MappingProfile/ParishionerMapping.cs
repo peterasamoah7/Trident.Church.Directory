@@ -29,6 +29,7 @@ namespace Core.MappingProfile
         {
             var model = new Parishioner
             {
+                Id= parishioner.Id,
                 FirstName = parishioner.FirstName,
                 LastName = parishioner.LastName,
                 DateOfBirth = parishioner.DateOfBirth,

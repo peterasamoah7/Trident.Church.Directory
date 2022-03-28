@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import Sacrament from "./Sacrament";
@@ -13,10 +14,26 @@ import BlueMail from "../../../Elements/svgs/BlueMail";
 import GreenPlus from "../../../Elements/svgs/GreenPlus";
 import GreenPen from "../../../Elements/svgs/RoundPen";
 import GreenFolder from "../../../Elements/svgs/GreenFolder";
+import axios from "axios";
 
 //
 function FilledState(props) {
-  const { name, parish, role, phone } = props;
+
+  const params = useParams();
+
+  const [member, setMember] = useState(null);
+  
+  useEffect(() => {
+    axios.get(`/api/parishioner/get/${params.id}`)
+      .then((response) => {
+        if(response.status === 200){
+          setMember(response.data);
+          console.log(response.data);
+        }else{
+          //show errors
+        }
+      })
+  }, [])
 
   return (
     <Layout type={1}>
@@ -25,9 +42,9 @@ function FilledState(props) {
           <section className="member-summary py-4 pb-0 px-4 m-0 bg-white d-flex flex-column justify-content-start align-items-center container-fluid">
             <div className="d-flex align-items-center justify-content-start col-12">
               <h5 className="member-name m-0 col-6">
-                {name || "Peter Asamoah"}
+                {member?.firstName} {member?.lastName}
               </h5>
-              <a href={`tel:${phone}`} className="p-0 btn col-1 me-2">
+              <a href={`tel:${member?.phoneNumber}`} className="p-0 btn col-1 me-2">
                 <BluePhone />
               </a>
               <a href="mailto:email@example.com" className="p-0 btn col-1 me-2">
@@ -36,10 +53,10 @@ function FilledState(props) {
             </div>
             <div className="summary-info col-12 mt-3 text-muted d-flex flex-column align-items-start gx-3">
               <div>
-                <span className="is-member me-2">{role || "Member"}</span>
+                <span className="is-member me-2">{member?.type || "Member"}</span>
                 <span className="fs-5 me-1">&bull;</span>
                 <span className="parish-name">
-                  {parish || "Fountain of life and Truth"}
+                  {/* Fountain of life and Truth */}
                 </span>
               </div>
               <p className="mt-2">Member since May, 2016</p>
@@ -53,15 +70,15 @@ function FilledState(props) {
               </header>
               <section className="detail detail__date-of-birth d-flex flex-column align-items-start justify-content-center">
                 <h6 className="detail-title text-muted">Date of birth</h6>
-                <p className="detail info">02, January 1978</p>
+                <p className="detail info">{member?.dateOfBirth}</p>
               </section>
               <section className="detail detail__place-of-birth d-flex flex-column align-items-start justify-content-center">
-                <h6 className="detail-title text-muted">Place of birth</h6>
-                <p className="detail info">Osu, Accra</p>
+                <h6 className="detail-title text-muted">Location</h6>
+                <p className="detail info">{member?.location}</p>
               </section>
               <section className="detail detail__postal-code d-flex flex-column align-items-start justify-content-center">
                 <h6 className="detail-title text-muted">Postal Code</h6>
-                <p className="detail info">GA184</p>
+                <p className="detail info">{member?.postcode}</p>
               </section>
               <section className="detail detail__occupation d-flex flex-column align-items-start justify-content-center">
                 <h6 className="detail-title text-muted">Occupation</h6>
@@ -75,21 +92,21 @@ function FilledState(props) {
             <section className="detail detail__home-address d-flex flex-column align-items-start justify-content-center">
               <h6 className="detail-title text-muted">Home Address</h6>
               <p className="detail info">
-                No.F37/4, Anahor St. Nyaniba. Osu, Accra
+                {member?.homeAddress}
               </p>
             </section>
             <div class="row align-items-start mt-3">
               <section class="detail detail__father d-flex flex-column align-items-start justify-content-center col-4">
                 <h6 class="detail-title text-muted">Father</h6>
-                <p class="detail info">Kingsley A.</p>
+                <p class="detail info">{member?.father?.firstName} {member?.father?.lastName}</p>
               </section>
               <section class="detail detail__mother d-flex flex-column align-items-start justify-content-center col-4">
                 <h6 class="detail-title text-muted">Mother</h6>
-                <p class="detail info">Esther A.</p>
+                <p class="detail info">{member?.mother?.firstName} {member?.mother?.lastName}</p>
               </section>
               <section class="detail detail__spouse d-flex flex-column align-items-start justify-content-center col-4">
                 <h6 class="detail-title text-muted">Spouse</h6>
-                <p class="detail info">Priscilla A.</p>
+                <p class="detail info">{member?.partner?.firstName} {member?.partner?.lastName}</p>
               </section>
             </div>
           </section>

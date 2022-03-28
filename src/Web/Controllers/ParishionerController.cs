@@ -1,4 +1,5 @@
 ﻿using Application.Interfaces;
+using Core.Enums;
 using Core.Models;
 using Core.Pagination;
 using Microsoft.AspNetCore.Authorization;
@@ -6,11 +7,12 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Web.Extensions;
 
 namespace Web.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [Authorize]
     public class ParishionerController : ControllerBase
     {
@@ -29,7 +31,7 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<ActionResult<ParishionerViewModel>> Create(ParishionerViewModel viewModel)
         {
-            return await _parishionerService.CreateParishioner(viewModel);
+            return await _parishionerService.CreateParishioner(User.Parish(), viewModel);
         }
 
         /// <summary>
@@ -73,9 +75,30 @@ namespace Web.Controllers
         /// <param name="pageQuery"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<PageResult<IEnumerable<ParishionerViewModel>>>> GetAll(PageQuery pageQuery)
+        public async Task<ActionResult<PageResult<IEnumerable<ParishionerViewModel>>>> GetAll([FromQuery]PageQuery pageQuery)
         {
-            return await _parishionerService.GetAllParishioners(pageQuery.Query, pageQuery.PageNumber, pageQuery.PageSize);
+            return await _parishionerService.GetAllParishioners(
+                User.Parish(), pageQuery.Query, pageQuery.PageNumber, pageQuery.PageSize);
+        }
+
+        /// <summary>
+        /// Add a sacrament
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="sacrament"></param>
+        /// <returns></returns>
+        [HttpPut("{id}")]
+        public async Task<IActionResult> AddSacrament(Guid id, SacramentViewModel sacrament)
+        {
+            await _parishionerService.AddSacrament(id, sacrament);
+            return Ok();
+        }
+
+        [HttpPut("{id}/relative/{relactiveId}/{relativeType}")]
+        public async Task<IActionResult> AddRelative(Guid id, Guid relativeId, RelativeType relativeType)
+        {
+            await _parishionerService.AddRelative(id, relativeId, relativeType);
+            return Ok();
         }
     }
 }

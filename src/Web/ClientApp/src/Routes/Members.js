@@ -48,13 +48,6 @@ function EditMembers() {
 }
 
 function ViewMember() {
-  const params = useParams();
 
-  let info = undefined;
-
-  info = data.filter((value) => {
-    return value.id == params.id;
-  })[0];
-
-  return <FilledState {...info} />;
+  return <FilledState />;
 }
