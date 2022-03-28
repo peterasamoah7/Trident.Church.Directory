@@ -8,7 +8,7 @@ import GreenFolder from "../../../Elements/svgs/GreenFolder";
 import RoundPerson from "../../../Elements/svgs/RoundPerson";
 import BlueParish from "../../../Elements/svgs/BlueParish";
 
-function Sacrament({ day, month, sacramentTitle, parish, role }) {
+function Sacrament({ model }) {
   const modalRef = useRef();
 
   function handleCreate(e) {
@@ -17,37 +17,50 @@ function Sacrament({ day, month, sacramentTitle, parish, role }) {
     // 	console.log(modalRef.current);
   }
 
+  function convertDate(dateStr){
+    if(dateStr !== null){
+      if(dateStr.indexOf('T') >= 0){
+        dateStr = dateStr.split('T')[0];
+      }
+      if(dateStr.indexOf('+') >= 0){
+        dateStr = dateStr.split('+')[0];
+      }
+    }
+    console.log(dateStr);
+    console.log(new Date(dateStr));
+    return new Date(dateStr);
+  }
+
   return (
     <>
-      <div class="sacrament py-1 d-flex border-bottom">
-        <p class="date d-flex flex-column align-items-center justify-content-center col-2 border-end border-1 my-2">
-          <span class="fs-5">{day}</span>
-          <span class="text-muted text-uppercase">{month}</span>
+      <div className="sacrament py-1 d-flex border-bottom">
+        <p className="date d-flex flex-column align-items-center justify-content-center col-2 border-end border-1 my-2">
+          <span className="fs-5">{convertDate(model.createdOn).getDay()}</span>
+          <span className="text-muted text-uppercase">{convertDate(model.createdOn).getMonth()} {convertDate(model.createdOn).getFullYear()}</span>
         </p>
-        <div class="d-flex align-items-center px-4 py-3 justify-content-between flex-fill">
+        <div className="d-flex align-items-center px-4 py-3 justify-content-between flex-fill">
           <section>
-            <h6 class="m-0">{sacramentTitle}</h6>
-            <p class="m-0 text-muted">{role}</p>
+            <h6 className="m-0">{model.type}</h6>
           </section>
           <section>
-            <p class="text-muted m-0">{parish}</p>
-            <p class="m-0 p-0 d-flex align-items-center flex-fill justify-content-end">
-              <GreenFolder />
+            {/* <p className="text-muted m-0">{parish}</p> */}
+            <p className="m-0 p-0 d-flex align-items-center flex-fill justify-content-end">
+              {/* <GreenFolder />
               <span
-                class="border-start border-1 border-primary ps-2 ms-2 m-0 p-0 text-primary text-decoration-underline"
+                className="border-start border-1 border-primary ps-2 ms-2 m-0 p-0 text-primary text-decoration-underline"
                 onClick={handleCreate}
                 style={{
                   cursor: "pointer",
                 }}
               >
                 View Event
-              </span>
+              </span> */}
             </p>
           </section>
         </div>
       </div>
 
-      <Modal refer={modalRef}>
+      {/* <Modal refer={modalRef}>
         <div
           className="modalGrid"
           style={{
@@ -80,7 +93,7 @@ function Sacrament({ day, month, sacramentTitle, parish, role }) {
             <p className="text-muted fw-lighter fs-5 ">{parish}</p>
           </div>
         </div>
-      </Modal>
+      </Modal> */}
     </>
   );
 }

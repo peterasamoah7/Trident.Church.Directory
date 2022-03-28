@@ -10,7 +10,8 @@ namespace Core.MappingProfile
             var model = new SacramentViewModel
             {
                 Id = sacrament.Id,
-                Type = sacrament.Type
+                Type = sacrament.Type,
+                CreatedOn = sacrament.CreatedOn,
             };
 
             return model;

@@ -95,24 +95,24 @@ function FilledState(props) {
                 {member?.homeAddress}
               </p>
             </section>
-            <div class="row align-items-start mt-3">
-              <section class="detail detail__father d-flex flex-column align-items-start justify-content-center col-4">
-                <h6 class="detail-title text-muted">Father</h6>
-                <p class="detail info">{member?.father?.firstName} {member?.father?.lastName}</p>
+            {/* <div className="row align-items-start mt-3">
+              <section className="detail detail__father d-flex flex-column align-items-start justify-content-center col-4">
+                <h6 className="detail-title text-muted">Father</h6>
+                <p className="detail info">{member?.father?.firstName} {member?.father?.lastName}</p>
               </section>
-              <section class="detail detail__mother d-flex flex-column align-items-start justify-content-center col-4">
-                <h6 class="detail-title text-muted">Mother</h6>
-                <p class="detail info">{member?.mother?.firstName} {member?.mother?.lastName}</p>
+              <section className="detail detail__mother d-flex flex-column align-items-start justify-content-center col-4">
+                <h6 className="detail-title text-muted">Mother</h6>
+                <p className="detail info">{member?.mother?.firstName} {member?.mother?.lastName}</p>
               </section>
-              <section class="detail detail__spouse d-flex flex-column align-items-start justify-content-center col-4">
-                <h6 class="detail-title text-muted">Spouse</h6>
-                <p class="detail info">{member?.partner?.firstName} {member?.partner?.lastName}</p>
+              <section className="detail detail__spouse d-flex flex-column align-items-start justify-content-center col-4">
+                <h6 className="detail-title text-muted">Spouse</h6>
+                <p className="detail info">{member?.partner?.firstName} {member?.partner?.lastName}</p>
               </section>
-            </div>
+            </div> */}
           </section>
         </div>
 
-        <section class="units-and-sacrament py-1s d-flex flex-column ms-4 flex-fill align-items-start">
+        <section className="units-and-sacrament py-1s d-flex flex-column ms-4 flex-fill align-items-start">
           <div className="d-flex align-items-center justify-content-between col-12">
             <p>
               <Link to="" className="m-0 p-0 d-flex align-items-center">
@@ -133,112 +133,67 @@ function FilledState(props) {
             </Link>
           </div>
 
-          <section class="units col-12">
-            <div class="bg-white p-4 py-3 mt-3">
-              <h6 class="m-0">Units</h6>
+          <section className="units col-12">
+            <div className="bg-white p-4 py-3 mt-3">
+              <h6 className="m-0">Units</h6>
             </div>
             <div
-              class="unit-summary-cards py-3"
+              className="unit-summary-cards py-3"
               style={{
                 display: "flex",
                 gap: "1rem",
               }}
             >
-              <section class="unit bg-white rounded-3 py-3 col">
-                <div class="border-bottom p-3 pt-2 px-3 mb-3">
-                  <h6 class="unit-title">Sanctuary Keepers</h6>
-                  <p class="text-muted small m-0">Since May 2021</p>
-                </div>
-                <div class="d-flex align-items-center justify-content-start px-3">
-                  <GreenFolder />
-                  <Link
-                    to=""
-                    class="border-start border-1 ps-2 ms-2 border-primary"
-                  >
-                    View Unit
-                  </Link>
-                </div>
-              </section>
-              <section class="unit bg-white rounded-3 py-3 col">
-                <div class="border-bottom p-3 pt-2 px-3 mb-3">
-                  <h6 class="unit-title">Men of Valor</h6>
-                  <p class="text-muted small m-0">Since Feb 2021</p>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-start px-3">
-                  <GreenFolder />
-                  <Link
-                    to=""
-                    class="border-start border-1 ps-2 ms-2 border-primary"
-                  >
-                    View Unit
-                  </Link>
-                </div>
-              </section>
-              <section class="unit bg-white rounded-3 py-3 col">
-                <div class="border-bottom p-3 pt-2 px-3 mb-3">
-                  <h6 class="unit-title">Hospitality</h6>
-                  <p class="text-muted small m-0">Since Dec 2020</p>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-start px-3">
-                  <GreenFolder />
-                  <Link
-                    to=""
-                    class="border-start border-1 ps-2 ms-2 border-primary"
-                  >
-                    View Unit
-                  </Link>
-                </div>
-              </section>
-              <section class="unit bg-white rounded-3 py-3 col">
-                <div class="border-bottom p-3 pt-2 px-3 mb-3">
-                  <h6 class="unit-title">Sanctuary Keepers</h6>
-                  <p class="text-muted small m-0">Since May 2020</p>
-                </div>
-
-                <div class="d-flex align-items-center justify-content-start px-3">
-                  <GreenFolder />
-                  <Link
-                    to=""
-                    class="border-start border-1 ps-2 ms-2 border-primary"
-                  >
-                    View Unit
-                  </Link>
-                </div>
-              </section>
+              {member && member.parishGroups.map((item, index) => {
+                return (
+                  <section key={index + 1} className="unit bg-white rounded-3 py-3 col">
+                    <div className="border-bottom p-3 pt-2 px-3 mb-3">
+                      <h6 className="unit-title">{item.name}</h6>
+                    </div>
+                    <div className="d-flex align-items-center justify-content-start px-3">
+                      <GreenFolder />
+                      <Link
+                        to={`/groups/view-group/${item.id}`}
+                        className="border-start border-1 ps-2 ms-2 border-primary"
+                      >
+                        View Unit
+                      </Link>
+                    </div>
+                  </section>
+                );
+              })}              
             </div>
           </section>
 
-          <section class="sacrament py-1s flex-fill bg-white container-fluid px-0">
-            <div class="border-bottom py-2 m-0 px-4 d-flex justify-content-between align-items-center">
-              <h6 class="m-0">Sacraments</h6>
-              <p class="m-0 p-0 d-flex align-items-center flex-fill justify-content-end">
+          <section className="sacrament py-1s flex-fill bg-white container-fluid px-0">
+            <div className="border-bottom py-2 m-0 px-4 d-flex justify-content-between align-items-center">
+              <h6 className="m-0">Sacraments</h6>
+              <p className="m-0 p-0 d-flex align-items-center flex-fill justify-content-end">
                 <GreenPlus />
                 <Link
                   to=""
-                  class="border-start border-1 border-primary ps-2 ms-2 m-0 p-0"
+                  className="border-start border-1 border-primary ps-2 ms-2 m-0 p-0"
                 >
                   Add a new Sacrament
                 </Link>
               </p>
             </div>
 
-            <section class="sacrment-view">
-              {sacraments.map((item) => {
-                return <Sacrament {...item} />;
+            <section className="sacrment-view">
+              {member && member.sacraments.map((item, index) => {
+                return <Sacrament key={index + 1} model={item} />;
               })}
             </section>
           </section>
         </section>
       </div>
-      <footer class="d-flex align-items-center justify-content-center small">
+      <footer className="d-flex align-items-center justify-content-center small">
         <small>
           &copy;2021
-          <Link to="" class="text-decoration-none ms-3">
+          <Link to="" className="text-decoration-none ms-3">
             &bull; Privacy Policy
           </Link>
-          <Link to="" class="text-decoration-none ms-3">
+          <Link to="" className="text-decoration-none ms-3">
             &bull; Terms &amp; Conditions
           </Link>
         </small>
