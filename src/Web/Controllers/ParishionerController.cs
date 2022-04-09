@@ -81,23 +81,17 @@ namespace Web.Controllers
                 User.Parish(), pageQuery.Query, pageQuery.PageNumber, pageQuery.PageSize);
         }
 
+
         /// <summary>
-        /// Add a sacrament
+        /// Add a relative
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="sacrament"></param>
+        /// <param name="model"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<IActionResult> AddSacrament(Guid id, SacramentViewModel sacrament)
+        public async Task<IActionResult> AddRelative(Guid id, [FromBody]CreateRelativeModel model)
         {
-            await _parishionerService.AddSacrament(id, sacrament);
-            return Ok();
-        }
-
-        [HttpPut("{id}/relative/{relactiveId}/{relativeType}")]
-        public async Task<IActionResult> AddRelative(Guid id, Guid relativeId, RelativeType relativeType)
-        {
-            await _parishionerService.AddRelative(id, relativeId, relativeType);
+            await _parishionerService.AddRelative(id, model);
             return Ok();
         }
     }

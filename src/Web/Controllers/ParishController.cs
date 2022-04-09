@@ -58,19 +58,5 @@ namespace Web.Controllers
 
             return Ok(parishioners);
         }
-
-        /// <summary>
-        /// Get all church groups
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="query"></param>
-        /// <returns></returns>
-        [HttpGet("{id}/parishgroups")]
-        public async Task<IActionResult> GetParishGroups(Guid id, [FromQuery] PageQuery query)
-        {
-            var parishioners = await _parishService.GetParishGroups(id, query.PageNumber, query.PageSize);
-
-            return Ok(parishioners);
-        }
     }
 }

@@ -53,7 +53,7 @@ namespace Application.Interfaces
         /// <param name="id"></param>
         /// <param name="sacrament"></param>
         /// <returns></returns>
-        Task AddSacrament(Guid id, SacramentViewModel sacrament);
+        Task AddSacrament(Guid id, Guid parish, CreateSacramentModel sacrament);
 
         /// <summary>
         /// Add a parishioner relative
@@ -63,6 +63,6 @@ namespace Application.Interfaces
         /// <param name="relativeType"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        Task AddRelative(Guid id, Guid relativeId, RelativeType relativeType);
+        Task AddRelative(Guid id, CreateRelativeModel model);
     }
 }

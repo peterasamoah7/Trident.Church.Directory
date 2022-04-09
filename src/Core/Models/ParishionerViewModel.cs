@@ -27,7 +27,6 @@ namespace Core.Models
         /// <summary>
         /// Date of Birth
         /// </summary>
-        [Required]
         public DateTime? DateOfBirth { get; set; }
 
         /// <summary>

@@ -58,6 +58,7 @@ namespace Web.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Logout()
         {
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
@@ -69,7 +70,7 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
-        //[Authorize]
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> Register([FromBody] RegisterUserViewModel model)
         {
@@ -140,10 +141,5 @@ namespace Web.Controllers
 
             return Ok();
         }
-
-        [AllowAnonymous]
-        [HttpGet]
-        public async Task<IActionResult> ValidateUser() =>
-            await Task.FromResult(Ok(new { result = User.Identity.IsAuthenticated }));
     }
 }

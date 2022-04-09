@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Web.Extensions;
 
 namespace Web.Controllers
 {
@@ -28,9 +29,10 @@ namespace Web.Controllers
         /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<SacramentViewModel>> Create(SacramentViewModel viewModel)
+        public async Task<ActionResult> Create(Guid id, [FromBody] CreateSacramentModel sacrament)
         {
-            return await _sacramentService.CreateSacrament(viewModel);
+            await _sacramentService.CreateSacrament(id, User.Parish(), sacrament);
+            return Ok();
         }
 
         /// <summary>

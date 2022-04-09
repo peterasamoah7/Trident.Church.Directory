@@ -18,7 +18,7 @@ namespace Core.Models
         /// <summary>
         /// Priest
         /// </summary>
-        public ParishionerViewModel Parishioner { get; set; }
+        public ParishionerViewModel Priest { get; set; }
 
         /// <summary>
         /// God Parent

@@ -31,16 +31,28 @@ namespace Application.Services
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<SacramentViewModel> CreateSacrament(SacramentViewModel viewModel)
+        public async Task CreateSacrament(Guid id, Guid parish, CreateSacramentModel sacrament)
         {
-            var sacrement = _mapper.Map<Sacrament>(viewModel);
-            sacrement.ParishId = viewModel.Parish.Id;
+            var parishioner = await _dbContext.Parishioners
+                .Include(x => x.Sacraments)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
-            await _dbContext.Sacraments.AddAsync(sacrement);
-            await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Created, $"{viewModel.Type} Added");
-            viewModel.Id = sacrement.Id;
-            return viewModel;
+            if (parishioner == null)
+            {
+                return;
+            }
+
+            var sacramentEntity = new Sacrament
+            {
+                Type = sacrament.Type,
+                ParishionerId = id,
+                PriestId = sacrament.Priest,
+                GodParentId = sacrament.GodParent,
+                ParishId = parish
+            };
+
+            parishioner.Sacraments.Add(sacramentEntity);
+            _dbContext.SaveChanges();
         }
 
         /// <summary>

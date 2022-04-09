@@ -24,7 +24,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        Task<SacramentViewModel> CreateSacrament(SacramentViewModel viewModel);
+        Task CreateSacrament(Guid id, Guid parish, CreateSacramentModel sacrament);
 
         /// <summary>
         /// UpdateSacrament

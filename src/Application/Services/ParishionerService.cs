@@ -173,7 +173,7 @@ namespace Application.Services
         /// <param name="id"></param>
         /// <param name="sacrament"></param>
         /// <returns></returns>
-        public async Task AddSacrament(Guid id, SacramentViewModel sacrament)
+        public async Task AddSacrament(Guid id, Guid parish, CreateSacramentModel sacrament)
         {
             var parishioner = await _dbContext.Parishioners
                 .Include(x => x.Sacraments)
@@ -184,7 +184,14 @@ namespace Application.Services
                 return;
             }
 
-            var sacramentEntity = SacramentMapping.MapEntity(sacrament);
+            var sacramentEntity = new Sacrament
+            {
+                Type = sacrament.Type,
+                ParishionerId = id,
+                PriestId = sacrament.Priest,
+                GodParentId = sacrament.GodParent,
+                ParishId = parish 
+            };
 
             parishioner.Sacraments.Add(sacramentEntity);
             _dbContext.SaveChanges();
@@ -198,10 +205,10 @@ namespace Application.Services
         /// <param name="relativeType"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentOutOfRangeException"></exception>
-        public async Task AddRelative(Guid id, Guid relativeId, RelativeType relativeType)
+        public async Task AddRelative(Guid id, CreateRelativeModel model)
         {
             if(!await _dbContext.Parishioners.AnyAsync(x => x.Id == id)
-                && !await _dbContext.Parishioners.AnyAsync(x => x.Id == relativeId))
+                && !await _dbContext.Parishioners.AnyAsync(x => x.Id == id))
             {
                 return;
             }
@@ -209,18 +216,20 @@ namespace Application.Services
             var parishioner = await _dbContext.Parishioners
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            switch (relativeType)
+            switch (model.RelativeType)
             {
                 case RelativeType.Father:
-                    parishioner.FatherId = relativeId;
+                    parishioner.FatherId = model.RelativeId;
                     break;
                 case RelativeType.Mother:
-                    parishioner.MotherId = relativeId;
+                    parishioner.MotherId = model.RelativeId;
                     break;
                 case RelativeType.Partner:
-                    parishioner.Partner = relativeId;
+                    parishioner.Partner = model.RelativeId;
                     break;
-                default: throw new ArgumentOutOfRangeException(nameof(relativeType));
+                default: 
+                    throw new ArgumentOutOfRangeException(
+                        nameof(model.RelativeType));
             }
         }
     }
