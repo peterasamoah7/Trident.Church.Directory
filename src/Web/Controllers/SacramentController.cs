@@ -103,7 +103,7 @@ namespace Web.Controllers
             string type, [FromQuery] PageQuery pageQuery)
         {
             var response = await _sacramentService.GetAllParishioners(
-                Enum.Parse<SacramentType>(type), User.Parish(), pageQuery.PageNumber, pageQuery.PageSize);
+                Enum.Parse<SacramentType>(type, true), User.Parish(), pageQuery.PageNumber, pageQuery.PageSize);
             return Ok(response);
         }
     }
