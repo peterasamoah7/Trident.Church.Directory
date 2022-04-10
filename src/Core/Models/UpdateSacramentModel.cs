@@ -3,7 +3,7 @@ using System;
 
 namespace Core.Models
 {
-    public class CreateSacramentModel : BaseViewModel
+    public class UpdateSacramentModel : BaseViewModel
     {
         /// <summary>
         /// The type of Sacrament

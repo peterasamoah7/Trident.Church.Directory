@@ -11,7 +11,7 @@ namespace Data.Entities
         /// <summary>
         /// Created on 
         /// </summary>
-        public DateTime CreatedOn { get; set; }
+        public DateTime CreatedOn { get; set; } = DateTime.Now;
 
         /// <summary>
         /// Updated on

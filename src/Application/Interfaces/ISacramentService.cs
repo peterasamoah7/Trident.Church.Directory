@@ -9,15 +9,11 @@ namespace Application.Interfaces
 {
     public interface ISacramentService
     {
-
-        ///create a sacrament for a parishioner
-        ///edit a sacrament for a parishioner
-        ///delete a sacrament for a parishioner
-        ///update a sacrament for a parishioner
-        ///get all sacraments
-        ///get all sacraments by type
-        ///get all parishioners for a sacrament type
-        ///
+        /// <summary>
+        /// Get Default Sacraments
+        /// </summary>
+        /// <returns></returns>
+        Task<IEnumerable<SacramentType>> GetDefaultSacraments();
 
         // <summary>
         /// CreateSacrament
@@ -32,7 +28,7 @@ namespace Application.Interfaces
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        Task<SacramentViewModel> UpdateSacrament(Guid id, SacramentViewModel viewModel);
+        Task UpdateSacrament(Guid id, UpdateSacramentModel viewModel);
 
         /// <summary>
         /// DeleteSacrament
@@ -54,17 +50,8 @@ namespace Application.Interfaces
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<PageResult<IEnumerable<SacramentViewModel>>> GetAllSacraments(int pageNumber, int pageSize);
+        Task<IEnumerable<SacramentMetric>> GetAllSacraments(Guid parish, int pageNumber, int pageSize);
 
-
-        /// <summary>
-        /// GetAll Sacraments by SacramemtType
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        Task<PageResult<IEnumerable<SacramentViewModel>>> GetAllSacramentsBySacramentType(SacramentType type, int pageNumber, int pageSize);
 
         /// <summary>
         /// GetAll parishioners by SacramemtType
@@ -73,8 +60,6 @@ namespace Application.Interfaces
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishionersBySacramentType(SacramentType type, int pageNumber, int pageSize);
-
-
+        Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(SacramentType type, Guid parish, int pageNumber, int pageSize);
     }
 }

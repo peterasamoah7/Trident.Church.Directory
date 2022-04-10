@@ -38,11 +38,6 @@ namespace Data.Entities
         /// <summary>
         /// The Parish FK
         /// </summary>
-        public Guid ParishId { get; set; }
-
-        /// <summary>
-        /// The Parish
-        /// </summary>
-        public Parish Parish { get; set; }
+        public Guid? ParishId { get; set; }
     }
 }

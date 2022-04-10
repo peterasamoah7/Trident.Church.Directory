@@ -12,6 +12,7 @@ namespace Core.MappingProfile
                 Id = sacrament.Id,
                 Type = sacrament.Type,
                 CreatedOn = sacrament.CreatedOn,
+                UpdatedOn = sacrament.UpdatedOn
             };
 
             return model;

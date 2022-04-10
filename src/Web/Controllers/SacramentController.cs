@@ -12,7 +12,7 @@ using Web.Extensions;
 namespace Web.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/[controller]/[action]")]
     [Authorize]
     public class SacramentController : ControllerBase
     {
@@ -28,7 +28,7 @@ namespace Web.Controllers
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        [HttpPost]
+        [HttpPost("{id}")]
         public async Task<ActionResult> Create(Guid id, [FromBody] CreateSacramentModel sacrament)
         {
             await _sacramentService.CreateSacrament(id, User.Parish(), sacrament);
@@ -42,9 +42,10 @@ namespace Web.Controllers
         /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<SacramentViewModel>> Update(Guid id, SacramentViewModel viewModel)
+        public async Task<ActionResult> Update(Guid id, [FromBody] UpdateSacramentModel viewModel)
         {
-            return await _sacramentService.UpdateSacrament(id, viewModel);
+            await _sacramentService.UpdateSacrament(id, viewModel);
+            return Ok();
         }
 
         /// <summary>
@@ -71,28 +72,24 @@ namespace Web.Controllers
         }
 
         /// <summary>
+        /// Get default sacraments
+        /// </summary>
+        /// <returns></returns>
+        [HttpGet]
+        public async Task<IActionResult> GetDefault() =>
+                Ok(await _sacramentService.GetDefaultSacraments());
+
+        /// <summary>
         /// Get all sacraments
         /// </summary>
         /// <param name="pageQuery"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<PageResult<IEnumerable<SacramentViewModel>>>> GetAll(PageQuery pageQuery)
+        public async Task<ActionResult<IEnumerable<SacramentMetric>>> GetMetrics([FromQuery] PageQuery pageQuery)
         {
-            return await _sacramentService.GetAllSacraments(pageQuery.PageNumber, pageQuery.PageSize);
-        }
-
-        /// <summary>
-        /// Get all sacraments by type
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="pageQuery"></param>
-        /// <returns></returns>
-        [HttpGet]
-        public async Task<ActionResult<PageResult<IEnumerable<SacramentViewModel>>>> GetAllByType(
-            [FromQuery] string type, PageQuery pageQuery)
-        {
-            return await _sacramentService.GetAllSacramentsBySacramentType(
-                Enum.Parse<SacramentType>(type), pageQuery.PageNumber, pageQuery.PageSize);
+            var response =  await _sacramentService.GetAllSacraments(
+                User.Parish(), pageQuery.PageNumber, pageQuery.PageSize);
+            return Ok(response);
         }
 
         /// <summary>
@@ -101,12 +98,13 @@ namespace Web.Controllers
         /// <param name="type"></param>
         /// <param name="pageQuery"></param>
         /// <returns></returns>
-        [HttpGet("parishioners")]
-        public async Task<ActionResult<PageResult<IEnumerable<ParishionerViewModel>>>> GetAllParishionersByType(
-            [FromQuery] string type, PageQuery pageQuery)
+        [HttpGet("{type}")]
+        public async Task<ActionResult<PageResult<IEnumerable<ParishionerViewModel>>>> GetParishioners(
+            string type, [FromQuery] PageQuery pageQuery)
         {
-            return await _sacramentService.GetAllParishionersBySacramentType(
-                Enum.Parse<SacramentType>(type), pageQuery.PageNumber, pageQuery.PageSize);
+            var response = await _sacramentService.GetAllParishioners(
+                Enum.Parse<SacramentType>(type), User.Parish(), pageQuery.PageNumber, pageQuery.PageSize);
+            return Ok(response);
         }
     }
 }

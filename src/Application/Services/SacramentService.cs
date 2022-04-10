@@ -1,5 +1,5 @@
 ﻿using Application.Interfaces;
-using AutoMapper;
+using Core.MappingProfile;
 using Core.Models;
 using Core.Pagination;
 using Data.Database;
@@ -16,15 +16,15 @@ namespace Application.Services
     public class SacramentService : ISacramentService
     {
         private readonly ChurchContext _dbContext;
-        private readonly IMapper _mapper;
         private readonly IAuditService _auditService;
-        public SacramentService(ChurchContext dbContext, IMapper mapper, IAuditService auditService)
+        public SacramentService(ChurchContext dbContext, IAuditService auditService)
         {
-            _mapper = mapper;
             _dbContext = dbContext;
             _auditService = auditService;
         }
 
+        public async Task<IEnumerable<SacramentType>> GetDefaultSacraments() =>
+            await Task.FromResult(Enum.GetValues(typeof(SacramentType)).Cast<SacramentType>());
 
         /// <summary>
         /// Create a sacrament
@@ -37,10 +37,12 @@ namespace Application.Services
                 .Include(x => x.Sacraments)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
-            if (parishioner == null)
-            {
-                return;
-            }
+            if (parishioner == null) return;
+
+            var isExisting = await _dbContext.Sacraments
+                .AnyAsync(x => x.Id == parishioner.Id && x.Type == sacrament.Type && x.Type != SacramentType.Reconciliation);
+
+            if (isExisting) return;
 
             var sacramentEntity = new Sacrament
             {
@@ -53,6 +55,8 @@ namespace Application.Services
 
             parishioner.Sacraments.Add(sacramentEntity);
             _dbContext.SaveChanges();
+
+            await _auditService.CreateAuditAsync(AuditType.Created, "Sacrament Created");
         }
 
         /// <summary>
@@ -64,6 +68,7 @@ namespace Application.Services
         public async Task DeleteSacrament(Guid id)
         {
             var sacrament = await _dbContext.Sacraments.FirstOrDefaultAsync(s => s.Id == id);
+
             if (sacrament == null)
             {
                 return;
@@ -72,29 +77,7 @@ namespace Application.Services
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(AuditType.Deleted, "Sacrament Deleted");
         }
-        /// <summary>
-        /// Get all sacrament by sacrametType
-        /// </summary>
-        /// <param name="type"></param>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public async Task<PageResult<IEnumerable<SacramentViewModel>>> GetAllSacramentsBySacramentType(SacramentType type, int pageNumber, int pageSize)
-        {
-            var request = new PageRequest(pageNumber, pageSize);
 
-            var sacrament = await _dbContext.Sacraments.Where(a => a.Type == type).Skip(request.PageNumber - 1)
-                .Skip(request.PageSize).ToListAsync();
-
-            var count = sacrament.Count();
-
-            var viewModel = sacrament.Select(x => _mapper.Map<SacramentViewModel>(x))
-                .ToList();
-            return new PageResult<IEnumerable<SacramentViewModel>>
-                (viewModel, request.PageNumber, request.PageSize, count);
-
-        }
 
         /// <summary>
         /// Get all sacrament
@@ -102,23 +85,29 @@ namespace Application.Services
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<PageResult<IEnumerable<SacramentViewModel>>> GetAllSacraments(int pageNumber, int pageSize)
+        public async Task<IEnumerable<SacramentMetric>> GetAllSacraments(
+            Guid parish, int pageNumber, int pageSize)
         {
             var request = new PageRequest(pageNumber, pageSize);
 
-            var sacraments = await _dbContext.Sacraments
-                .Skip(request.PageNumber - 1)
-                .Take(request.PageSize)
-                .ToListAsync();
+            var sacraments = Enum.GetValues(typeof(SacramentType))
+                .Cast<SacramentType>();
 
+            var metrics = new List<SacramentMetric>();
 
-            var count = await _dbContext.Sacraments.CountAsync();
-            var viewModels = sacraments
-                .Select(x => _mapper.Map<SacramentViewModel>(x))
-                .ToList();
+            foreach (var sacrament in sacraments)
+            {
+                var metric = await _dbContext.Sacraments
+                    .CountAsync(x => x.Type == sacrament && x.ParishId == parish);
 
-            return new PageResult<IEnumerable<SacramentViewModel>>
-                (viewModels, request.PageNumber, request.PageSize, count);
+                metrics.Add(new SacramentMetric
+                {
+                    MemberCount = metric,
+                    Type = sacrament
+                });
+            }
+            
+            return metrics;
         }
 
         /// <summary>
@@ -128,13 +117,37 @@ namespace Application.Services
         /// <returns></returns>
         public async Task<SacramentViewModel> GetSacrament(Guid id)
         {
-            var sacrament = await _dbContext.Sacraments.FirstOrDefaultAsync(x => x.Id == id);
+            var sacrament = await _dbContext.Sacraments
+                .FirstOrDefaultAsync(x => x.Id == id);
+
             if (sacrament == null)
             {
                 return null;
             }
 
-            var viewModel = _mapper.Map<SacramentViewModel>(sacrament);
+            var viewModel = SacramentMapping.MapDto(sacrament);
+
+            if (sacrament.ParishId != null)
+            {
+                var parish = await _dbContext.Parishes
+                    .FirstOrDefaultAsync(x => x.Id == sacrament.ParishId);
+                if (parish != null) viewModel.Parish = ParishMapping.MapDto(parish);
+            }
+
+            if (sacrament.PriestId != null)
+            {
+                var parishioner = await _dbContext.Parishioners
+                    .FirstOrDefaultAsync(x => x.Id == sacrament.PriestId);
+                if (parishioner != null) viewModel.Priest = ParishionerMapping.MapDto(parishioner);
+            }
+
+            if (sacrament.GodParentId != null)
+            {
+                var parishioner = await _dbContext.Parishioners
+                    .FirstOrDefaultAsync(x => x.Id == sacrament.GodParentId);
+                if (parishioner != null) viewModel.Priest = ParishionerMapping.MapDto(parishioner);
+            }
+
             return viewModel;
         }
 
@@ -144,18 +157,18 @@ namespace Application.Services
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>        
-        public async Task<SacramentViewModel> UpdateSacrament(Guid id, SacramentViewModel viewModel)
+        public async Task UpdateSacrament(Guid id, UpdateSacramentModel viewModel)
         {
-            var sacrament = await _dbContext.Sacraments.FirstOrDefaultAsync(_dbContext => _dbContext.Id == id);
-            if (sacrament == null)
-            {
-                return null;
-            }
+            var sacrament = await _dbContext.Sacraments.FirstOrDefaultAsync(x => x.Id == id);
 
-            _mapper.Map(viewModel, sacrament);
+            if (sacrament == null) return;
+
+            sacrament.Type = viewModel.Type;
+            sacrament.PriestId = viewModel.Priest;
+            sacrament.GodParentId = viewModel.GodParent;
+
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(AuditType.Updated, $"{sacrament.Type} Updated");
-            return viewModel;
         }
 
         /// <summary>
@@ -165,20 +178,25 @@ namespace Application.Services
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        public async Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishionersBySacramentType(SacramentType type, int pageNumber, int pageSize)
+        public async Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(
+            SacramentType type, Guid parish, int pageNumber, int pageSize)
         {
             var request = new PageRequest(pageNumber, pageSize);
 
-            var parishionerQuery = _dbContext.Sacraments.AsQueryable();
-            var viewModels = await parishionerQuery.Where(x => x.Type == type).
-                Skip(request.PageNumber - 1)
-                 .Take(request.PageSize)
-                 .Select(x => _mapper.Map<ParishionerViewModel>(x.Parishioner))
-                 .ToListAsync();
-            var count = await parishionerQuery.CountAsync();
+            var sacraments = await _dbContext.Sacraments
+                .Include(x => x.Parishioner)
+                .Where(x => x.Type == type && x.ParishId == parish)
+                .Skip((request.PageNumber - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToListAsync();
+
+            var count = await _dbContext.Sacraments.CountAsync(x => x.Type == type);
+
+            var parishioners = sacraments.Select(
+                x => ParishionerMapping.MapDto(x.Parishioner)).ToList();
 
             return new PageResult<IEnumerable<ParishionerViewModel>>
-               (viewModels, request.PageNumber, request.PageSize, count);
+                (parishioners, request.PageNumber, request.PageSize, count);
         }
     }
 }
