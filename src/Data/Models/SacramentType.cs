@@ -8,8 +8,8 @@ namespace Data.Models
         Baptism = 1,
         [Description("First Communion")]
         FirstCommunion,
-        [Description("Holy Matrimory")]
-        HolyMatrimory,
+        [Description("Holy Matrimony")]
+        HolyMatrimony,
         [Description("Holy Orders")]
         HolyOrders,
         [Description("Reconciliation")]
