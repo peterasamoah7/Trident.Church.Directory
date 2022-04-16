@@ -240,14 +240,17 @@ namespace Application.Services
         {
             var parishioner = await _dbContext.Parishioners.Include(x => x.ParishGroups)
                 .FirstOrDefaultAsync(x => x.Id == parishionerId);
-            var churchGroup = await _dbContext.ParishGroups.FirstOrDefaultAsync(x => x.Id == parishGroupId);
+
+            var churchGroup = await _dbContext.ParishGroups
+                .Include(x => x.Parishioners)
+                .FirstOrDefaultAsync(x => x.Id == parishGroupId);
 
             if (parishioner == null || churchGroup == null || churchGroup.Parishioners.Any(x => x.Id == parishGroupId))
             {
                 return;
             }
 
-            parishioner.ParishGroups.Remove(churchGroup);
+            churchGroup.Parishioners.Remove(parishioner);
             await _dbContext.SaveChangesAsync();
         }
     }
