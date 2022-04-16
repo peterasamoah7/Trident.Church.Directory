@@ -2,9 +2,9 @@
 {
     public enum ParishionerType
     {
-        Priest = 1,
+        Member = 1,
         Deacon,
-        Member,
+        Priest,
         Guest
     }
 }

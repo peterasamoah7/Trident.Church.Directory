@@ -180,17 +180,18 @@ namespace Application.Services
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishGroupViewModel> UpdateParishGroup(ParishGroupViewModel viewModel)
+        public async Task<ParishGroupViewModel> UpdateParishGroup(Guid parishId, ParishGroupViewModel viewModel)
         {
             var churchgroup = await _dbContext.ParishGroups
-                .FirstOrDefaultAsync(x => x.Id == viewModel.Id);
+                .FirstOrDefaultAsync(x => x.Id == parishId);
 
             if (churchgroup == null)
             {
                 return null;
             }
 
-            churchgroup = ParishGroupMapping.MapEntity(viewModel);
+            churchgroup.Name = viewModel.Name;
+            churchgroup.Description = viewModel.Description;
 
             _dbContext.Update(churchgroup);
             await _dbContext.SaveChangesAsync();

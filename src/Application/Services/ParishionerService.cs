@@ -62,7 +62,16 @@ namespace Application.Services
                 return null;
             }
 
-            parishioner = ParishionerMapping.MapEntity(viewModel);
+            parishioner.PhoneNumber = viewModel.PhoneNumber;
+            parishioner.DateOfBirth = viewModel.DateOfBirth;
+            parishioner.Location = viewModel.Location;
+            parishioner.Occupation = viewModel.Occupation;
+            parishioner.Email = viewModel.Email;
+            parishioner.HomeAddress = viewModel.HomeAddress;
+            parishioner.FirstName = viewModel.FirstName;
+            parishioner.LastName = viewModel.LastName;
+            parishioner.PostCode = viewModel.PostCode;
+
             _dbContext.Parishioners.Update(parishioner);
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(AuditType.Updated, $"{viewModel} Details Updated");
