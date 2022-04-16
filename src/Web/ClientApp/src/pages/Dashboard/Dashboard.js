@@ -22,7 +22,7 @@ const Dashboard = ({ onLayoutType }) => {
   const [viewModel, setViewModel] = useState(null);
 
   useEffect(() => {
-    axios.get("api/dashboard").then((response) => {
+      axios.get("api/dashboard/getdashboard").then((response) => {
       if (response.status === 200) {
         setViewModel(response.data);
       } else {

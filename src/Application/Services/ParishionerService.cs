@@ -231,6 +231,9 @@ namespace Application.Services
                     throw new ArgumentOutOfRangeException(
                         nameof(model.RelativeType));
             }
+
+            _dbContext.Parishioners.Update(parishioner);
+            await _dbContext.SaveChangesAsync();
         }
     }
 }
