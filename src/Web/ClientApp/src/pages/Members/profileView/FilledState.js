@@ -95,12 +95,13 @@ function FilledState(props) {
               <h6 className="detail-title text-muted">Home Address</h6>
               <p className="detail info">{member?.homeAddress}</p>
             </section>
-            <div className="">
+            <div className="d-flex">
               {member?.father && (
                 <section className="detail detail__father d-flex flex-column align-items-start justify-content-center col-4">
                   <h6 className="detail-title ">Father</h6>
                   <p className="detail info">
-                    {member?.father?.firstName} {member?.father?.lastName}
+                    {member?.father?.firstName}{" "}
+                    {member?.father?.lastName?.[0]?.toUpperCase()}.
                   </p>
                 </section>
               )}
@@ -120,12 +121,18 @@ function FilledState(props) {
                   </p>
                 </section>
               )}
-
+            </div>
+            <div>
               {(member?.father == undefined ||
                 member?.mother == undefined ||
                 member?.partner == undefined) && (
                 <Link to="add-relative">
-                  <button className="btn btn-primary">Add a relative</button>
+                  <p className="m-0 p-0 d-flex align-items-center flex-fill justify-content-center">
+                    <GreenPlus />
+                    <span className="border-start border-1 border-primary ps-2 ms-2 m-0 p-0">
+                      Add a relative
+                    </span>
+                  </p>
                 </Link>
               )}
             </div>

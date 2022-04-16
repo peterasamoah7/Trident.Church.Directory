@@ -70,11 +70,12 @@ function ViewUnit({ onLayoutType }) {
 
   const deletemember = async (memberId) => {
     try {
-      const request = await axios.post(
+      const request = await axios.delete(
         `/api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`
       );
       if (request.status == 200) {
         getMembers();
+        showError("Successfully deleted", "success");
       }
     } catch (error) {
       showError("An Unexpected error occured");
@@ -102,7 +103,7 @@ function ViewUnit({ onLayoutType }) {
     getMembers(prevPage);
   };
 
-  const getMembers = (path) => {
+  const getMembers = (path = "") => {
     axios
       .get(`/api/parishgroup/getparishioners/${id}/${path}`)
       .then((response) => {
@@ -214,20 +215,26 @@ function ViewUnit({ onLayoutType }) {
             </thead>
             <tbody>
               {members &&
-                members.data.map((item, index) => {
+                members.data.map((member, index) => {
                   return (
                     <>
                       <tr>
                         <td className="num text-center">{index + 1}.</td>
                         <td>
-                          {item.firstName} {item.lastName}
+                          {member.firstName} {member.lastName}
                         </td>
-                        <td>{item.type}</td>
-                        <td>{item.location}</td>
-                        <td>{item.phoneNumber}</td>
-                        <td>{item.occupation}</td>
+                        <td>{member.type}</td>
+                        <td>{member.location}</td>
+                        <td>{member.phoneNumber}</td>
+                        <td>{member.occupation}</td>
                         <td>
-                          <EllipseNModal />
+                          <EllipseNModal
+                            onView={() =>
+                              navigate(`/members/view-member/${member.id}`)
+                            }
+                            deletable
+                            onDelete={() => deletemember(member.id)}
+                          />
                         </td>
                       </tr>
                     </>

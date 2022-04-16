@@ -194,11 +194,11 @@ function AddFamilyRelatives() {
               <option value="father">Father</option>
             )}
             {member?.partner == undefined && (
-              <option value="spouse">Spouse</option>
+              <option value="partner">Partner</option>
             )}
           </select>
           <div
-            className=" mb-4 col-7 d-flex align-items-center"
+            // className=" mb-4  d-flex align-items-center"
             style={{
               gap: "1.3rem",
             }}

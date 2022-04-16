@@ -33,7 +33,7 @@ function EditMember(props) {
           occupation: data.occupation,
           postalCode: data.postalCode ?? "",
           homeAddress: data.homeAddress,
-          parish: "",
+          location: data?.location ?? "",
         }));
         setBirthDate(() => data.dateOfBirth);
       }
@@ -55,7 +55,7 @@ function EditMember(props) {
     occupation: "",
     postalCode: "",
     homeAddress: "",
-    parish: "",
+    location: "",
   });
 
   const [stage, setStage] = useState(1);
@@ -97,26 +97,10 @@ function EditMember(props) {
   };
 
   const handleSubmit = async () => {
-    if (!formData.parish.length) {
-      showError("Please the field Parish cannot be blank");
+    if (!formData.location.length) {
+      showError("Please the field Location cannot be blank");
       return;
     }
-
-    if (!formData.occupation.length) {
-      showError("Please the field occupation cannot be blank");
-      return;
-    }
-
-    if (!formData.postalCode.length) {
-      showError("Please the field Postal Code cannot be blank");
-      return;
-    }
-
-    if (!formData.homeAddress.length) {
-      showError("Please the field Home Address cannot be blank");
-      return;
-    }
-
     const data = {
       ...formData,
       birthOfDate: birthDate,
@@ -124,9 +108,13 @@ function EditMember(props) {
 
     // make request to api to api member profile
     try {
-      const request = await axios.post("", data);
+      const request = await axios.put(
+        `/api/parishioner/update/${params.id}`,
+        data
+      );
       if (request.status == 200 || request.status == 201) {
         showError("Profile Successfully Updated", "success");
+        navigate(`/members/view-member/${params.id}`);
       }
     } catch (error) {
       showError("An unexpected error occurred");
@@ -311,14 +299,14 @@ function EditMember(props) {
               <Input
                 large
                 noIcon
-                label="Parish"
+                label="Location"
                 inputClass="form-select"
-                value={formData.parish}
+                value={formData.location}
                 onChange={(e) => {
                   e.persist();
                   setFormData((oldState) => ({
                     ...oldState,
-                    parish: e.target.value,
+                    location: e.target.value,
                   }));
                 }}
               />

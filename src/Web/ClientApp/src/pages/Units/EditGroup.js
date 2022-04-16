@@ -68,6 +68,7 @@ function EditUnit(props) {
 
       setLoading(() => false);
     } catch (error) {
+      setLoading(() => false);
       showError("An unexpected error occurred");
     }
   }

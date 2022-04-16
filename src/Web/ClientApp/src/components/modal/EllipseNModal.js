@@ -55,7 +55,7 @@ function EllipseNModal(props) {
             className="btn py-2 m-0"
             style={{
               cursor: "pointer",
-              display: editable ? "initial" : "none"
+              display: editable ? "initial" : "none",
             }}
             onClick={() => {
               setClicked(false);
@@ -68,8 +68,7 @@ function EllipseNModal(props) {
             className="btn py-2 m-0"
             style={{
               cursor: "pointer",
-              display: deletable ? "initial" : "none"
-
+              display: deletable && props.onDelete ? "initial" : "none",
             }}
             onClick={() => {
               modalRef.current.classList.remove("modal__hidden");
@@ -110,20 +109,26 @@ function EllipseNModal(props) {
           />
 
           <h6>Are you sure?</h6>
-          <p className="text-gray2">
-            Do you really want to delete these <br /> users? This process cannot
-            be undone
-          </p>
+          <p className="text-gray2">Confirm delete</p>
           <div className="d-flex align-items-center justify-content-between container-fluid px-3">
             <button
               className="px-4 btn btn-outline-primary rounded-0"
-              onClick={() => {
+              onClick={async () => {
                 modalRef.current.classList.add("modal__hidden");
               }}
             >
               Cancel
             </button>
-            <button className="px-4 btn btn-primary rounded-0">Delete</button>
+            <button
+              onClick={async () => {
+                await props.onDelete();
+
+                modalRef.current.classList.add("modal__hidden");
+              }}
+              className="px-4 btn btn-primary rounded-0 ms-3"
+            >
+              Delete
+            </button>
           </div>
         </div>
       </Modal>
