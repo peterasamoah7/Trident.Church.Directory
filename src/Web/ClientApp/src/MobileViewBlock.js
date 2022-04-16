@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 
-const MobileViewBlock = ({children}) => {
-  let [isMobile, setIsMobile] = useState(false)
+const MobileViewBlock = ({ children }) => {
+  let [isMobile, setIsMobile] = useState(false);
 
-  useEffect(()=>{
-
+  useEffect(() => {
     const media = window.matchMedia("only screen and (max-width: 760px)");
 
     if (media.matches !== isMobile) {
@@ -13,13 +12,23 @@ const MobileViewBlock = ({children}) => {
     const listener = () => setIsMobile(media.matches);
     window.addEventListener("resize", listener);
 
-    return () => window.removeEventListener("resize", listener)
-  }, [isMobile])
+    return () => window.removeEventListener("resize", listener);
+  }, [isMobile]);
 
-  if(isMobile){
-    return <div>Sorry, this website is only available on desktop devices.</div>
-}
-  return children
-}
+  if (isMobile) {
+    return (
+      <div id="notfound">
+        <div className="notfound">
+          <div className="notfound-404">
+            <h1>Oops!</h1>
+          </div>
+          <h2>Mobile View Not Supported</h2>
+          <p>Sorry, this website is only available on desktop devices.</p>
+        </div>
+      </div>
+    );
+  }
+  return children;
+};
 
-export default MobileViewBlock
+export default MobileViewBlock;
