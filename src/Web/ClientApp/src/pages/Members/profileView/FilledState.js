@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import Sacrament from "./Sacrament";
@@ -15,12 +15,17 @@ import GreenPlus from "../../../Elements/svgs/GreenPlus";
 import GreenPen from "../../../Elements/svgs/RoundPen";
 import GreenFolder from "../../../Elements/svgs/GreenFolder";
 import axios from "axios";
+import { useContext } from "react";
+import { ErrorContext } from "../../../context/ErrorContext";
 
 //
 function FilledState(props) {
   const params = useParams();
 
   const [member, setMember] = useState(null);
+  const navigate = useNavigate();
+
+  const { showError } = useContext(ErrorContext);
 
   useEffect(() => {
     axios.get(`/api/parishioner/get/${params.id}`).then((response) => {
@@ -28,6 +33,11 @@ function FilledState(props) {
         setMember(response.data);
       } else {
         //show errors
+      }
+
+      if (response.status === 204) {
+        showError("User does not exist");
+        navigate("/");
       }
     });
   }, []);
@@ -84,7 +94,7 @@ function FilledState(props) {
               </section>
               <section className="detail detail__occupation d-flex flex-column align-items-start justify-content-center">
                 <h6 className="detail-title text-muted">Occupation</h6>
-                <p className="detail info">Banker</p>
+                <p className="detail info">{member?.occupation}</p>
               </section>
             </div>
             <header className="d-flex justify-content-start my-3 align-items-center py-2 border-bottom border-2 col-12">
@@ -109,7 +119,8 @@ function FilledState(props) {
                 <section className="detail detail__mother d-flex flex-column align-items-start justify-content-center col-4">
                   <h6 className="detail-title ">Mother</h6>
                   <p className="detail info">
-                    {member?.mother?.firstName} {member?.mother?.lastName}
+                    {member?.mother?.firstName}{" "}
+                    {member?.mother?.lastName?.[0]?.toUpperCase()}.
                   </p>
                 </section>
               )}
@@ -117,7 +128,8 @@ function FilledState(props) {
                 <section className="detail detail__spouse d-flex flex-column align-items-start justify-content-center col-4">
                   <h6 className="detail-title ">Spouse</h6>
                   <p className="detail info">
-                    {member?.partner?.firstName} {member?.partner?.lastName}
+                    {member?.partner?.firstName}{" "}
+                    {member?.partner?.lastName?.[0]?.toUpperCase()}.
                   </p>
                 </section>
               )}

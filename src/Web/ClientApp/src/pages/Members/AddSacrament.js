@@ -237,7 +237,7 @@ function AddSacrament({ onLayoutType }) {
 
   return (
     <Layout type={2}>
-      {<ProgressBar stage1="1" stage2="2" stage={stage} />}
+      {<ProgressBar stage1="Part 1" stage2="Part 2" stage={stage} />}
 
       <form
         onSubmit={handleCreate}

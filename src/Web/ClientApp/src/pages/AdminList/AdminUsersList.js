@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import "../../styles/dist/table.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import Layout from "../../components/Layout";
 
@@ -12,6 +12,7 @@ import SearchInput from "../../components/inputs/specialInputs/SearchInput";
 
 import Ellipses from "../../Elements/svgs/Ellipses";
 import axios from "axios";
+import EllipseNModal from "../../components/modal/EllipseNModal";
 
 function AdminUsersList(props) {
   const [adminUser, setAdminUsers] = useState(null);
@@ -47,12 +48,12 @@ function AdminUsersList(props) {
     <Layout type={1}>
       <header className="d-flex align-items-center justify-content-between">
         <div>
-          <h5>Parish Overview</h5>
+          <h5>Users Overview</h5>
           <p className="text-muted m-0">
-            List of registered and approved parishes
+            List of registered and approved users
           </p>
         </div>
-        <Link to="//invite" className="btn-group">
+        <Link to="/invite" className="btn-group">
           <button className="btn btn-primary">Invite user</button>
           <button className="btn btn-primary">
             <CircledPlus />
@@ -66,22 +67,25 @@ function AdminUsersList(props) {
 
       <table className="shadow-sm border-muted">
         <thead>
-          <th></th>
-          <th>Name</th>
-          <th>User Role</th>
-          <th>Email</th>
-          <th>Action</th>
+          <tr>
+            <th></th>
+            <th>Name</th>
+            <th>User Role</th>
+            <th>Email</th>
+            <th>Action</th>
+          </tr>
         </thead>
         <tbody>
           {adminUser &&
             adminUser.data.map((item, index) => {
               return (
                 <AdminUser
-                  key={item.Id}
+                  key={item.id}
                   name={item.fullName}
                   role={item.userRole}
                   email={item.email}
                   number={index + 1}
+                  id={item.id}
                 />
               );
             })}
@@ -94,7 +98,9 @@ function AdminUsersList(props) {
 export default AdminUsersList;
 
 function AdminUser(props) {
-  let { number, name, role, email } = props;
+  let { number, name, role, email, id } = props;
+  const navigate = useNavigate();
+
   return (
     <tr className={props.class}>
       <td className="index text-center">{number}.</td>
@@ -103,12 +109,14 @@ function AdminUser(props) {
       <td className="email">{email}</td>
       <td className="action">
         {" "}
-        <Ellipses
+        {/* <Ellipses
           className="btn fs-2 p-0"
           style={{
             cursor: "pointer",
           }}
-        />
+          o
+        /> */}
+        <EllipseNModal onView={() => navigate(`/members/view-member/${id}`)} />
       </td>
     </tr>
   );

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useState, useEffect, useContext } from "react";
 
 import { Link } from "react-router-dom";
 import Modal from "../../../components/modal/Modal";
@@ -7,15 +7,35 @@ import Modal from "../../../components/modal/Modal";
 import GreenFolder from "../../../Elements/svgs/GreenFolder";
 import RoundPerson from "../../../Elements/svgs/RoundPerson";
 import BlueParish from "../../../Elements/svgs/BlueParish";
+import axios from "axios";
+import { ErrorContext } from "../../../context/ErrorContext";
 
 function Sacrament({ model }) {
   const modalRef = useRef();
+  const [sacrament, setSacrament] = useState({});
+  const { showError } = useContext(ErrorContext);
 
   function handleCreate(e) {
     e.preventDefault();
     modalRef.current.classList.toggle("modal__hidden");
     // 	console.log(modalRef.current);
   }
+
+  const fetchSacrament = async () => {
+    try {
+      const request = await axios.get(`/api/sacrament/get/${model.id}`);
+      if (request.status === 200) {
+        setSacrament(() => request.data);
+      }
+    } catch (error) {
+      showError("An unexpected error occurred");
+      modalRef.current.classList.toggle("modal__hidden");
+    }
+  };
+
+  useEffect(() => {
+    fetchSacrament();
+  }, []);
 
   function convertDate(dateStr) {
     if (dateStr !== null) {
@@ -82,25 +102,36 @@ function Sacrament({ model }) {
             </p>
           </div>
           <div className=" py-3  ">
-            <h5>Sacrament of christ initiation</h5>
-            <p className="text-muted fs-5 fw-lighter">Exchange</p>
+            <h5 className="text-capitalize">{model.type}</h5>
           </div>
           <div className=" py-3 px-4  d-flex flex-column justify-content-center align-items-center">
             <RoundPerson />
           </div>
           <div className=" py-3  ">
-            <h5>Peter Asamoah</h5>
-            <p className="text-muted fw-lighter fs-5">Kingsley Adegoke</p>
+            <h5>{`${sacrament?.priest?.firstName} ${sacrament?.priest?.lastName}`}</h5>
+            <p className="text-muted fw-lighter ">Sacrament Priest</p>
           </div>
           <div className=" py-3  px-4 d-flex flex-column justify-content-center align-items-center">
             <BlueParish />
           </div>
           <div className=" py-3  ">
-            <h5>Bishop Jane James</h5>
-            <p className="text-muted fw-lighter fs-5 ">
-              Fountain of life and truth
-            </p>
+            <h5>{sacrament?.parish?.name}</h5>
+            <p className="text-muted fw-lighter ">Parish</p>
           </div>
+          {sacrament?.godParent && (
+            <>
+              <div className=" py-3  px-4 d-flex flex-column justify-content-center align-items-center">
+                <BlueParish />
+              </div>
+              <div className=" py-3  ">
+                <h5>
+                  {sacrament?.godParent?.firstName}{" "}
+                  {sacrament?.godParent?.lastName}
+                </h5>
+                <p className="text-muted fw-lighter ">God Parent</p>
+              </div>
+            </>
+          )}
         </div>
       </Modal>
     </>

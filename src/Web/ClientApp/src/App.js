@@ -50,14 +50,16 @@ function App() {
 
           {/* home */}
           <Route
-            path="/"
-            exact
+            path="/*"
+            // exact
             element={
               <RequireAuth redirectTo="/login">
                 <Home />
               </RequireAuth>
             }
           />
+
+          {/* <Route path="/*" element={} /> */}
 
           {/* Units */}
           <Route
