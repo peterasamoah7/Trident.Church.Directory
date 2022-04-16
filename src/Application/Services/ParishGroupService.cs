@@ -9,12 +9,15 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
+using Data.Entities;
 
 namespace Application.Services
 {
     public class ParishGroupService : IParishGroupService
     {
         private readonly ChurchContext _dbContext;
+        private readonly IMapper _mapper;
         private readonly IAuditService _auditService;
         public ParishGroupService(ChurchContext dbContext, IAuditService auditService)
         {
@@ -27,19 +30,16 @@ namespace Application.Services
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishGroupViewModel> CreateParishGroup(Guid parishId, ParishGroupViewModel viewModel)
+        public async Task CreateParishGroup(Guid parishId, CreateParishGroupModel viewModel)
         {
-            var churchGroup = ParishGroupMapping.MapEntity(viewModel);
+            var churchGroup = _mapper.Map<ParishGroup>(viewModel);
             churchGroup.ParishId = parishId;
-
             await _dbContext.ParishGroups.AddAsync(churchGroup);
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
                 AuditType.Created, $"{churchGroup.Name} Unit Added");
 
-            viewModel.Id = churchGroup.Id;
-            return viewModel;
         }
 
         /// <summary>
@@ -180,25 +180,21 @@ namespace Application.Services
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishGroupViewModel> UpdateParishGroup(ParishGroupViewModel viewModel)
+        public async Task UpdateParishGroup(UpdateParishGroupModel viewModel)
         {
-            var churchgroup = await _dbContext.ParishGroups
+            var churchGroup = await _dbContext.ParishGroups
                 .FirstOrDefaultAsync(x => x.Id == viewModel.Id);
 
-            if (churchgroup == null)
+            if (churchGroup == null)
             {
-                return null;
+                return;
             }
-
-            churchgroup = ParishGroupMapping.MapEntity(viewModel);
-
-            _dbContext.Update(churchgroup);
+            /*churchgroup = ParishGroupMapping.MapEntity(viewModel);*/
+            _mapper.Map(viewModel, churchGroup); 
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
-                AuditType.Updated, $"{churchgroup.Name} Details  Updated");
-
-            return viewModel;
+                AuditType.Updated, $"{churchGroup.Name} Details  Updated");
         }
 
         /// <summary>

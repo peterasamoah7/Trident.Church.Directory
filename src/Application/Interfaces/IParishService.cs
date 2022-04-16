@@ -13,7 +13,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        Task<ParishViewModel> CreateParish(ParishViewModel viewModel);
+        Task CreateParish(CreateParishModel viewModel);
 
         /// <summary>
         /// UpdateParish
@@ -21,7 +21,7 @@ namespace Application.Interfaces
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        Task<ParishViewModel> UpdateParish(Guid id, ParishViewModel viewModel);
+        Task UpdateParish(Guid id, UpdateParishModel viewModel);
 
         /// <summary>
         /// DeleteParish

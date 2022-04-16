@@ -14,7 +14,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        Task<ParishionerViewModel> CreateParishioner(Guid parishId, ParishionerViewModel viewModel);
+        Task CreateParishioner(Guid parishId, CreateParishionerModel viewModel);
 
         /// <summary>
         /// UpdateParishioner
@@ -22,7 +22,7 @@ namespace Application.Interfaces
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        Task<ParishionerViewModel> UpdateParishioner(Guid id, ParishionerViewModel viewModel);
+        Task UpdateParishioner(Guid id, UpdateParishionerModel viewModel);
 
         /// <summary>
         /// DeleteParishioner

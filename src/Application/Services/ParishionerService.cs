@@ -33,17 +33,13 @@ namespace Application.Services
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishionerViewModel> CreateParishioner(Guid parishId, ParishionerViewModel viewModel)
+        public async Task CreateParishioner(Guid parishId, CreateParishionerModel viewModel)
         {
-            var parishioner = ParishionerMapping.MapEntity(viewModel);
+            var parishioner = _mapper.Map<Parishioner>(viewModel);
             parishioner.ParishId = parishId;
-
             await _dbContext.Parishioners.AddAsync(parishioner);
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(AuditType.Created, $" Member {viewModel} Created");
-
-            viewModel.Id = parishioner.Id;
-            return viewModel;
         }
 
         /// <summary>
@@ -52,22 +48,22 @@ namespace Application.Services
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishionerViewModel> UpdateParishioner(Guid id, ParishionerViewModel viewModel)
+        public async Task UpdateParishioner(Guid id, UpdateParishionerModel viewModel)
         {
             var parishioner = await _dbContext.Parishioners
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (parishioner == null)
             {
-                return null;
+                return ;
             }
 
-            parishioner = ParishionerMapping.MapEntity(viewModel);
-            _dbContext.Parishioners.Update(parishioner);
+            /*parishioner = _mapper.Map<Parishioner>(viewModel);
+            _dbContext.Parishioners.Update(parishioner);*/
+            
+            _mapper.Map(viewModel, parishioner); 
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(AuditType.Updated, $"{viewModel} Details Updated");
-
-            return viewModel;
         }
 
         /// <summary>

@@ -32,16 +32,13 @@ namespace Application.Services
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishViewModel> CreateParish(ParishViewModel viewModel)
+        public async Task CreateParish(CreateParishModel viewModel)
         {
             var parish = _mapper.Map<Parish>(viewModel);
 
             await _dbContext.Parishes.AddAsync(parish);
             await _dbContext.SaveChangesAsync();
-            viewModel.Id = parish.Id;
             await _auditService.CreateAuditAsync(AuditType.Created, $" Parish {viewModel.Name} Added");
-            return viewModel;
-
         }
 
         /// <summary>
@@ -70,7 +67,7 @@ namespace Application.Services
         /// <returns></returns>
         public async Task<PageResult<IEnumerable<ParishGroupViewModel>>> GetParishGroups(Guid id, int pageNumber, int pageSize)
         {
-            var resquest = new PageRequest(pageNumber, pageSize);
+            var request = new PageRequest(pageNumber, pageSize);
 
             var parish = await _dbContext.Parishes.Include(x => x.ChurchGroups).FirstOrDefaultAsync(x => x.Id == id);
 
@@ -79,7 +76,7 @@ namespace Application.Services
             var viewModels = churchGroups.Select(x => _mapper.Map<ParishGroupViewModel>(x))
                 .ToList();
             return new PageResult<IEnumerable<ParishGroupViewModel>>
-                (viewModels, resquest.PageNumber, resquest.PageSize, count);
+                (viewModels, request.PageNumber, request.PageSize, count);
         }
 
 
@@ -183,17 +180,16 @@ namespace Application.Services
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishViewModel> UpdateParish(Guid id, ParishViewModel viewModel)
+        public async Task UpdateParish(Guid id, UpdateParishModel viewModel)
         {
             var parish = await _dbContext.Parishes.FirstOrDefaultAsync(x => x.Id == id);
             if (parish == null)
             {
-                return null;
+                return ;
             }
             _mapper.Map(viewModel, parish);
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(AuditType.Updated, $"{parish.Name} Details Updated");
-            return viewModel;
         }
     }
 }
