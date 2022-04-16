@@ -100,7 +100,7 @@ function UnitCard(props) {
           </figcaption>
         </figure>
         <Link
-          to={`view-sacrament/${props.item.id}`}
+          to={`view-sacrament/${props.item.type}`}
           className="d-flex align-items-center"
         >
           <GreenFolder />

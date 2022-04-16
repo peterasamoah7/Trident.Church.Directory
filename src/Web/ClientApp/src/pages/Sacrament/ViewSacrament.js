@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 
 //  Styles
 import "../../styles/dist/table.css";
@@ -13,81 +13,53 @@ import SvgHashTag from "../../Elements/svgs/HashTag";
 import Layout from "../../components/Layout";
 
 import axios from "axios";
+import { useContext } from "react";
+import { ErrorContext } from "../../context/ErrorContext";
 
 function ViewSacrament({ onLayoutType }) {
-  const [group, setGroup] = useState(null);
   const [members, setMembers] = useState(null);
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
-  const deleteModalRef = useRef();
+  const [page, setPage] = useState(1);
+  const { showError } = useContext(ErrorContext);
 
-  const showDeleteModal = () => {
-    deleteModalRef.current.classList.toggle("modal__hidden");
-  };
+  let { id } = useParams();
+  const navigate = useNavigate();
 
-  let params = useParams();
-  let id = params.id;
+  const getSacramentMembers = async (path, query = "") => {
+    try {
+      const request = await axios.get(
+        `/api/sacrament/getparishioners/${id}?query=${query}&${
+          path?.length ? path : `pageNumber=${page}&pageSize=10`
+        }`
+      );
 
-  useEffect(() => {
-    axios.get(`/api/parishgroup/get/${id}`).then((response) => {
-      if (response.status === 200) {
-        setGroup(response.data);
-        setMembers(response.data.parishioners);
-        setNextPage(response.data.parishioners.nextPage);
-        setPrevPage(response.data.parishioners.previousPage);
-      } else {
-        //show error
+      if (request.status == 200) {
+        const data = request.data;
+        setMembers(() => data.data);
+        setNextPage(() => data.nextPage?.slice(1, data.nextPage?.length));
+        setPrevPage(() =>
+          data.previousPage?.slice(1, data.previousPage?.length)
+        );
       }
-    });
-  }, []);
-
-  const searchMember = (query) => {
-    axios.get(`/api/parishgroup/getall/query=${query}`).then((response) => {
-      if (response.status === 200) {
-        setMembers(null);
-        setMembers(response.data);
-        setNextPage(response.data.nextPage);
-        setPrevPage(response.data.previousPage);
-      } else {
-        //show errors
-      }
-    });
+    } catch (error) {
+      showError();
+    }
   };
 
-  const deletemember = (memberId) => {
-    axios
-      .post(`api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`)
-      .then((response) => {
-        if (response.status === 200) {
-          getMembers();
-        } else {
-          //show errors
-        }
-      });
-  };
+  const searchMember = (query) => getSacramentMembers(null, query);
 
   const next = () => {
-    getMembers(nextPage);
+    searchMember(nextPage);
   };
 
   const prev = () => {
-    getMembers(prevPage);
+    searchMember(prevPage);
   };
 
-  const getMembers = (path) => {
-    axios
-      .get(`/api/parishgroup/getparishioners/${id}/${path}`)
-      .then((response) => {
-        if (response.status === 200) {
-          setMembers(null);
-          setMembers(response.data);
-          setNextPage(response.data.nextPage);
-          setPrevPage(response.data.previousPage);
-        } else {
-          //show errors
-        }
-      });
-  };
+  useEffect(() => {
+    getSacramentMembers();
+  }, []);
 
   return (
     <Layout>
@@ -96,65 +68,19 @@ function ViewSacrament({ onLayoutType }) {
           <div className="d-flex align-items-start" style={{ gap: "1rem" }}>
             <SvgHashTag style={{ color: "var(--bs-hash3)" }} />
             <div>
-              <h5 className="mb-1">{group?.name}</h5>
+              <h5 className="mb-1 text-capitalize">{id}</h5>
             </div>
           </div>
-          <Link to="/groups" className="text-decoration-none">
+          <Link to="/sacrament" className="text-decoration-none">
             &lt; Back to Sacraments Overview
           </Link>
         </header>
 
-        <p className="m-0 text-muted">{group?.description}</p>
-
-        <div className="d-flex align-items-center justify-content-between">
-          {/* <div className="d-flex align-items-center my-4 border-bottom border-white border-2">
-            <figure className="d-flex align-items-center">
-              <Person
-                width="1em"
-                height="1em"
-                className="text-primary"
-                opacity={1}
-              />
-              <figcaption className="ms-2">
-                <span>{group?.memberCount}</span> members
-              </figcaption>
-            </figure>
-            <Link to={`/groups/add-member/${group?.id}`} className=" ms-5">
-              <figure className="d-flex align-items-center">
-                <GreenPlus />
-                <figcaption className="ms-3">
-                  <span className="ps-3 border-start border-primary">
-                    Add a new member
-                  </span>
-                </figcaption>
-              </figure>
-            </Link>
-          </div> */}
-
-          {/* <div>
-            <figure
-              className="d-flex align-items-center deleteGroup"
-              onClick={showDeleteModal}
-            >
-              <GreenPlus fill={"var(--bs-danger)"} />
-              <figcaption className="ms-3">
-                <span className="ps-3 border-start border-primary deleteGroup">
-                  Delete Group
-                </span>
-              </figcaption>
-            </figure>
-            <DeleteGroupModal
-              modalRef={deleteModalRef}
-              groupName={group?.name}
-              groupId={group?.id}
-              handleDeleteFunc={() => console.log("Group Deleted")}
-            />
-          </div> */}
-        </div>
+        <div className="d-flex align-items-center justify-content-between"></div>
 
         <section className="my-4 d-flex align-items-center justify-content-between">
           <div className="col-4">
-            <SearchInput />
+            <SearchInput handleSearch={searchMember} />
           </div>
         </section>
 
@@ -176,23 +102,27 @@ function ViewSacrament({ onLayoutType }) {
             </thead>
             <tbody>
               {members &&
-                members.data.map((item, index) => {
+                members.map((member, index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <tr>
                         <td className="num text-center">{index + 1}.</td>
                         <td>
-                          {item.firstName} {item.lastName}
+                          {member.firstName} {member.lastName}
                         </td>
-                        <td>{item.type}</td>
-                        <td>{item.location}</td>
-                        <td>{item.phoneNumber}</td>
-                        <td>{item.occupation}</td>
+                        <td>{member.type}</td>
+                        <td>{member.location}</td>
+                        <td>{member.phoneNumber}</td>
+                        <td>{member.occupation}</td>
                         <td>
-                          <EllipseNModal />
+                          <EllipseNModal
+                            onView={() =>
+                              navigate(`/members/view-member/${member.id}`)
+                            }
+                          />
                         </td>
                       </tr>
-                    </>
+                    </React.Fragment>
                   );
                 })}
             </tbody>
@@ -207,7 +137,7 @@ function ViewSacrament({ onLayoutType }) {
                       className="ms-5"
                     >
                       <option value="10" className="">
-                        {members && members.data.length}
+                        10
                       </option>
                     </select>
                     <div className="tableNav ms-4">

@@ -58,7 +58,7 @@ function EditUnit(props) {
     // call api here
     try {
       setLoading(() => true);
-      const request = await axios.put("/api/parishgroup/update", data);
+      const request = await axios.put(`/api/parishgroup/update/${id}`, data);
 
       if (request.status == 200 || request.status == 201) {
         modalRef.current.classList.toggle("modal__hidden");
@@ -89,15 +89,15 @@ function EditUnit(props) {
         </header>
 
         <form
-          class="bg-white shadow-sm border-muted mt-5 rounded-1"
+          className="bg-white shadow-sm border-muted mt-5 rounded-1"
           onSubmit={handleSubmit}
         >
-          <p class="text-muted py-3 px-4 border-bottom me-5">
+          <p className="text-muted py-3 px-4 border-bottom me-5">
             Edit the detail for a Group
           </p>
 
           <div
-            class="inputs d-flex flex-column px-4 pb-4"
+            className="inputs d-flex flex-column px-4 pb-4"
             style={{
               gap: "2rem",
             }}
@@ -123,16 +123,16 @@ function EditUnit(props) {
               setValue={setGroupDescription}
             />
 
-            <div class="submits d-flex justify-content-between">
+            <div className="submits d-flex justify-content-between">
               <Link to={`/groups/view-group/${id}`}>
-                <button class="btn btn-outline-primary px-5 py-2">
+                <button className="btn btn-outline-primary px-5 py-2">
                   Cancel
                 </button>
               </Link>
               <input
                 type="submit"
                 value="Create"
-                class="btn btn-primary px-5 py-2"
+                className="btn btn-primary px-5 py-2"
                 disabled={loading}
               />
             </div>
