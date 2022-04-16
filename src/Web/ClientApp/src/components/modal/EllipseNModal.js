@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 
 // components
 import Modal from "./Modal";
@@ -14,6 +14,16 @@ function EllipseNModal(props) {
   const ellipseRef = useRef();
   const modalRef = useRef();
 
+  const { editable, deletable } = props;
+
+  useEffect(() => {
+    window.addEventListener("click", (e) => {
+      if (!Array.of(...e.target.classList).includes("ellpise")) {
+        setClicked(() => false);
+      }
+    });
+  }, []);
+
   //
   return (
     <>
@@ -24,7 +34,7 @@ function EllipseNModal(props) {
         }}
       >
         <Ellipses
-          className="fs-2 btn p-0"
+          className="fs-2 btn p-0 ellpise"
           onClick={() => {
             setClicked(!clicked);
           }}
@@ -45,6 +55,7 @@ function EllipseNModal(props) {
             className="btn py-2 m-0"
             style={{
               cursor: "pointer",
+              display: editable ? "initial" : "none"
             }}
             onClick={() => {
               setClicked(false);
@@ -57,6 +68,8 @@ function EllipseNModal(props) {
             className="btn py-2 m-0"
             style={{
               cursor: "pointer",
+              display: deletable ? "initial" : "none"
+
             }}
             onClick={() => {
               modalRef.current.classList.remove("modal__hidden");

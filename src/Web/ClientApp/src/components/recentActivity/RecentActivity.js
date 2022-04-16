@@ -23,8 +23,8 @@ function RecentActivity(props) {
     <section
       className={
         props.type === "full"
-          ? "recent-activities px-0 py-0 bg-white rounded-3 border-muted border border-1"
-          : "recent-activities px-4 py-3 bg-white rounded-3 border-muted border border-1"
+          ? "recent-activities px-0 py-0 bg-white rounded-3 border-muted border border-1 mt-5"
+          : "recent-activities px-4 py-3 bg-white rounded-3 border-muted border border-1 mt-5"
       }
       style={{
         minHeight: "100%",
@@ -44,14 +44,15 @@ function RecentActivity(props) {
       <div className="activities d-flex flex-column justify-content-between">
         {props.data &&
           props.data.map((activity) => {
-            let { id, message, date } = activity;
+            let { id, message, date, type } = activity;
             return (
               <Activity
                 key={id}
                 details={message}
                 date={date}
-                icon="roundPen"
-                iconColor="green"
+                // icon="roundPen"
+                // iconColor="green"
+                type={type}
               />
             );
           })}

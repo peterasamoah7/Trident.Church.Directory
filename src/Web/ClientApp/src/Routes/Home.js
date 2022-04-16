@@ -6,6 +6,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import InviteMember from "../pages/InviteMember/InviteMember";
 import AdminUsersList from "../pages/AdminList/AdminUsersList";
 import RecentActivities from "../pages/RecentActivities/RecentActivities";
+import NotfoundPage from "../components/404";
 
 function Home() {
   return (

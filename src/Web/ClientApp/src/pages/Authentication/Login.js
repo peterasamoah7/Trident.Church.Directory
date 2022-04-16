@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import CheckboxInput from "../../components/inputs/specialInputs/CheckboxInput";
 import EmailInput from "../../components/inputs/specialInputs/EmailInput";
 import PasswordInput from "../../components/inputs/specialInputs/PasswordInput";
@@ -15,21 +15,32 @@ const Login = () => {
   let location = useLocation();
   let navigate = useNavigate();
 
+  const [authError, setAuthError] = useState(false)
+
   const formik = useFormik({
     initialValues: {
       email: "",
       password: "",
       rememberUser: false,
     },
-    onSubmit: (values) => {
-      axios.post(`/api/account/login`, { ...values }).then((response) => {
+    onSubmit: async(values) => {
+      console.log("entered")
+      try {
+        
+        const response = await axios.post(`/api/account/login`, { ...values })
+
         if (response.status === 200) {
           setAuthCookie();
           navigate(from, { replace: true });
         } else {
           //handle errors.
+          setAuthError(true)
         }
-      });
+      
+      } catch (error) {
+        console.log("occurred")
+        setAuthError(true)
+      }
     },
     validate: (values) => {
       let errors = {
@@ -38,44 +49,44 @@ const Login = () => {
       };
 
       // email
-      if (!values.email) {
-        errors.email = [
-          { msg: "Please enter your email address", type: "bad" },
-        ];
-      } else if (
-        !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
-      ) {
-        errors.email = [
-          { msg: "Please enter a valid email address", type: "bad" },
-        ];
-      }
+      // if (!values.email) {
+      //   errors.email = [
+      //     { msg: "Please enter your email address", type: "bad" },
+      //   ];
+      // } else if (
+      //   !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)
+      // ) {
+      //   errors.email = [
+      //     { msg: "Please enter a valid email address", type: "bad" },
+      //   ];
+      // }
 
       // password
-      if (!values.password) {
-        errors.password = [{ msg: "Please enter your password", type: "bad" }];
-      }
-      if (values.password.length < 8) {
-        errors.password.push({
-          msg: "The password must be at least 8 characters long",
-          type: "bad",
-        });
-      }
-      if (!/[!@#$%^&*]+/.test(values.password)) {
-        errors.password.push({
-          msg: "Please choose a strong password that includes at least 1 lowercase and uppercase letter, a number, as well as a special character (!@#$%^&*)",
-          type: "bad",
-        });
-      } else if (!/[\d]+/.test(values.password)) {
-        errors.password.push({
-          msg: "Please choose a strong password that includes at least 1 lowercase and uppercase letter, a number, as well as a special character (!@#$%^&*)",
-          type: "bad",
-        });
-      } else if (!/[\w]+/.test(values.password)) {
-        errors.password.push({
-          msg: "Please choose a strong password that includes at least 1 lowercase and uppercase letter, a number, as well as a special character (!@#$%^&*)",
-          type: "bad",
-        });
-      }
+      // if (!values.password) {
+      //   errors.password = [{ msg: "Please enter your password", type: "bad" }];
+      // }
+      // if (values.password.length < 8) {
+      //   errors.password.push({
+      //     msg: "The password must be at least 8 characters long",
+      //     type: "bad",
+      //   });
+      // }
+      // if (!/[!@#$%^&*]+/.test(values.password)) {
+      //   errors.password.push({
+      //     msg: "Please choose a strong password that includes at least 1 lowercase and uppercase letter, a number, as well as a special character (!@#$%^&*)",
+      //     type: "bad",
+      //   });
+      // } else if (!/[\d]+/.test(values.password)) {
+      //   errors.password.push({
+      //     msg: "Please choose a strong password that includes at least 1 lowercase and uppercase letter, a number, as well as a special character (!@#$%^&*)",
+      //     type: "bad",
+      //   });
+      // } else if (!/[\w]+/.test(values.password)) {
+      //   errors.password.push({
+      //     msg: "Please choose a strong password that includes at least 1 lowercase and uppercase letter, a number, as well as a special character (!@#$%^&*)",
+      //     type: "bad",
+      //   });
+      // }
 
       let newPassworderrs = [];
       let newEmailErrs = [];
@@ -129,6 +140,14 @@ const Login = () => {
                   );
                 })
               : null}
+
+              {
+                authError ?
+                  <li className={"bad"}>
+                      Invalid Credientials Provided, Please Try Again
+                    </li>
+                    : null
+              }
           </section>
           <header className="mb-2">
             <h4 className="mb-1">Login</h4>
@@ -138,7 +157,7 @@ const Login = () => {
           </header>
           <form onSubmit={formik.handleSubmit} className="d-flex flex-column">
             <EmailInput
-              // required
+              required
               name="email"
               {...formik.getFieldProps("email")}
               errors={formik.touched.email && formik.errors.email ? [] : null}

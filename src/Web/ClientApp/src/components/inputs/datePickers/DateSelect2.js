@@ -6,14 +6,22 @@ import "../../../styles/dist/datepicker.min.css";
 import "./dateSelect2.css";
 
 import Calendar from "../../../Elements/svgs/Calendar";
+import { useEffect } from "react";
 
 function DateSelect(props) {
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(props.date ?? null);
+
+  useEffect(() => {
+    setDate(() => props.date);
+  }, [props.date]);
+
   return (
     <Datepicker
-      selected={date}
+      selected={date && new Date(props.date)}
+      value={date && new Date(props.date)}
       onChange={(newDate) => {
         setDate(newDate);
+        props.setDate(newDate);
       }}
       customInput={
         <DateInput
@@ -22,7 +30,7 @@ function DateSelect(props) {
           type="text"
           className={props.inputContainerClass}
           large
-          label="Date of Birth"
+          label={props.label || "Date of Birth"}
         ></DateInput>
       }
       dateFormat={"dd MMMM yyyy"}

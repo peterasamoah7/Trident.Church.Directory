@@ -1,5 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useFormik } from "formik";
+import { useNavigate } from "react-router-dom";
 
 // components
 import Modal from "../modal/Modal";
@@ -10,12 +11,16 @@ import EmailInput from "../inputs/specialInputs/EmailInput";
 import RoundPen from "../../Elements/svgs/RoundPen";
 import BlueTick from "../../Elements/svgs/BlueTick";
 import axios from "axios";
+import SvgLogout from "../../Elements/Logout";
+import { removeAuthCookie } from "../../services/auth";
 
 function UserPopup({ modalRef }) {
   const usernameRef = useRef();
   const usernameSuccessref = useRef();
   const passwordRef = useRef();
   const passwordSuccess = useRef();
+
+  const router = useNavigate()
 
   function handleEditUserName() {
     modalRef.current.classList.add("modal__hidden");
@@ -27,6 +32,11 @@ function UserPopup({ modalRef }) {
     // show next modal
     passwordRef.current.classList.toggle("modal__hidden");
   };
+
+  const handleLogout = () =>{
+    removeAuthCookie()
+    router("/")
+  }
 
   function Start() {
     return (
@@ -59,6 +69,19 @@ function UserPopup({ modalRef }) {
             <RoundPen className="text-success" />
             <span className="ms-2 ps-2 border-start border-2 border-primary">
               Change Password
+            </span>
+          </p>
+
+          <p
+            className="d-flex align-items-center justify-content-between m-0 text-primary"
+            style={{
+              cursor: "pointer",
+            }}
+            onClick={handleLogout}
+          >
+            <SvgLogout className="text-danger" />
+            <span className="ms-2 ps-2 border-start border-2 border-primary text-danger">
+              Logout
             </span>
           </p>
         </div>

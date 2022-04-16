@@ -18,22 +18,19 @@ import axios from "axios";
 
 //
 function FilledState(props) {
-
   const params = useParams();
 
   const [member, setMember] = useState(null);
-  
+
   useEffect(() => {
-    axios.get(`/api/parishioner/get/${params.id}`)
-      .then((response) => {
-        if(response.status === 200){
-          setMember(response.data);
-          console.log(response.data);
-        }else{
-          //show errors
-        }
-      })
-  }, [])
+    axios.get(`/api/parishioner/get/${params.id}`).then((response) => {
+      if (response.status === 200) {
+        setMember(response.data);
+      } else {
+        //show errors
+      }
+    });
+  }, []);
 
   return (
     <Layout type={1}>
@@ -44,16 +41,21 @@ function FilledState(props) {
               <h5 className="member-name m-0 col-6">
                 {member?.firstName} {member?.lastName}
               </h5>
-              <a href={`tel:${member?.phoneNumber}`} className="p-0 btn col-1 me-2">
+              <a
+                href={`tel:${member?.phoneNumber}`}
+                className="p-0 btn col-1 me-2"
+              >
                 <BluePhone />
               </a>
               <a href="mailto:email@example.com" className="p-0 btn col-1 me-2">
                 <BlueMail />
               </a>
             </div>
-            <div className="summary-info col-12 mt-3 text-muted d-flex flex-column align-items-start gx-3">
+            <div className="summary-info col-12 mt-3  d-flex flex-column align-items-start gx-3">
               <div>
-                <span className="is-member me-2">{member?.type || "Member"}</span>
+                <span className="is-member me-2">
+                  {member?.type || "Member"}
+                </span>
                 <span className="fs-5 me-1">&bull;</span>
                 <span className="parish-name">
                   {/* Fountain of life and Truth */}
@@ -62,7 +64,7 @@ function FilledState(props) {
               <p className="mt-2">Member since May, 2016</p>
             </div>
           </section>
-          <section className="member-details-2 text-muted mt-0 pt-0 p-4 bg-white flex-fill container-fluid">
+          <section className="member-details-2  mt-0 pt-0 p-4 bg-white flex-fill container-fluid">
             <div className="basic-information row row-cols-2 g-3 align-items-start mt-0 pt-0">
               <header className="d-flex justify-content-start align-items-center py-2 border-bottom border-2 col-12">
                 <Info />
@@ -91,31 +93,52 @@ function FilledState(props) {
             </header>
             <section className="detail detail__home-address d-flex flex-column align-items-start justify-content-center">
               <h6 className="detail-title text-muted">Home Address</h6>
-              <p className="detail info">
-                {member?.homeAddress}
-              </p>
+              <p className="detail info">{member?.homeAddress}</p>
             </section>
-            {/* <div className="row align-items-start mt-3">
-              <section className="detail detail__father d-flex flex-column align-items-start justify-content-center col-4">
-                <h6 className="detail-title text-muted">Father</h6>
-                <p className="detail info">{member?.father?.firstName} {member?.father?.lastName}</p>
-              </section>
-              <section className="detail detail__mother d-flex flex-column align-items-start justify-content-center col-4">
-                <h6 className="detail-title text-muted">Mother</h6>
-                <p className="detail info">{member?.mother?.firstName} {member?.mother?.lastName}</p>
-              </section>
-              <section className="detail detail__spouse d-flex flex-column align-items-start justify-content-center col-4">
-                <h6 className="detail-title text-muted">Spouse</h6>
-                <p className="detail info">{member?.partner?.firstName} {member?.partner?.lastName}</p>
-              </section>
-            </div> */}
+            <div className="">
+              {member?.father && (
+                <section className="detail detail__father d-flex flex-column align-items-start justify-content-center col-4">
+                  <h6 className="detail-title ">Father</h6>
+                  <p className="detail info">
+                    {member?.father?.firstName} {member?.father?.lastName}
+                  </p>
+                </section>
+              )}
+              {member?.mother && (
+                <section className="detail detail__mother d-flex flex-column align-items-start justify-content-center col-4">
+                  <h6 className="detail-title ">Mother</h6>
+                  <p className="detail info">
+                    {member?.mother?.firstName} {member?.mother?.lastName}
+                  </p>
+                </section>
+              )}
+              {member?.partner && (
+                <section className="detail detail__spouse d-flex flex-column align-items-start justify-content-center col-4">
+                  <h6 className="detail-title ">Spouse</h6>
+                  <p className="detail info">
+                    {member?.partner?.firstName} {member?.partner?.lastName}
+                  </p>
+                </section>
+              )}
+
+              {(member?.father == undefined ||
+                member?.mother == undefined ||
+                member?.partner == undefined) && (
+                <Link to="add-relative">
+                  <button className="btn btn-primary">Add a relative</button>
+                </Link>
+              )}
+            </div>
           </section>
         </div>
 
         <section className="units-and-sacrament py-1s d-flex flex-column ms-4 flex-fill align-items-start">
           <div className="d-flex align-items-center justify-content-between col-12">
             <p>
-              <Link to="" className="m-0 p-0 d-flex align-items-center">
+              <Link
+                to={`/members/edit-member/${params.id}`}
+                className="m-0 p-0 d-flex align-items-center"
+              >
                 <GreenPen
                   size="1.7em"
                   className="text-success"
@@ -144,24 +167,28 @@ function FilledState(props) {
                 gap: "1rem",
               }}
             >
-              {member && member.parishGroups.map((item, index) => {
-                return (
-                  <section key={index + 1} className="unit bg-white rounded-3 py-3 col">
-                    <div className="border-bottom p-3 pt-2 px-3 mb-3">
-                      <h6 className="unit-title">{item.name}</h6>
-                    </div>
-                    <div className="d-flex align-items-center justify-content-start px-3">
-                      <GreenFolder />
-                      <Link
-                        to={`/groups/view-group/${item.id}`}
-                        className="border-start border-1 ps-2 ms-2 border-primary"
-                      >
-                        View Unit
-                      </Link>
-                    </div>
-                  </section>
-                );
-              })}              
+              {member &&
+                member.parishGroups.map((item, index) => {
+                  return (
+                    <section
+                      key={index + 1}
+                      className="unit bg-white rounded-3 py-3 col"
+                    >
+                      <div className="border-bottom p-3 pt-2 px-3 mb-3">
+                        <h6 className="unit-title">{item.name}</h6>
+                      </div>
+                      <div className="d-flex align-items-center justify-content-start px-3">
+                        <GreenFolder />
+                        <Link
+                          to={`/groups/view-group/${item.id}`}
+                          className="border-start border-1 ps-2 ms-2 border-primary"
+                        >
+                          View Unit
+                        </Link>
+                      </div>
+                    </section>
+                  );
+                })}
             </div>
           </section>
 
@@ -171,7 +198,7 @@ function FilledState(props) {
               <p className="m-0 p-0 d-flex align-items-center flex-fill justify-content-end">
                 <GreenPlus />
                 <Link
-                  to=""
+                  to={`add-sacrament`}
                   className="border-start border-1 border-primary ps-2 ms-2 m-0 p-0"
                 >
                   Add a new Sacrament
@@ -180,9 +207,10 @@ function FilledState(props) {
             </div>
 
             <section className="sacrment-view">
-              {member && member.sacraments.map((item, index) => {
-                return <Sacrament key={index + 1} model={item} />;
-              })}
+              {member &&
+                member.sacraments.map((item, index) => {
+                  return <Sacrament key={index} model={item} />;
+                })}
             </section>
           </section>
         </section>

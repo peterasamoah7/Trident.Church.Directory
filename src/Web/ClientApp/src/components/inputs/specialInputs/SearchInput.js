@@ -1,25 +1,17 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 
 import "../input.css";
 
 import Search from "../../../Elements/svgs/Search";
 
-function SearchInput({
-  errors,
-  large,
-  noIcon,
-  label,
-
-  //
-  name,
-  value,
-}) {
+function SearchInput({ errors, large, noIcon, label, name, handleSearch }) {
   const searchRef = useRef();
 
-  function handleSearch(e) {
-    e.preventDefault();
+  const [searchValue, setSearchValue] = useState("");
 
-    console.log(searchRef.current.value);
+  async function handleSearchEvent(e) {
+    e.preventDefault();
+    if (handleSearch instanceof Function) await handleSearch(searchValue);
   }
 
   return (
@@ -27,7 +19,7 @@ function SearchInput({
       className={`input-container input-container__search ${
         large ? "input-container__lg" : ""
       } ${noIcon ? "icon-0" : ""} ${errors ? "input-error" : ""}`}
-      onSubmit={handleSearch}
+      onSubmit={handleSearchEvent}
     >
       <label>
         <Search className="icon-one" />
@@ -38,10 +30,10 @@ function SearchInput({
             placeholder=" "
             name={name}
             ref={searchRef}
+            value={searchValue}
+            onChange={(e) => setSearchValue(e.target.value)}
           />
-          <span className="input-label">
-            {label || "Search by name location or priest"}
-          </span>
+          <span className="input-label">{label || "Search"}</span>
           <button className="btn btn-secondary" type="submit">
             search
           </button>

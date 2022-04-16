@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 
 //  Styles
 import "../../styles/dist/table.css";
@@ -10,25 +10,16 @@ import SearchInput from "../../components/inputs/specialInputs/SearchInput";
 
 // Elements
 import SvgHashTag from "../../Elements/svgs/HashTag";
-import Person from "../../Elements/svgs/Person";
-import GreenPlus from "../../Elements/svgs/GreenPlus";
-import RedCross from "../../Elements/svgs/RedCross";
 import Layout from "../../components/Layout";
 
 import axios from "axios";
-import DeleteGroupModal from "../../components/modal/DeleteGroupModal";
-import SvgRoundPen from "../../Elements/svgs/RoundPen";
-import { useContext } from "react";
-import { ErrorContext } from "../../context/ErrorContext";
 
-function ViewUnit({ onLayoutType }) {
+function ViewSacrament({ onLayoutType }) {
   const [group, setGroup] = useState(null);
   const [members, setMembers] = useState(null);
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
   const deleteModalRef = useRef();
-  const { showError } = useContext(ErrorContext);
-  const navigate = useNavigate();
 
   const showDeleteModal = () => {
     deleteModalRef.current.classList.toggle("modal__hidden");
@@ -37,61 +28,42 @@ function ViewUnit({ onLayoutType }) {
   let params = useParams();
   let id = params.id;
 
-  const fetchGroup = async () => {
-    try {
-      const request = await axios.get(`/api/parishgroup/get/${id}`);
-      if (request.status == 200) {
-        setGroup(request.data);
-        setMembers(request.data.parishioners);
-        setNextPage(request.data.parishioners.nextPage);
-        setPrevPage(request.data.parishioners.previousPage);
-      }
-    } catch (error) {
-      showError("An Unexpected error occured");
-    }
-  };
-
   useEffect(() => {
-    fetchGroup();
+    axios.get(`/api/parishgroup/get/${id}`).then((response) => {
+      if (response.status === 200) {
+        setGroup(response.data);
+        setMembers(response.data.parishioners);
+        setNextPage(response.data.parishioners.nextPage);
+        setPrevPage(response.data.parishioners.previousPage);
+      } else {
+        //show error
+      }
+    });
   }, []);
 
-  const searchMember = async (query) => {
-    try {
-      const request = await axios.get(`/api/parishgroup/getall/query=${query}`);
-      if (request.status == 200) {
-        setMembers(request.data);
-        setNextPage(request.data.nextPage);
-        setPrevPage(request.data.previousPage);
+  const searchMember = (query) => {
+    axios.get(`/api/parishgroup/getall/query=${query}`).then((response) => {
+      if (response.status === 200) {
+        setMembers(null);
+        setMembers(response.data);
+        setNextPage(response.data.nextPage);
+        setPrevPage(response.data.previousPage);
+      } else {
+        //show errors
       }
-    } catch (error) {
-      showError("An Unexpected error occured");
-    }
+    });
   };
 
-  const deletemember = async (memberId) => {
-    try {
-      const request = await axios.post(
-        `/api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`
-      );
-      if (request.status == 200) {
-        getMembers();
-      }
-    } catch (error) {
-      showError("An Unexpected error occured");
-    }
-  };
-
-  const deleteGroup = async () => {
-    try {
-      const request = await axios.delete(`/api/parishgroup/delete/${id}`);
-
-      if (request.status == 204 || request.status == 200) {
-        showError("Successfull Delete Group", "success");
-        navigate("/groups");
-      }
-    } catch (error) {
-      showError("Sorry could not perform delete operation");
-    }
+  const deletemember = (memberId) => {
+    axios
+      .post(`api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`)
+      .then((response) => {
+        if (response.status === 200) {
+          getMembers();
+        } else {
+          //show errors
+        }
+      });
   };
 
   const next = () => {
@@ -128,14 +100,14 @@ function ViewUnit({ onLayoutType }) {
             </div>
           </div>
           <Link to="/groups" className="text-decoration-none">
-            &lt; Back to Groups Overview
+            &lt; Back to Sacraments Overview
           </Link>
         </header>
 
         <p className="m-0 text-muted">{group?.description}</p>
 
         <div className="d-flex align-items-center justify-content-between">
-          <div className="d-flex align-items-center my-4 border-bottom border-white border-2">
+          {/* <div className="d-flex align-items-center my-4 border-bottom border-white border-2">
             <figure className="d-flex align-items-center">
               <Person
                 width="1em"
@@ -157,19 +129,9 @@ function ViewUnit({ onLayoutType }) {
                 </figcaption>
               </figure>
             </Link>
-            <Link to={`/groups/edit-group/${group?.id}`} className=" ms-5">
-              <figure className="d-flex align-items-center">
-                <SvgRoundPen />
-                <figcaption className="ms-3">
-                  <span className="ps-3 border-start border-primary">
-                    Edit Group
-                  </span>
-                </figcaption>
-              </figure>
-            </Link>
-          </div>
+          </div> */}
 
-          <div style={{ cursor: "pointer" }}>
+          {/* <div>
             <figure
               className="d-flex align-items-center deleteGroup"
               onClick={showDeleteModal}
@@ -185,9 +147,9 @@ function ViewUnit({ onLayoutType }) {
               modalRef={deleteModalRef}
               groupName={group?.name}
               groupId={group?.id}
-              handleDeleteFunc={deleteGroup}
+              handleDeleteFunc={() => console.log("Group Deleted")}
             />
-          </div>
+          </div> */}
         </div>
 
         <section className="my-4 d-flex align-items-center justify-content-between">
@@ -271,4 +233,4 @@ function ViewUnit({ onLayoutType }) {
   );
 }
 
-export default ViewUnit;
+export default ViewSacrament;

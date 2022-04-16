@@ -29,6 +29,7 @@ const Dashboard = ({ onLayoutType }) => {
         //show error message
       }
     });
+    return ()=> []
   }, []);
 
   return (

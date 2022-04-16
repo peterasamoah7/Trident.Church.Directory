@@ -7,47 +7,33 @@ import RoundPen from "../../Elements/svgs/RoundPen";
 
 //
 function Activity(props) {
-  let { details, date, icon, iconColor, type } = props;
+  let { details, date, type } = props;
 
-  function getIconColor() {
-    switch (iconColor) {
-      case "yellow":
-        return "var(--bs-yellow1)";
-      case "lightBlue":
-        return "var(--bs-info)";
-      case "violet":
-        return "var(--bs-hash3)";
-      case "purple":
-        return "var(--bs-hash3)";
-
-      default:
-        return "var(--bs-primary)";
-    }
-  }
   function getIcon() {
-    switch (icon) {
-      case "greenChat":
+    switch (type) {
+      case "Updated":
         return (
           <GreenChat2
             style={{
               width: "28px",
               height: "28px",
+              color: `var(--bs-info)`
             }}
           />
         );
-      case "roundPen":
+      case "Created":
         return (
           <RoundPen
             style={{
-              color: `${getIconColor()}`,
+              color: `var(--bs-yellow1)`,
             }}
           />
         );
-      case "roundFlag":
+      case "Deleted":
         return (
           <RoundFlag
             style={{
-              color: `${getIconColor()}`,
+              color: `var(--bs-hash3)`,
             }}
           />
         );
@@ -76,7 +62,7 @@ function Activity(props) {
               gap: "0.5rem",
               height: "100%",
               alignItems: "center",
-              paddingBlock: "1.5em",
+              paddingBlock: "1em",
 
               paddingInline: "1.5rem",
               borderBottom: "2px solid var(--bs-bg-body)",
@@ -87,7 +73,7 @@ function Activity(props) {
               gridTemplateColumns: "2rem 1fr auto",
               gap: "0.5rem",
               height: "100%",
-              paddingBlock: "1.5em",
+              paddingBlock: "1em",
             }
       }
     >

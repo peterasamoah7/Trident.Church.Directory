@@ -11,6 +11,9 @@ import MembersAddContactInfo from "../pages/Members/AddMembers/ContactInformatio
 
 // profile view
 import FilledState from "../pages/Members/profileView/FilledState";
+import AddRelative from "../pages/Members/AddFamilyRelatives";
+import AddSacrament from "../pages/Members/AddSacrament";
+import EditMember from "../pages/Members/AddMembers/EditMember";
 
 function MembersRoute() {
   return (
@@ -18,12 +21,14 @@ function MembersRoute() {
       <Route index element={<Members />} />
       <Route path="add-member">
         <Route index element={<MembersAddBasicInfo />} />
-        <Route path="contact-info" element={<MembersAddContactInfo />} />
+        {/* <Route path="contact-info" element={<MembersAddContactInfo />} /> */}
       </Route>
 
-      <Route path="edit-member/:id" element={<EditMembers />}></Route>
+      <Route path="edit-member/:id" element={<EditMember />}></Route>
       <Route path="view-member/:id" element={<ViewMember />} />
       <Route path="view-member" element={<FilledState />} />
+      <Route path="view-member/:id/add-relative" element={<AddRelative />} />
+      <Route path="view-member/:id/add-sacrament" element={<AddSacrament />} />
     </Routes>
   );
 }
@@ -48,6 +53,5 @@ function EditMembers() {
 }
 
 function ViewMember() {
-
   return <FilledState />;
 }

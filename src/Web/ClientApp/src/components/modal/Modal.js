@@ -10,11 +10,17 @@ function Modal(props) {
     }
   }
 
+  const closeWithContainer = (e) =>{
+    if (e.target.classList.contains("modal-container")){
+      props.refer.current.classList.add("modal__hidden")
+    }
+  }
+
   return (
     <div
       ref={props.refer}
       className="modal-container modal__hidden px-0"
-      onClick={closeModal}
+      onClick={closeWithContainer}
     >
       <section className="modal-content bg-white rounded-3">
         {props.noClose ? (

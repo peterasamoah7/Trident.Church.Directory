@@ -22,15 +22,15 @@ function SummaryCard(props) {
       icon: <VioletPerson />,
     },
     units: {
-      name: "Units",
-      linkName: "Units",
-      link: "/units",
+      name: "Groups",
+      linkName: "Groups",
+      link: "/groups",
       icon: <YellowPeople />,
     },
     sacraments: {
       name: "Sacraments",
-      linkName: "Parish",
-      link: "/parish",
+      linkName: "Sacraments",
+      link: "/sacrament",
       icon: <LightBluePeopleChatting />,
     },
   };
@@ -56,7 +56,7 @@ function SummaryCard(props) {
       >
         <GreenFolder />
         <span className="border-start border-primary border-1 ms-3 ps-3">
-          View {cardType[props.type].linkName}
+          View
         </span>
       </Link>
     </section>
