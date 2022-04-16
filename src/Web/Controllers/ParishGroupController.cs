@@ -40,8 +40,9 @@ namespace Web.Controllers
         /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ParishGroupViewModel>> Update(ParishGroupViewModel viewModel)
+        public async Task<ActionResult<ParishGroupViewModel>> Update(Guid id, ParishGroupViewModel viewModel)
         {
+            viewModel.Id = id;
             return await _parishGroupService.UpdateParishGroup(viewModel);
         }
 

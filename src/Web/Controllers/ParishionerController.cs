@@ -43,6 +43,7 @@ namespace Web.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ParishionerViewModel>> Update(Guid id, ParishionerViewModel viewModel)
         {
+            viewModel.Id = id;
             return await _parishionerService.UpdateParishioner(id, viewModel);
         }
 
