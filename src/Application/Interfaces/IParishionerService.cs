@@ -1,6 +1,7 @@
 ﻿using Core.Enums;
 using Core.Models;
 using Core.Pagination;
+using Data.Models;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
@@ -45,7 +46,7 @@ namespace Application.Interfaces
         /// <param name="pageNumber"></param>
         /// <param name="pageSize"></param>
         /// <returns></returns>
-        Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(Guid parishId, string query, int pageNumber, int pageSize);
+        Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(Guid parishId, ParishionerType type, string query, int pageNumber, int pageSize);
 
         /// <summary>
         /// Add Sacrament

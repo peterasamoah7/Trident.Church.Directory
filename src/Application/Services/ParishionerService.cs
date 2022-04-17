@@ -152,7 +152,7 @@ namespace Application.Services
         /// <param name="pageSize"></param>
         /// <returns></returns>
         public async Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(
-             Guid parishId, string query, int pageNumber, int pageSize)
+             Guid parishId, ParishionerType type, string query, int pageNumber, int pageSize)
         {
             var pageRequest = new PageRequest(pageNumber, pageSize);
 
@@ -165,6 +165,7 @@ namespace Application.Services
 
             var parishioners = await _dbContext.Parishioners
                 .Where(x => x.ParishId == parishId)
+                .Where(x => x.Type == type)
                 .Skip((pageRequest.PageNumber - 1) * pageRequest.PageSize)
                 .Take(pageRequest.PageSize)
                 .Select(x => ParishionerMapping.MapDto(x))
