@@ -10,7 +10,6 @@ import { useState, useEffect, useContext } from "react";
 import { ErrorContext } from "../../../context/ErrorContext";
 
 function EditMember(props) {
-  const { onLayoutType, name, parish, role } = props;
   const navigate = useNavigate();
   const [birthDate, setBirthDate] = useState(null);
   const { showError } = useContext(ErrorContext);
@@ -21,18 +20,18 @@ function EditMember(props) {
     try {
       const request = await axios.get(`/api/parishioner/get/${params.id}`);
 
-      if (request.status == 200) {
+      if (request.status === 200) {
         const data = request.data;
         setFormData(() => ({
-          firstName: data.firstName,
-          lastName: data.lastName,
+          firstName: data.firstName ?? "",
+          lastName: data.lastName ?? "",
           birthPlace: data.birthPlace ?? "",
-          email: data.email,
+          email: data.email ?? "",
           countryCode: data.countryCode ?? "",
-          phone: data.phoneNumber,
-          occupation: data.occupation,
+          phone: data.phoneNumber ?? "",
+          occupation: data.occupation ?? "",
           postalCode: data.postalCode ?? "",
-          homeAddress: data.homeAddress,
+          homeAddress: data.homeAddress ?? "",
           location: data?.location ?? "",
         }));
         setBirthDate(() => data.dateOfBirth);
@@ -42,6 +41,7 @@ function EditMember(props) {
 
   useEffect(() => {
     fetchMember();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const [formData, setFormData] = useState({
@@ -75,7 +75,7 @@ function EditMember(props) {
       showError("Please the field Last name cannot be blank");
       return;
     }
-    if (!birthDate.length) {
+    if (!birthDate) {
       showError("Please the field Birth date cannot be blank");
       return;
     }
@@ -112,7 +112,7 @@ function EditMember(props) {
         `/api/parishioner/update/${params.id}`,
         data
       );
-      if (request.status == 200 || request.status == 201) {
+      if (request.status === 200 || request.status === 201) {
         showError("Profile Successfully Updated", "success");
         navigate(`/members/view-member/${params.id}`);
       }
@@ -135,7 +135,7 @@ function EditMember(props) {
           </p>
         </header>
 
-        {stage == 1 ? (
+        {stage === 1 ? (
           <>
             <div
               className="mx-4 my-4 inputs"

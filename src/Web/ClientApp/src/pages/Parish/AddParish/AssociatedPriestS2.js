@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import Layout from "../../../components/Layout";
 import ProgressBar from "../../../components/ProgressBar";
@@ -9,7 +9,6 @@ import ListGroup from "../../../components/Selections/ListGroup";
 // import RedCross from "../../../Elements/svgs/RedCross";
 
 function AssociatedPriestS2(props) {
-  const [value, setValue] = useState(true);
   let items = ["one", "two", "three", "four"];
 
   return (

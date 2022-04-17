@@ -10,7 +10,6 @@ import SearchInput from "../../components/inputs/specialInputs/SearchInput";
 // Elements
 import CircledPlus from "../../Elements/svgs/CircledPlus";
 // data
-import data from "./data.json";
 import Layout from "../../components/Layout";
 import axios from "axios";
 
@@ -23,6 +22,7 @@ function Members() {
   useEffect(() => {
     let path = "";
     getMembers(path);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getMembers = async (path = "", query = "") => {

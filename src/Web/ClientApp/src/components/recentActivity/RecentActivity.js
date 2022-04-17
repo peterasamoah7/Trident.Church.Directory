@@ -8,8 +8,6 @@ function RecentActivity(props) {
   // functions
   function handleRowChange(e) {}
 
-  function handlePageChange(e) {}
-
   const paginateNext = async () => {
     await fetcher(nextPage);
   };

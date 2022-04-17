@@ -1,6 +1,5 @@
 import React, { useRef, useState, useEffect, useContext } from "react";
 
-import { Link } from "react-router-dom";
 import Modal from "../../../components/modal/Modal";
 
 //Elements
@@ -35,6 +34,7 @@ function Sacrament({ model }) {
 
   useEffect(() => {
     fetchSacrament();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   function convertDate(dateStr) {

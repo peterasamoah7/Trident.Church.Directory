@@ -10,7 +10,6 @@ import CircledPlus from "../../Elements/svgs/CircledPlus";
 // inputs
 import SearchInput from "../../components/inputs/specialInputs/SearchInput";
 
-import Ellipses from "../../Elements/svgs/Ellipses";
 import axios from "axios";
 import EllipseNModal from "../../components/modal/EllipseNModal";
 
@@ -35,14 +34,14 @@ function AdminUsersList(props) {
     });
   };
 
-  const deleteUser = (id) => {
-    axios.delete(`/api/account/deleteuser/${id}`).then((response) => {
-      if (response.status === 200) {
-        setAdminUsers(response.data);
-      } else {
-      }
-    });
-  };
+  // const deleteUser = (id) => {
+  //   axios.delete(`/api/account/deleteuser/${id}`).then((response) => {
+  //     if (response.status === 200) {
+  //       setAdminUsers(response.data);
+  //     } else {
+  //     }
+  //   });
+  // };
 
   return (
     <Layout type={1}>
@@ -62,7 +61,7 @@ function AdminUsersList(props) {
       </header>
 
       <div className="col-4 my-4">
-        <SearchInput />
+        <SearchInput handleSearch={searchUser} />
       </div>
 
       <table className="shadow-sm border-muted">

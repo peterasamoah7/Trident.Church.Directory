@@ -14,7 +14,7 @@ function ProgressBar(props) {
   }, [type]);
 
   useEffect(() => {
-    if (props.stage == 2) {
+    if (props.stage === 2) {
       setType(() => 2);
     } else {
       setType(() => 1);

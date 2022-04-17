@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 
 //  Styles
@@ -20,7 +20,7 @@ function ViewSacrament({ onLayoutType }) {
   const [members, setMembers] = useState(null);
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
-  const [page, setPage] = useState(1);
+  const [page] = useState(1);
   const { showError } = useContext(ErrorContext);
 
   let { id } = useParams();
@@ -34,7 +34,7 @@ function ViewSacrament({ onLayoutType }) {
         }`
       );
 
-      if (request.status == 200) {
+      if (request.status === 200) {
         const data = request.data;
         setMembers(() => data.data);
         setNextPage(() => data.nextPage?.slice(1, data.nextPage?.length));
@@ -59,6 +59,7 @@ function ViewSacrament({ onLayoutType }) {
 
   useEffect(() => {
     getSacramentMembers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

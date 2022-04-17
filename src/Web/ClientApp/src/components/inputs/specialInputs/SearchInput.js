@@ -46,14 +46,14 @@ function SearchInput({ errors, large, noIcon, label, name, handleSearch }) {
 
 export default SearchInput;
 
-function Input({ ...props }) {
-  return (
-    <input
-      type={"text"}
-      className="input form-control"
-      placeholder=" "
-      //
-      {...props}
-    />
-  );
-}
+// function Input({ ...props }) {
+//   return (
+//     <input
+//       type={"text"}
+//       className="input form-control"
+//       placeholder=" "
+//       //
+//       {...props}
+//     />
+//   );
+// }

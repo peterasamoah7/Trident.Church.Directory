@@ -6,7 +6,6 @@ import Modal from "../../components/modal/Modal";
 import SpecialInput from "../../components/inputs/specialInputs/SpecialInput";
 
 // Elements
-import EmojiMail from "../../Elements/svgs/EmojiMail";
 import Parish from "../../Elements/svgs/Parish";
 import BlueTick from "../../Elements/svgs/BlueTick";
 import House from "../../Elements/svgs/House";
@@ -22,13 +21,13 @@ function EditUnit(props) {
 
   const [groupName, setGroupName] = useState("");
   const [groupDescription, setGroupDescription] = useState("");
-  const [group, setGroup] = useState(null);
+  const [, setGroup] = useState(null);
   const [loading, setLoading] = useState(false);
 
   const fetchGroup = async () => {
     try {
       const request = await axios.get(`/api/parishgroup/get/${id}`);
-      if (request.status == 200) {
+      if (request.status === 200) {
         const data = request.data;
         setGroupName(() => data.name);
         setGroupDescription(() => data.description);
@@ -60,7 +59,7 @@ function EditUnit(props) {
       setLoading(() => true);
       const request = await axios.put(`/api/parishgroup/update/${id}`, data);
 
-      if (request.status == 200 || request.status == 201) {
+      if (request.status === 200 || request.status === 201) {
         modalRef.current.classList.toggle("modal__hidden");
         console.log(request.data);
         setGroup(request.data);
@@ -77,6 +76,7 @@ function EditUnit(props) {
     //   call end to fetch detail of a grup with the id and populate state
     fetchGroup();
     // if not found redirect to groups overview by uncommenting next line
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

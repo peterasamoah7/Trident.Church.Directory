@@ -26,7 +26,7 @@ const Dashboard = ({ onLayoutType }) => {
     try {
       const request = await axios.get("api/dashboard/getdashboard");
 
-      if (request.status == 200) {
+      if (request.status === 200) {
         setViewModel(request.data);
       }
 
@@ -35,7 +35,7 @@ const Dashboard = ({ onLayoutType }) => {
       // }
     } catch (error) {
       console.log();
-      if (error.response.status == 401) {
+      if (error.response.status === 401) {
         navigate("/login");
       }
     }
@@ -44,6 +44,7 @@ const Dashboard = ({ onLayoutType }) => {
   useEffect(() => {
     fetchDashboard();
     return () => [];
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -79,7 +80,7 @@ const Dashboard = ({ onLayoutType }) => {
           </div>
           <div className="cards mt-4">
             {viewModel?.metrics &&
-              viewModel?.metrics.map((card) => {
+              viewModel?.metrics.map((card, index) => {
                 let { title, summary, metric, increased } = card;
                 return (
                   <GrowthCard
@@ -87,6 +88,7 @@ const Dashboard = ({ onLayoutType }) => {
                     style={increased ? "good" : "bad"}
                     summary={summary}
                     metric={metric}
+                    key={index}
                   />
                 );
               })}

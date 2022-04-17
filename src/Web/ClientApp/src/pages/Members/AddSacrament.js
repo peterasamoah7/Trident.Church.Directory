@@ -54,10 +54,10 @@ function AddSacrament({ onLayoutType }) {
     firstTime = firstTime ? firstTime : !firstTime && page <= 1 ? true : false;
     const request = await axios.get(
       `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}${
-        isPriest == true ? "&type=priest" : ""
+        isPriest === true ? "&type=priest" : ""
       }`
     );
-    if (request.status == 200) {
+    if (request.status === 200) {
       const { data: result } = request;
       setState((oldState) =>
         firstTime ? [...result.data] : [...oldState, ...result.data]
@@ -96,7 +96,7 @@ function AddSacrament({ onLayoutType }) {
     try {
       const request = await axios.post(`/api/sacrament/create/${id}`, data);
 
-      if (request.status == 200 || request.status == 201) {
+      if (request.status === 200 || request.status === 201) {
         modalRef.current.classList.toggle("modal__hidden");
       }
     } catch (error) {
@@ -113,7 +113,7 @@ function AddSacrament({ onLayoutType }) {
   const fetchSacramentType = async () => {
     const request = await axios.get("/api/sacrament/getdefault");
 
-    if (request.status == 200) {
+    if (request.status === 200) {
       const data = request.data;
 
       setSACRAMENT_TYPE(data);
@@ -122,6 +122,7 @@ function AddSacrament({ onLayoutType }) {
 
   useEffect(() => {
     fetchSacramentType();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const moveToNextPage = (e) => {
@@ -159,6 +160,7 @@ function AddSacrament({ onLayoutType }) {
         true
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchSacramentPriest]);
 
   const handleNextSacramentPriests = async () => {
@@ -176,6 +178,7 @@ function AddSacrament({ onLayoutType }) {
         true
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sacramentPriestPage]);
 
   // selecting a sacrament priest
@@ -223,6 +226,7 @@ function AddSacrament({ onLayoutType }) {
         false
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [GodParentPage]);
 
   const handleNextGodParent = async () => {
@@ -263,7 +267,7 @@ function AddSacrament({ onLayoutType }) {
           </Link>
         </header>
 
-        {stage == 1 ? (
+        {stage === 1 ? (
           <>
             <div className="px-4 py-4 pt-2">
               <select
