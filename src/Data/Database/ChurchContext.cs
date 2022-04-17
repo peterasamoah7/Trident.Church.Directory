@@ -1,4 +1,4 @@
-﻿using Data.Entities;
+﻿ using Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
@@ -41,7 +41,6 @@ namespace Data.Database
         /// </summary>
         public DbSet<Audit> Audits { get; set; }
 
-
         /// <summary>
         /// Church Sacraments
         /// </summary>
@@ -58,6 +57,24 @@ namespace Data.Database
         /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            modelBuilder.Entity<Parishioner>()
+                .HasMany(x => x.ParishGroups)
+                .WithMany(x => x.Parishioners)
+                .UsingEntity<ParishionerParishGroup>(
+                    x => x
+                        .HasOne(x => x.ParishGroup)
+                        .WithMany(x => x.ParishionerParishGroups)
+                        .HasForeignKey(x => x.ParishGroupId)
+                        .OnDelete(DeleteBehavior.NoAction),
+                    x => x
+                        .HasOne(x => x.Parishioner)
+                        .WithMany(x => x.ParishionerParishGroups)
+                        .HasForeignKey(x => x.ParishionerId)
+                        .OnDelete(DeleteBehavior.NoAction),
+                    x =>
+                    {
+                        x.HasKey(k => new { k.ParishionerId, k.ParishGroupId });
+                    });
 
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             base.OnModelCreating(modelBuilder);
