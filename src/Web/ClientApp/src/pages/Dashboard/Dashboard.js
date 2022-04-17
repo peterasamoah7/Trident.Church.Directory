@@ -80,7 +80,7 @@ const Dashboard = ({ onLayoutType }) => {
           </div>
           <div className="cards mt-4">
             {viewModel?.metrics &&
-              viewModel?.metrics.map((card) => {
+              viewModel?.metrics.map((card, index) => {
                 let { title, summary, metric, increased } = card;
                 return (
                   <GrowthCard
@@ -88,6 +88,7 @@ const Dashboard = ({ onLayoutType }) => {
                     style={increased ? "good" : "bad"}
                     summary={summary}
                     metric={metric}
+                    key={index}
                   />
                 );
               })}

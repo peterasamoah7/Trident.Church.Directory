@@ -17,8 +17,8 @@ function ListGroup(props) {
         className="list-group dropdown-menu"
         aria-labelledby="dropdownMenuButton1"
       >
-        {labels.map((item) => {
-          return <label label={item} />;
+        {labels.map((item, index) => {
+          return <label label={item} key={index} />;
         })}
       </section>
     </div>

@@ -217,7 +217,7 @@ function ViewUnit({ onLayoutType }) {
               {members &&
                 members.data.map((member, index) => {
                   return (
-                    <>
+                    <React.Fragment key={index}>
                       <tr>
                         <td className="num text-center">{index + 1}.</td>
                         <td>
@@ -237,7 +237,7 @@ function ViewUnit({ onLayoutType }) {
                           />
                         </td>
                       </tr>
-                    </>
+                    </React.Fragment>
                   );
                 })}
             </tbody>
