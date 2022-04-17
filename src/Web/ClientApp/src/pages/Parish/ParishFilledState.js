@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
-import parishData from "./parishData.json";
-import { Link } from "react-router-dom";
 
 // Stylesheet
 import "../../styles/dist/table.css";
 
 // Components
 import SearchInput from "../../components/inputs/specialInputs/SearchInput";
-import DateSelect from "../../components/inputs/datePickers/DateSelect";
 import ParishItem from "./ParishItem";
 
 // Elements
-import CircledPlus from "../../Elements/svgs/CircledPlus";
 import Layout from "../../components/Layout";
 import axios from "axios";
 
@@ -27,6 +23,7 @@ function ParishFilledState() {
   useEffect(() => {
     let path = "";
     getParishes(path);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const next = async () => {

@@ -18,6 +18,7 @@ function ViewParishFilled() {
   useEffect(() => {
     let path = "";
     getMembers(path);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const next = () => {

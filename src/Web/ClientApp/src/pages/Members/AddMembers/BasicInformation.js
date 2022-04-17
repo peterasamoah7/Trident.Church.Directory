@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import { useFormik } from "formik";
 
 // components
 import ProgressBar from "../../../components/ProgressBar";
@@ -13,7 +12,6 @@ import { ErrorContext } from "../../../context/ErrorContext";
 import axios from "axios";
 
 function BasicInformation(props) {
-  const { onLayoutType, name, parish, role, phone } = props;
   const navigate = useNavigate();
   const { showError } = useContext(ErrorContext);
   const [birthDate, setBirthDate] = useState(null);
@@ -76,13 +74,13 @@ function BasicInformation(props) {
     }
     const data = {
       ...formData,
-      birthOfDate: birthDate,
+      birthOfDate: new Date(birthDate),
     };
 
     // make request to api to api member profile
     try {
       const request = await axios.post(`/api/parishioner/create`, data);
-      if (request.status == 200 || request.status == 201) {
+      if (request.status === 200 || request.status === 201) {
         const data = request.data;
         showError("Member Successfully Created", "success");
         navigate(`/members/view-member/${data.id}`);
@@ -106,7 +104,7 @@ function BasicInformation(props) {
           </p>
         </header>
 
-        {stage == 1 ? (
+        {stage === 1 ? (
           <>
             <div
               className="mx-4 my-4 inputs"

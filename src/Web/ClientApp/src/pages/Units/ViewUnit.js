@@ -12,7 +12,6 @@ import SearchInput from "../../components/inputs/specialInputs/SearchInput";
 import SvgHashTag from "../../Elements/svgs/HashTag";
 import Person from "../../Elements/svgs/Person";
 import GreenPlus from "../../Elements/svgs/GreenPlus";
-import RedCross from "../../Elements/svgs/RedCross";
 import Layout from "../../components/Layout";
 
 import axios from "axios";
@@ -40,7 +39,7 @@ function ViewUnit({ onLayoutType }) {
   const fetchGroup = async () => {
     try {
       const request = await axios.get(`/api/parishgroup/get/${id}`);
-      if (request.status == 200) {
+      if (request.status === 200) {
         setGroup(request.data);
         setMembers(request.data.parishioners);
         setNextPage(request.data.parishioners.nextPage);
@@ -53,12 +52,13 @@ function ViewUnit({ onLayoutType }) {
 
   useEffect(() => {
     fetchGroup();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const searchMember = async (query) => {
     try {
       const request = await axios.get(`/api/parishgroup/getall/query=${query}`);
-      if (request.status == 200) {
+      if (request.status === 200) {
         setMembers(request.data);
         setNextPage(request.data.nextPage);
         setPrevPage(request.data.previousPage);
@@ -73,7 +73,7 @@ function ViewUnit({ onLayoutType }) {
       const request = await axios.delete(
         `/api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`
       );
-      if (request.status == 200) {
+      if (request.status === 200) {
         getMembers();
         showError("Successfully deleted", "success");
       }
@@ -86,7 +86,7 @@ function ViewUnit({ onLayoutType }) {
     try {
       const request = await axios.delete(`/api/parishgroup/delete/${id}`);
 
-      if (request.status == 204 || request.status == 200) {
+      if (request.status === 204 || request.status === 200) {
         showError("Successfull Delete Group", "success");
         navigate("/groups");
       }
@@ -193,7 +193,7 @@ function ViewUnit({ onLayoutType }) {
 
         <section className="my-4 d-flex align-items-center justify-content-between">
           <div className="col-4">
-            <SearchInput />
+            <SearchInput handleSearch={searchMember} />
           </div>
         </section>
 

@@ -43,7 +43,7 @@ function AddMembers(props) {
     const request = await axios.get(
       `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}`
     );
-    if (request.status == 200) {
+    if (request.status === 200) {
       const { data: result } = request;
       setState((oldState) =>
         firstTime ? [...result.data] : [...oldState, ...result.data]
@@ -87,6 +87,7 @@ function AddMembers(props) {
         false
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parishionerPage]);
 
   // selecting a member priest
@@ -107,7 +108,7 @@ function AddMembers(props) {
         `api/parishgroup/addparishioner/${id}/parishioner/${memberId}`
       );
 
-      if (request.status == 200 || request.status == 201) {
+      if (request.status === 200 || request.status === 201) {
         modalRef.current.classList.toggle("modal__hidden");
       }
     } catch (error) {

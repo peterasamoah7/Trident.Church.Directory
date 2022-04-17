@@ -6,7 +6,6 @@ import Modal from "../../components/modal/Modal";
 import SpecialInput from "../../components/inputs/specialInputs/SpecialInput";
 
 // Elements
-import EmojiMail from "../../Elements/svgs/EmojiMail";
 import Parish from "../../Elements/svgs/Parish";
 import BlueTick from "../../Elements/svgs/BlueTick";
 import House from "../../Elements/svgs/House";
@@ -40,7 +39,7 @@ function CreateUnit(props) {
     try {
       const request = await axios.post("/api/parishgroup/create", data);
 
-      if (request.status == 200 || request.status == 201) {
+      if (request.status === 200 || request.status === 201) {
         modalRef.current.classList.toggle("modal__hidden");
         console.log(request.data);
         setGroup(request.data);

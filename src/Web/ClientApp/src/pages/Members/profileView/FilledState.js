@@ -3,7 +3,6 @@ import { useNavigate, useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
 import Sacrament from "./Sacrament";
-import sacraments from "./sacraments.json";
 import Layout from "../../../components/Layout";
 
 //Elements
@@ -40,6 +39,7 @@ function FilledState(props) {
         navigate("/");
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
@@ -135,9 +135,9 @@ function FilledState(props) {
               )}
             </div>
             <div>
-              {(member?.father == undefined ||
-                member?.mother == undefined ||
-                member?.partner == undefined) && (
+              {(member?.father === undefined ||
+                member?.mother === undefined ||
+                member?.partner === undefined) && (
                 <Link to="add-relative">
                   <p className="m-0 p-0 d-flex align-items-center flex-fill justify-content-center">
                     <GreenPlus />

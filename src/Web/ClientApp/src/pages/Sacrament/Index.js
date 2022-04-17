@@ -9,7 +9,6 @@ import Layout from "../../components/Layout";
 import People from "../../Elements/svgs/People";
 import GreenFolder from "../../Elements/svgs/GreenFolder";
 import HashTag from "../../Elements/svgs/HashTag";
-import CircledPlus from "../../Elements/svgs/CircledPlus";
 
 import axios from "axios";
 
@@ -26,7 +25,7 @@ function Sacrament(props) {
         `/api/sacrament/getmetrics?pageNumber=1&pageSize=10&query=${query}`
       );
 
-      if (request.status == 200) {
+      if (request.status === 200) {
         setSacrament(request.data);
       }
     } catch (error) {}

@@ -1,6 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import SvgBlueTick from "../../Elements/svgs/BlueTick";
 import SvgGreenChat from "../../Elements/svgs/GreenChat";
 import Modal from "./Modal";
 

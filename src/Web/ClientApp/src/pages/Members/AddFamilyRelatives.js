@@ -9,8 +9,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 // Elements
-import CircledPlus from "../../Elements/svgs/CircledPlus";
-import SvgGreenPlus from "../../Elements/svgs/GreenPlus";
+
 import { ErrorContext } from "../../context/ErrorContext";
 
 function AddFamilyRelatives() {
@@ -28,23 +27,24 @@ function AddFamilyRelatives() {
     axios.get(`/api/parishioner/get/${id}`).then((response) => {
       if (response.status === 200) {
         setMember(response.data);
-        console.log(response.data);
       } else {
         //show errors
       }
     });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
     if (
       !(
-        member?.father == undefined ||
-        member?.mother == undefined ||
-        member?.partner == undefined
+        member?.father === undefined ||
+        member?.mother === undefined ||
+        member?.partner === undefined
       )
     ) {
       navigate(`/members/view-member/${id}`);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [member]);
 
   const [listRelatives, setListRelatives] = useState([]);
@@ -64,7 +64,7 @@ function AddFamilyRelatives() {
     const request = await axios.get(
       `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}`
     );
-    if (request.status == 200) {
+    if (request.status === 200) {
       const { data: result } = request;
       setState((oldState) =>
         firstTime ? [...result.data] : [...oldState, ...result.data]
@@ -92,6 +92,7 @@ function AddFamilyRelatives() {
         true
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchRelatives]);
 
   const handleNextRelatives = async () => {
@@ -108,6 +109,7 @@ function AddFamilyRelatives() {
         false
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [relativesPage]);
 
   // selecting a member priest
@@ -142,7 +144,7 @@ function AddFamilyRelatives() {
         `/api/parishioner/addrelative/${id}`,
         data
       );
-      if (request.status == 200 || request.status == 201) {
+      if (request.status === 200 || request.status === 201) {
         navigate(`/members/view-member/${id}`);
         showError("Successfully added relative", "success");
       }
@@ -187,13 +189,13 @@ function AddFamilyRelatives() {
             }}
           >
             <option value="">Choose a role</option>
-            {member?.mother == undefined && (
+            {member?.mother === undefined && (
               <option value="mother">Mother</option>
             )}
-            {member?.father == undefined && (
+            {member?.father === undefined && (
               <option value="father">Father</option>
             )}
-            {member?.partner == undefined && (
+            {member?.partner === undefined && (
               <option value="partner">Partner</option>
             )}
           </select>
