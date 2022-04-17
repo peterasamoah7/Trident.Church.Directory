@@ -48,11 +48,14 @@ function AddSacrament({ onLayoutType }) {
     setHasMore,
     setState,
     page = 1,
-    firstTime = false
+    firstTime = false,
+    isPriest = false
   ) => {
     firstTime = firstTime ? firstTime : !firstTime && page <= 1 ? true : false;
     const request = await axios.get(
-      `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}`
+      `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}${
+        isPriest == true ? "&type=priest" : ""
+      }`
     );
     if (request.status == 200) {
       const { data: result } = request;
@@ -152,6 +155,7 @@ function AddSacrament({ onLayoutType }) {
         setHasMoreSacramentPriest,
         setListSacramentPriest,
         1,
+        true,
         true
       );
     }
@@ -168,7 +172,8 @@ function AddSacrament({ onLayoutType }) {
         setHasMoreSacramentPriest,
         setListSacramentPriest,
         sacramentPriestPage,
-        false
+        false,
+        true
       );
     }
   }, [sacramentPriestPage]);

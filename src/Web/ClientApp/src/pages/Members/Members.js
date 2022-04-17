@@ -18,30 +18,42 @@ function Members() {
   const [members, setMembers] = useState(null);
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     let path = "";
     getMembers(path);
   }, []);
 
-  const getMembers = (path) => {
-    axios.get(`/api/parishioner/getall/${path}`).then((response) => {
-      if (response.status === 200) {
-        setMembers(response.data);
-        setNextPage(response.data.nextPage);
-        setPrevPage(response.data.previousPage);
-      } else {
-        //show error
-      }
-    });
+  const getMembers = async (path = "", query = "") => {
+    const request = await axios.get(
+      `/api/parishioner/getall?query=${
+        query.length ? query : searchValue
+      }&${path}`
+    );
+
+    if (request.status === 200) {
+      setMembers(request.data);
+      setNextPage(
+        request.data.nextPage?.slice(1, request.data.nextPage?.length)
+      );
+      setPrevPage(
+        request.data.previousPage?.slice(1, request.data.previousPage?.length)
+      );
+    }
   };
 
-  const next = () => {
-    getMembers(nextPage);
+  const handleSearch = async (query) => {
+    setSearchValue(() => query);
+    await getMembers(undefined, query);
   };
 
-  const prev = () => {
-    getMembers(prevPage);
+  const next = async () => {
+    await getMembers(nextPage);
+  };
+
+  const prev = async () => {
+    await getMembers(prevPage);
   };
 
   return (
@@ -60,7 +72,7 @@ function Members() {
       </header>
       <section className="my-5 d-flex align-items-center justify-content-between">
         <div className="col-4">
-          <SearchInput />
+          <SearchInput handleSearch={handleSearch} />
         </div>
       </section>
 

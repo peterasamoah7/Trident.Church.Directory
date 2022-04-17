@@ -20,7 +20,7 @@ function UserPopup({ modalRef }) {
   const passwordRef = useRef();
   const passwordSuccess = useRef();
 
-  const router = useNavigate()
+  const router = useNavigate();
 
   function handleEditUserName() {
     modalRef.current.classList.add("modal__hidden");
@@ -33,10 +33,10 @@ function UserPopup({ modalRef }) {
     passwordRef.current.classList.toggle("modal__hidden");
   };
 
-  const handleLogout = () =>{
-    removeAuthCookie()
-    router("/")
-  }
+  const handleLogout = () => {
+    removeAuthCookie();
+    router("/login");
+  };
 
   function Start() {
     return (
