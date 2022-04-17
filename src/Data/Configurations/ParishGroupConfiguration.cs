@@ -15,6 +15,10 @@ namespace Data.Configurations
                 .WithMany(p => p.ChurchGroups)
                 .HasForeignKey(p => p.ParishId)
                 .OnDelete(DeleteBehavior.SetNull);
+
+            builder.HasMany(p => p.ParishionerParishGroups)
+                .WithOne(p => p.ParishGroup)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

@@ -17,6 +17,10 @@ namespace Data.Configurations
             builder.HasMany(x => x.Sacraments)
                 .WithOne(x => x.Parishioner)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasMany(x => x.ParishionerParishGroups)
+                .WithOne(x => x.Parishioner)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
