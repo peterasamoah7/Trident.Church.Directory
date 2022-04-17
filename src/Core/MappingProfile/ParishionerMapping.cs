@@ -1,6 +1,7 @@
 ﻿using Core.Models;
 using Data.Entities;
 using Data.Models;
+using Core.Extensions;
 
 namespace Core.MappingProfile
 {
@@ -13,7 +14,8 @@ namespace Core.MappingProfile
                 Id = parishioner.Id,
                 FirstName = parishioner.FirstName,
                 LastName = parishioner.LastName,
-                DateOfBirth = parishioner.DateOfBirth,
+                DateOfBirth = parishioner.DateOfBirth.HasValue ? 
+                    parishioner.DateOfBirth.Value.ToFullDate() : null,
                 Type = parishioner.Type,
                 Location = parishioner.Location,
                 PhoneNumber = parishioner.PhoneNumber,
@@ -34,7 +36,7 @@ namespace Core.MappingProfile
                 Id= parishioner.Id,
                 FirstName = parishioner.FirstName,
                 LastName = parishioner.LastName,
-                DateOfBirth = parishioner.DateOfBirth,
+                DateOfBirth = parishioner.DateOfBirth.ToDateTime(),
                 Type = ParishionerType.Member,
                 Location = parishioner.Location,
                 PhoneNumber = parishioner.PhoneNumber,

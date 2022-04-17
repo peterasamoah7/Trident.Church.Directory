@@ -50,7 +50,7 @@ namespace Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<ChurchContext>(options =>
-                options.UseInMemoryDatabase(
+                options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.RegisterApplication();
