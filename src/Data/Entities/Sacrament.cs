@@ -39,5 +39,10 @@ namespace Data.Entities
         /// The Parish FK
         /// </summary>
         public Guid? ParishId { get; set; }
+
+        /// <summary>
+        /// Parish Nav Prop
+        /// </summary>
+        public Parish Parish { get; set;  }
     }
 }

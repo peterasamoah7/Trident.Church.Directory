@@ -76,7 +76,7 @@ namespace Core.Models
         public ParishionerViewModel Mother { get; set; }
 
         /// <summary>
-        /// Partner
+        /// PartnerId
         /// </summary>
         public ParishionerViewModel Partner { get; set; }
 
