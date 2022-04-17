@@ -76,7 +76,7 @@ namespace Core.Models
         public ParishionerViewModel Mother { get; set; }
 
         /// <summary>
-        /// Partner
+        /// PartnerId
         /// </summary>
         public ParishionerViewModel Partner { get; set; }
 
@@ -90,10 +90,5 @@ namespace Core.Models
         /// Parish Groups
         /// </summary>
         public ICollection<ParishGroupViewModel> ParishGroups { get; set; } = new List<ParishGroupViewModel>();
-
-        public override string ToString()
-        {
-            return $"{ FirstName}:{LastName}";
-        }
     }
 }

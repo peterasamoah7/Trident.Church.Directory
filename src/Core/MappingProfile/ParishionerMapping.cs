@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using Data.Entities;
+using Data.Models;
 
 namespace Core.MappingProfile
 {
@@ -19,7 +20,8 @@ namespace Core.MappingProfile
                 Email = parishioner.Email,
                 HomeAddress = parishioner.HomeAddress,
                 PostCode = parishioner.PostCode,
-                Occupation = parishioner.Occupation
+                Occupation = parishioner.Occupation,
+
             };
 
             return model;
@@ -33,7 +35,7 @@ namespace Core.MappingProfile
                 FirstName = parishioner.FirstName,
                 LastName = parishioner.LastName,
                 DateOfBirth = parishioner.DateOfBirth,
-                Type = parishioner.Type,
+                Type = ParishionerType.Member,
                 Location = parishioner.Location,
                 PhoneNumber = parishioner.PhoneNumber,
                 Email = parishioner.Email,

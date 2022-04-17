@@ -126,7 +126,7 @@ namespace Application.Services
                 .FirstOrDefaultAsync(x => x.Id == parishioner.MotherId);
 
             var partner = await _dbContext.Parishioners
-                .FirstOrDefaultAsync(x => x.Id == parishioner.Partner);
+                .FirstOrDefaultAsync(x => x.Id == parishioner.PartnerId);
 
             var viewModel = ParishionerMapping.MapDto(parishioner);
             viewModel.Father = father != null ? ParishionerMapping.MapDto(father) : null;
@@ -235,7 +235,7 @@ namespace Application.Services
                     parishioner.MotherId = model.RelativeId;
                     break;
                 case RelativeType.Partner:
-                    parishioner.Partner = model.RelativeId;
+                    parishioner.PartnerId = model.RelativeId;
                     break;
                 default: 
                     throw new ArgumentOutOfRangeException(
