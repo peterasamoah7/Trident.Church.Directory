@@ -13,7 +13,8 @@ namespace Data.Configurations
 
             builder.HasOne(p => p.Parish)
                 .WithMany(p => p.ChurchGroups)
-                .HasForeignKey(p => p.ParishId);
+                .HasForeignKey(p => p.ParishId)
+                .OnDelete(DeleteBehavior.SetNull);
         }
     }
 }
