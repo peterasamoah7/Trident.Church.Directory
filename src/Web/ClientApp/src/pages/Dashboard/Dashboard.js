@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./Dashboard.css";
 
 // Inputs
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // components
 import GrowthCard from "../../components/cards/GrowthCard";
@@ -20,16 +20,30 @@ import axios from "axios";
 
 const Dashboard = ({ onLayoutType }) => {
   const [viewModel, setViewModel] = useState(null);
+  const navigate = useNavigate();
+
+  const fetchDashboard = async () => {
+    try {
+      const request = await axios.get("api/dashboard/getdashboard");
+
+      if (request.status == 200) {
+        setViewModel(request.data);
+      }
+
+      // if (request.status == 401) {
+      //   navigate("/login");
+      // }
+    } catch (error) {
+      console.log();
+      if (error.response.status == 401) {
+        navigate("/login");
+      }
+    }
+  };
 
   useEffect(() => {
-      axios.get("api/dashboard/getdashboard").then((response) => {
-      if (response.status === 200) {
-        setViewModel(response.data);
-      } else {
-        //show error message
-      }
-    });
-    return ()=> []
+    fetchDashboard();
+    return () => [];
   }, []);
 
   return (

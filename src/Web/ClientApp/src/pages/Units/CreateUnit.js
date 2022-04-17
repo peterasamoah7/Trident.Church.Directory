@@ -97,7 +97,11 @@ function CreateUnit(props) {
             />
 
             <div class="submits d-flex justify-content-between">
-              <button class="btn btn-outline-primary px-5 py-2">Cancel</button>
+              <Link to={"/groups"}>
+                <button type="button" class="btn btn-outline-primary px-5 py-2">
+                  Cancel
+                </button>
+              </Link>
               <input
                 type="submit"
                 value="Create"

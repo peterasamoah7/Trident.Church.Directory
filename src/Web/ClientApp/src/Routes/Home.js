@@ -14,6 +14,7 @@ function Home() {
       {/* home */}
       <Route
         index
+        path={"/"}
         element={
           <RequireAuth redirectTo={"/login"}>
             <Dashboard />
