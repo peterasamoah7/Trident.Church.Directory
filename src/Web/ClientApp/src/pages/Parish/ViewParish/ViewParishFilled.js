@@ -61,7 +61,7 @@ function ViewParishFilled() {
           <thead>
             <tr>
               <th>Name</th>
-              <th>Gender</th>
+              <th>Email</th>
               <th>Role</th>
               <th>Location</th>
               <th>Phone No.</th>

@@ -61,15 +61,15 @@ function CreateUnit(props) {
         </header>
 
         <form
-          class="bg-white shadow-sm border-muted mt-5 rounded-1"
+          className="bg-white shadow-sm border-muted mt-5 rounded-1"
           onSubmit={handleSubmit}
         >
-          <p class="text-muted py-3 px-4 border-bottom me-5">
+          <p className="text-muted py-3 px-4 border-bottom me-5">
             The information can be edited from your profile page
           </p>
 
           <div
-            class="inputs d-flex flex-column px-4 pb-4"
+            className="inputs d-flex flex-column px-4 pb-4"
             style={{
               gap: "2rem",
             }}
@@ -95,16 +95,19 @@ function CreateUnit(props) {
               setValue={setGroupDescription}
             />
 
-            <div class="submits d-flex justify-content-between">
+            <div className="submits d-flex justify-content-between">
               <Link to={"/groups"}>
-                <button type="button" class="btn btn-outline-primary px-5 py-2">
+                <button
+                  type="button"
+                  className="btn btn-outline-primary px-5 py-2"
+                >
                   Cancel
                 </button>
               </Link>
               <input
                 type="submit"
                 value="Create"
-                class="btn btn-primary px-5 py-2"
+                className="btn btn-primary px-5 py-2"
               />
             </div>
           </div>

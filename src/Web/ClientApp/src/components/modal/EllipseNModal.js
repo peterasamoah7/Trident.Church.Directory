@@ -22,6 +22,8 @@ function EllipseNModal(props) {
         setClicked(() => false);
       }
     });
+
+    return () => [];
   }, []);
 
   //

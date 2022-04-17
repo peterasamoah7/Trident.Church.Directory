@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 import { Link } from "react-router-dom";
@@ -16,6 +16,7 @@ import GreenFolder from "../../../Elements/svgs/GreenFolder";
 import axios from "axios";
 import { useContext } from "react";
 import { ErrorContext } from "../../../context/ErrorContext";
+import DeleteProfileModal from "../../../components/modal/DeleteProfileModal";
 
 //
 function FilledState(props) {
@@ -23,13 +24,19 @@ function FilledState(props) {
 
   const [member, setMember] = useState(null);
   const navigate = useNavigate();
+  const deleteModalRef = useRef();
 
   const { showError } = useContext(ErrorContext);
+
+  const showDeleteModal = () => {
+    deleteModalRef.current.classList.toggle("modal__hidden");
+  };
 
   useEffect(() => {
     axios.get(`/api/parishioner/get/${params.id}`).then((response) => {
       if (response.status === 200) {
         setMember(response.data);
+        console.log("xxxx:", response.data);
       } else {
         //show errors
       }
@@ -41,6 +48,21 @@ function FilledState(props) {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  const deleteGroup = async () => {
+    try {
+      const request = await axios.delete(
+        `/api/parishioner/delete/${params.id}`
+      );
+
+      if (request.status === 204 || request.status === 200) {
+        showError("Successfull Delete Profile", "success");
+        navigate("/members");
+      }
+    } catch (error) {
+      showError("Sorry could not perform delete operation");
+    }
+  };
 
   return (
     <Layout type={1}>
@@ -71,7 +93,13 @@ function FilledState(props) {
                   {/* Fountain of life and Truth */}
                 </span>
               </div>
-              <p className="mt-2">Member since May, 2016</p>
+              <p className="mt-2">
+                Member since{" "}
+                {new Date(member?.createdOn).toLocaleString("default", {
+                  month: "long",
+                })}{" "}
+                {new Date(member?.createdOn).getFullYear()}
+              </p>
             </div>
           </section>
           <section className="member-details-2  mt-0 pt-0 p-4 bg-white flex-fill container-fluid">
@@ -153,10 +181,10 @@ function FilledState(props) {
 
         <section className="units-and-sacrament py-1s d-flex flex-column ms-4 flex-fill align-items-start">
           <div className="d-flex align-items-center justify-content-between col-12">
-            <p>
+            <p className="d-flex">
               <Link
                 to={`/members/edit-member/${params.id}`}
-                className="m-0 p-0 d-flex align-items-center"
+                className="m-0 p-0 d-flex align-items-center me-4"
               >
                 <GreenPen
                   size="1.7em"
@@ -169,6 +197,22 @@ function FilledState(props) {
                   Edit Profile
                 </span>
               </Link>
+              <span
+                style={{ pointer: "cursor" }}
+                className="m-0 p-0 d-flex align-items-center"
+                onClick={showDeleteModal}
+              >
+                <GreenPen
+                  size="1.7em"
+                  className="text-success text-danger"
+                  style={{
+                    fontSize: "0.7rem",
+                  }}
+                />
+                <span className="border-start border-1 border-primary ps-2 ms-2 m-0 p-0">
+                  Delete Profile
+                </span>
+              </span>
             </p>
             <Link to="/members" className="text-decoration-none">
               &lt; Back to Members Overview
@@ -245,6 +289,11 @@ function FilledState(props) {
           </Link>
         </small>
       </footer>
+      <DeleteProfileModal
+        modalRef={deleteModalRef}
+        memberId={params.id}
+        handleDeleteFunc={deleteGroup}
+      />
     </Layout>
   );
 }

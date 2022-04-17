@@ -23,15 +23,15 @@ function EditMember(props) {
       if (request.status === 200) {
         const data = request.data;
         setFormData(() => ({
-          firstName: data.firstName,
-          lastName: data.lastName,
+          firstName: data.firstName ?? "",
+          lastName: data.lastName ?? "",
           birthPlace: data.birthPlace ?? "",
-          email: data.email,
+          email: data.email ?? "",
           countryCode: data.countryCode ?? "",
-          phone: data.phoneNumber,
-          occupation: data.occupation,
+          phone: data.phoneNumber ?? "",
+          occupation: data.occupation ?? "",
           postalCode: data.postalCode ?? "",
-          homeAddress: data.homeAddress,
+          homeAddress: data.homeAddress ?? "",
           location: data?.location ?? "",
         }));
         setBirthDate(() => data.dateOfBirth);
@@ -75,7 +75,7 @@ function EditMember(props) {
       showError("Please the field Last name cannot be blank");
       return;
     }
-    if (!birthDate.length) {
+    if (!birthDate) {
       showError("Please the field Birth date cannot be blank");
       return;
     }

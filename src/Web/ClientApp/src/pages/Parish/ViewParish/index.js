@@ -15,15 +15,21 @@ import axios from "axios";
 function ViewParish(props) {
   const [parish, setParish] = useState(null);
 
+  const controller = new AbortController();
+
   let params = useParams();
   useEffect(() => {
-    axios.get(`/api/parish/${params.id}`).then((response) => {
-      if (response.status === 200) {
-        setParish(response.data);
-      } else {
-        //show errors
-      }
-    });
+    axios
+      .get(`/api/parish/${params.id}`, { signal: controller.signal })
+      .then((response) => {
+        if (response.status === 200) {
+          setParish(response.data);
+        } else {
+          //show errors
+        }
+      });
+
+    return () => controller.abort();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
