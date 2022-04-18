@@ -186,6 +186,7 @@ namespace Application.Services
         public async Task<ParishGroupViewModel> UpdateParishGroup(Guid parishId, ParishGroupViewModel viewModel)
         {
             var churchgroup = await _dbContext.ParishGroups
+                .Include(x => x.Parish)
                 .FirstOrDefaultAsync(x => x.Id == parishId);
 
             if (churchgroup == null)
@@ -200,7 +201,7 @@ namespace Application.Services
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
-                AuditType.Updated, $"{churchgroup.Name} Details  Updated", parishId);
+                AuditType.Updated, $"{churchgroup.Name} Details  Updated", churchgroup.Parish.Id);
 
             return viewModel;
         }

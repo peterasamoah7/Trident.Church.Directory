@@ -50,7 +50,7 @@ namespace Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<ChurchContext>(options =>
-                options.UseSqlServer(
+                options.UseInMemoryDatabase(
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.RegisterApplication();
@@ -113,7 +113,7 @@ namespace Web
             var context = app.ApplicationServices
                 .CreateScope()
                 .ServiceProvider
-                .GetRequiredService<ChurchContext>();
+                .GetRequiredService<ChurchContext>();                       
 
             if (context.Users.Any())
             {
@@ -139,6 +139,21 @@ namespace Web
             };
 
             context.Users.Add(user);
+            context.SaveChanges();
+
+            var priest = new Parishioner
+            {
+                FirstName = "Stephen",
+                LastName =  "Amoah Gyasi",
+                DateOfBirth = DateTime.Parse("12/12/1991"),
+                Type = ParishionerType.Priest,
+                Location = "Accra",
+                PhoneNumber = "123456789",
+                Email = "father@priest.com",
+                ParishId = Guid.Parse("e7ebc196-4b43-422d-b889-3181dac47358")
+            };
+
+            context.Parishioners.Add(priest);
             context.SaveChanges();
         }
     }
