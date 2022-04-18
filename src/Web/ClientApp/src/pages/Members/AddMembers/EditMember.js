@@ -11,7 +11,7 @@ import { ErrorContext } from "../../../context/ErrorContext";
 
 function EditMember(props) {
   const navigate = useNavigate();
-  const [birthDate, setBirthDate] = useState(null);
+  const [dateOfBirth, setDateOfBirth] = useState(null);
   const { showError } = useContext(ErrorContext);
 
   const params = useParams();
@@ -34,7 +34,7 @@ function EditMember(props) {
           homeAddress: data.homeAddress ?? "",
           location: data?.location ?? "",
         }));
-        setBirthDate(() => data.dateOfBirth);
+        setDateOfBirth(() => data.dateOfBirth);
       }
     } catch (error) {}
   };
@@ -75,7 +75,7 @@ function EditMember(props) {
       showError("Please the field Last name cannot be blank");
       return;
     }
-    if (!birthDate) {
+    if (!dateOfBirth) {
       showError("Please the field Birth date cannot be blank");
       return;
     }
@@ -103,7 +103,7 @@ function EditMember(props) {
     }
     const data = {
       ...formData,
-      birthOfDate: birthDate,
+      dateOfBirth: dateOfBirth,
     };
 
     // make request to api to api member profile
@@ -182,8 +182,8 @@ function EditMember(props) {
               /> */}
 
               <DateSelect2
-                date={birthDate}
-                setDate={setBirthDate}
+                date={dateOfBirth}
+                setDate={setDateOfBirth}
                 label={"Date of Birth"}
                 inputContainerClass="input-container__lg"
               />
