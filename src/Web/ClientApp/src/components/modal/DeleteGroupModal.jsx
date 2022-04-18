@@ -11,7 +11,6 @@ const DeleteGroupModal = ({
 }) => {
   const handleDelete = async (e) => {
     await handleDeleteFunc();
-    modalRef.current.classList.toggle("modal__hidden");
   };
   return (
     <Modal refer={modalRef}>
