@@ -14,7 +14,7 @@ import axios from "axios";
 function BasicInformation(props) {
   const navigate = useNavigate();
   const { showError } = useContext(ErrorContext);
-  const [dateOfBirth, setDateOfBirth] = useState(null);
+  const [dateOfBirth, setDateOfBirth] = useState("");
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -22,7 +22,7 @@ function BasicInformation(props) {
     birthPlace: "",
     email: "",
 
-    phone: "",
+    phoneNumber: "",
     location: "",
     occupation: "",
     postalCode: "",
@@ -59,7 +59,7 @@ function BasicInformation(props) {
       showError("Please the field Email cannot be blank");
       return;
     }
-    if (!formData.phone.length) {
+    if (!formData.phoneNumber.length) {
       showError("Please the field Phone cannot be blank");
       return;
     }
@@ -203,12 +203,12 @@ function BasicInformation(props) {
                   }}
                   name="phone"
                   // {...formik.getFieldProps("phone")}
-                  value={formData.phone}
+                  value={formData.phoneNumber}
                   onChange={(e) => {
                     e.persist();
                     setFormData((oldState) => ({
                       ...oldState,
-                      phone: e.target.value,
+                      phoneNumber: e.target.value,
                     }));
                   }}
                 />
