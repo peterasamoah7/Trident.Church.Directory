@@ -17,7 +17,7 @@ function EditParish() {
   let info = undefined;
 
   info = data.filter((value) => {
-    return value.id == params.id;
+    return value.id === params.id;
   })[0];
 
   return (
@@ -42,7 +42,7 @@ function Basics() {
   let info = undefined;
 
   info = data.filter((value) => {
-    return value.id == params.id;
+    return value.id === params.id;
   })[0];
 
   return <BasicInfo {...info} />;

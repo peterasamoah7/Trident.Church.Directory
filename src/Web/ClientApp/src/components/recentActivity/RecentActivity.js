@@ -4,10 +4,17 @@ import { Link } from "react-router-dom";
 import Activity from "./Activity";
 
 function RecentActivity(props) {
+  const { fetcher, nextPage, previousPage } = props;
   // functions
   function handleRowChange(e) {}
 
-  function handlePageChange(e) {}
+  const paginateNext = async () => {
+    await fetcher(nextPage);
+  };
+
+  const paginatePrevious = async () => {
+    await fetcher(previousPage);
+  };
 
   // function resolveIconColor(type) {
   // 	if (type === "Created") {
@@ -23,8 +30,8 @@ function RecentActivity(props) {
     <section
       className={
         props.type === "full"
-          ? "recent-activities px-0 py-0 bg-white rounded-3 border-muted border border-1"
-          : "recent-activities px-4 py-3 bg-white rounded-3 border-muted border border-1"
+          ? "recent-activities px-0 py-0 bg-white rounded-3 border-muted border border-1 mt-5"
+          : "recent-activities px-4 py-3 bg-white rounded-3 border-muted border border-1 mt-5"
       }
       style={{
         minHeight: "100%",
@@ -41,17 +48,18 @@ function RecentActivity(props) {
         <h6 className="m-0 fw-normal ">Recent Activity</h6>
         <Link to="recent-activities">See more</Link>
       </div>
-      <div className="activities d-flex flex-column justify-content-between">
+      <div className="activities d-flex flex-column justify-content-between px-4">
         {props.data &&
           props.data.map((activity) => {
-            let { id, message, date } = activity;
+            let { id, message, date, type } = activity;
             return (
               <Activity
                 key={id}
                 details={message}
                 date={date}
-                icon="roundPen"
-                iconColor="green"
+                // icon="roundPen"
+                // iconColor="green"
+                type={type}
               />
             );
           })}
@@ -74,20 +82,20 @@ function RecentActivity(props) {
               className="form-select px-1 ps-2 pe-0 border-0 small"
               onChange={handleRowChange}
             >
-              <option value="6">6</option>
-              <option value="7">7</option>
-              <option value="8">8</option>
-              <option value="9">9</option>
               <option value="10">10</option>
             </select>
           </div>
           <span className="range"></span>
-          <button className="btn py-1 p-2" onClick={handlePageChange}>
-            &lt;
-          </button>
-          <button className="btn py-1 p-2" onClick={handlePageChange}>
-            &gt;
-          </button>
+          {previousPage && (
+            <button className="btn py-1 p-2" onClick={paginatePrevious}>
+              &lt;
+            </button>
+          )}
+          {nextPage && (
+            <button className="btn py-1 p-2" onClick={paginateNext}>
+              &gt;
+            </button>
+          )}
         </small>
       ) : (
         <></>

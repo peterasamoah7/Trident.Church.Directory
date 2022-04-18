@@ -50,7 +50,7 @@ namespace Web
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             services.AddDbContext<ChurchContext>(options =>
-                options.UseInMemoryDatabase(
+                options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
 
             services.RegisterApplication();
@@ -115,300 +115,31 @@ namespace Web
                 .ServiceProvider
                 .GetRequiredService<ChurchContext>();
 
-            if (!context.Users.Any())
+            if (context.Users.Any())
             {
-                var parish = new Parish
-                {
-                    Id = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b"),
-                    Name = "St Patrick's Catholic Church",
-                    Location = "Ashongman Estate",
-                    Address = "1 Jesus Way",
-                    PostCode = "G-12345-AA",
-                    Parishioners = new List<Parishioner>
-                    {
-                        new Parishioner
-                        {
-                            Id = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
-                            FirstName = "TestUser1",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Priest,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer",
-                        },
-                        new Parishioner
-                        {
-                            Id = Guid.Parse("6C72E801-ed7f-4315-af1f-a98286fdc81b"),
-                            FirstName = "TestUser100",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer",
-                        },
-                        new Parishioner
-                        {
-                            Id = Guid.Parse("8C61d801-fe7f-3415-fa1f-a89286fdc81b"),
-                            FirstName = "TestUser102",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
-                        },
-                        new Parishioner
-                        {
-                            Id = Guid.Parse("8C61d801-fe7f-3415-fa1f-a29886fdc81b"),
-                            FirstName = "TestUser104",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer"
-                        },
-                        new Parishioner
-                        {
-                            Id = Guid.Parse("9a90d801-ed7f-4315-af1f-a98286fdc81b"),
-                            FirstName = "TestUser103",
-                            LastName = "Asamoah",
-                            DateOfBirth = DateTime.Parse("07/07/1991"),
-                            Type = ParishionerType.Member,
-                            Location = "Accra",
-                            PhoneNumber = "07123456789",
-                            Email = "test@test.com",
-                            HomeAddress = "1 Asamoah Way",
-                            PostCode = "GA-1234-AA",
-                            Occupation = "Software Engineer",
-                            FatherId = Guid.Parse("6C72E801-ed7f-4315-af1f-a98286fdc81b"),
-                            MotherId = Guid.Parse("8C61d801-fe7f-3415-fa1f-a89286fdc81b"),
-                            Partner = Guid.Parse("8C61d801-fe7f-3415-fa1f-a29886fdc81b"),
-                            Sacraments = new List<Sacrament>
-                            {
-                                new Sacrament
-                                {
-                                    Type = SacramentType.Baptism,
-                                    PriestId = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
-                                    ParishId = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b"),
-                                    CreatedOn =  DateTime.Parse("07/07/1991")
-                                },
-                                new Sacrament
-                                {
-                                    Type = SacramentType.FirstCommunion,
-                                    PriestId = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
-                                    ParishId = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b"),
-                                    CreatedOn =  DateTime.Parse("07/07/1991")
-                                },
-                                new Sacrament
-                                {
-                                    Type = SacramentType.HolyMatrimony,
-                                    PriestId = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
-                                    ParishId = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b"),
-                                    CreatedOn =  DateTime.Parse("07/07/1991")
-                                },
-                                new Sacrament
-                                {
-                                    Type = SacramentType.HolyOrders,
-                                    PriestId = Guid.Parse("5b61d801-ed7f-4315-af1f-a98286fdc81b"),
-                                    ParishId = Guid.Parse("9a90d801-ed7f-4315-af1f-a00086fdc81b"),
-                                    CreatedOn =  DateTime.Parse("07/07/1991")
-                                }
-                            },
-                            ParishGroups = new List<ParishGroup>
-                            {
-                                new ParishGroup
-                                {
-                                    Name = "Men's Fellowship",
-                                    Active = true,
-                                    Description = "A group for Christian men",
-                                },
-                                new ParishGroup
-                                {
-                                    Name = "Youth Choir",
-                                    Active = true,
-                                    Description = "A group for youth singers",
-                                }
-                            }
-                        }                                                                      
-                    }
-                };
-
-                context.Parishes.Add(parish);
-
-                context.ParishGroups.AddRange(new List<ParishGroup>()
-                {
-                    new ParishGroup
-                    {
-                        Name = "Sunday Groups",
-                        Active = true,
-                        Description = "A group for Sunday borns",
-                        ParishId = parish.Id,
-                        Parishioners = new List<Parishioner>
-                        {
-                            new Parishioner
-                            {
-                                FirstName = "TestUser1",
-                                LastName = "Asamoah",
-                                DateOfBirth = DateTime.Parse("07/07/1991"),
-                                Type = ParishionerType.Priest,
-                                Location = "Accra",
-                                PhoneNumber = "07123456789",
-                                Email = "test@test.com",
-                                HomeAddress = "1 Asamoah Way",
-                                PostCode = "GA-1234-AA",
-                                Occupation = "Software Engineer",
-                            },
-                            new Parishioner
-                            {
-                                FirstName = "TestUser1",
-                                LastName = "Asamoah",
-                                DateOfBirth = DateTime.Parse("07/07/1991"),
-                                Type = ParishionerType.Member,
-                                Location = "Accra",
-                                PhoneNumber = "07123456789",
-                                Email = "test@test.com",
-                                HomeAddress = "1 Asamoah Way",
-                                PostCode = "GA-1234-AA",
-                                Occupation = "Software Engineer",
-                            }
-                        }
-                    },
-                    new ParishGroup
-                    {
-                        Name = "Monday Groups",
-                        Active = true,
-                        Description = "A group for Sunday borns",
-                        ParishId = parish.Id,
-                        Parishioners = new List<Parishioner>
-                        {
-                            new Parishioner
-                            {
-                                FirstName = "TestUser1",
-                                LastName = "Asamoah",
-                                DateOfBirth = DateTime.Parse("07/07/1991"),
-                                Type = ParishionerType.Priest,
-                                Location = "Accra",
-                                PhoneNumber = "07123456789",
-                                Email = "test@test.com",
-                                HomeAddress = "1 Asamoah Way",
-                                PostCode = "GA-1234-AA",
-                                Occupation = "Software Engineer",
-                            },
-                            new Parishioner
-                            {
-                                FirstName = "TestUser1",
-                                LastName = "Asamoah",
-                                DateOfBirth = DateTime.Parse("07/07/1991"),
-                                Type = ParishionerType.Member,
-                                Location = "Accra",
-                                PhoneNumber = "07123456789",
-                                Email = "test@test.com",
-                                HomeAddress = "1 Asamoah Way",
-                                PostCode = "GA-1234-AA",
-                                Occupation = "Software Engineer",
-                            }
-                        }
-                    }
-                });
-
-                context.Parishes.AddRange(new List<Parish>
-                {
-                    new Parish
-                    {
-                        Name = "St Peter's Catholic Church",
-                        Location = "Ashongman Estate",
-                        Address = "1 Jesus Way",
-                        PostCode = "G-12345-AA",
-                    },
-                });
-
-                context.SaveChanges();
-
-                context.Users.AddRange(new List<ApplicationUser>
-                {
-                    new ApplicationUser
-                    {
-                        Email = "test@test.com",
-                        Password = BCrypt.Net.BCrypt.HashPassword("Psalm23#"),
-                        Parish = parish.Id,
-                        FullName = "Tester001 Test"
-                    },
-                    new ApplicationUser
-                    {
-                        Email = "test002@test.com",
-                        Password = BCrypt.Net.BCrypt.HashPassword("Psalm23#"),
-                        Parish = parish.Id,
-                        FullName = "Tester002 Test"
-                    },
-                    new ApplicationUser
-                    {
-                        Email = "test003@test.com",
-                        Password = BCrypt.Net.BCrypt.HashPassword("Psalm23#"),
-                        Parish = parish.Id,
-                        FullName = "Tester003 Test"
-                    },
-                    new ApplicationUser
-                    {
-                        Email = "test004@test.com",
-                        Password = BCrypt.Net.BCrypt.HashPassword("Psalm23#"),
-                        Parish = parish.Id,
-                        FullName = "Tester004 Test"
-                    },
-                    new ApplicationUser
-                    {
-                        Email = "test005@test.com",
-                        Password = BCrypt.Net.BCrypt.HashPassword("Psalm23#"),
-                        Parish = parish.Id,
-                        FullName = "Tester005 Test"
-                    }
-                });
-
-                context.Audits.AddRange(new List<Audit>
-                {
-                    new Audit
-                    {
-                        Type = AuditType.Created,
-                        Message = "An item was created"
-                    },
-                    new Audit
-                    {
-                        Type = AuditType.Deleted,
-                        Message = "An item was deleted"
-                    },
-                    new Audit
-                    {
-                        Type = AuditType.Updated,
-                        Message = "An item was updated"
-                    },
-                    new Audit
-                    {
-                        Type = AuditType.Created,
-                        Message = "Many items were created"
-                    },
-                    new Audit
-                    {
-                        Type = AuditType.Created,
-                        Message = "Many items were deleted"
-                    },
-                });
-
-                context.SaveChanges();
+                return;
             }
+
+            var parish = new Parish
+            {
+                Id = Guid.Parse("e7ebc196-4b43-422d-b889-3181dac47358"),
+                Name =  "St Mark's Catholic Church",
+                Location = "Accra"
+            };
+
+            context.Parishes.Add(parish);
+
+            var user = new ApplicationUser
+            {
+                Parish = Guid.Parse("e7ebc196-4b43-422d-b889-3181dac47358"),
+                Email = "test@test.com",
+                Password = BCrypt.Net.BCrypt.HashPassword("Psalm23#"),
+                FullName = "Peter Asamoah",
+                UserRole = UserRole.Admin
+            };
+
+            context.Users.Add(user);
+            context.SaveChanges();
         }
     }
 }

@@ -3,30 +3,34 @@ import { Link } from "react-router-dom";
 
 // import ViewParishEmpty from "./ViewParishEmpty";
 import ViewParishFilled from "./ViewParishFilled";
-import ViewParishEmpty from "./ViewParishEmpty";
 import Layout from "../../../components/Layout";
 
 // Elements
 import Location from "../../../Elements/svgs/Location";
-import GreenPlus from "../../../Elements/svgs/GreenPlus";
-import RoundPen from "../../../Elements/svgs/RoundPen";
+
 import Person2 from "../../../Elements/svgs/Person2";
-import People from "../../../Elements/svgs/People";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 
 function ViewParish(props) {
   const [parish, setParish] = useState(null);
 
+  const controller = new AbortController();
+
   let params = useParams();
   useEffect(() => {
-    axios.get(`/api/parish/${params.id}`).then((response) => {
-      if (response.status === 200) {
-        setParish(response.data);
-      } else {
-        //show errors
-      }
-    });
+    axios
+      .get(`/api/parish/${params.id}`, { signal: controller.signal })
+      .then((response) => {
+        if (response.status === 200) {
+          setParish(response.data);
+        } else {
+          //show errors
+        }
+      });
+
+    return () => controller.abort();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

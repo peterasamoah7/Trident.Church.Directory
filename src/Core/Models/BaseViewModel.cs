@@ -7,11 +7,11 @@ namespace Core.Models
         /// <summary>
         /// Created on 
         /// </summary>
-        public DateTime CreatedOn { get; set; }
+        public string CreatedOn { get; set; }
 
         /// <summary>
         /// Updated on
         /// </summary>
-        public DateTime? UpdatedOn { get; set; }
+        public string UpdatedOn { get; set; }
     }
 }

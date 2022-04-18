@@ -57,7 +57,7 @@ function ViewParish() {
   let info = undefined;
   if (params) {
     info = data.filter((value) => {
-      return value.id == params.id;
+      return value.id === params.id;
     })[0];
   }
 

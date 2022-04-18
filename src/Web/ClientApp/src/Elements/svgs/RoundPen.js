@@ -1,6 +1,7 @@
 import * as React from "react";
 
 const SvgRoundPen = (props) => (
+  
   <svg
     width={props.size || 28}
     height={props.size || 28}

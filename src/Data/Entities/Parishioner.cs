@@ -40,9 +40,9 @@ namespace Data.Entities
         public Guid? MotherId { get; set; }
 
         /// <summary>
-        /// Parishner's Partner Id
+        /// Parishner's PartnerId Id
         /// </summary>
-        public Guid? Partner { get; set; }
+        public Guid? PartnerId { get; set; }
 
         /// <summary>
         /// Type of Parishioner
@@ -82,7 +82,7 @@ namespace Data.Entities
         /// <summary>
         /// Parish FK
         /// </summary>
-        public Guid ParishId { get; set; }
+        public Guid? ParishId { get; set; }
 
         /// <summary>
         /// Parish Nav Prop
@@ -98,5 +98,10 @@ namespace Data.Entities
         /// Group Memberships
         /// </summary>
         public ICollection<ParishGroup> ParishGroups { get; set; } = new List<ParishGroup>();
+
+        /// <summary>
+        /// Joining table
+        /// </summary>
+        public ICollection<ParishionerParishGroup> ParishionerParishGroups { get; set; } = new List<ParishionerParishGroup>();
     }
 }

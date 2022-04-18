@@ -1,17 +1,13 @@
 import React, { useState, useEffect } from "react";
-import parishData from "./parishData.json";
-import { Link } from "react-router-dom";
 
 // Stylesheet
 import "../../styles/dist/table.css";
 
 // Components
 import SearchInput from "../../components/inputs/specialInputs/SearchInput";
-import DateSelect from "../../components/inputs/datePickers/DateSelect";
 import ParishItem from "./ParishItem";
 
 // Elements
-import CircledPlus from "../../Elements/svgs/CircledPlus";
 import Layout from "../../components/Layout";
 import axios from "axios";
 
@@ -22,30 +18,42 @@ function ParishFilledState() {
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
 
+  const [searchValue, setSearchValue] = useState("");
+
   useEffect(() => {
     let path = "";
     getParishes(path);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const next = () => {
-    getParishes(nextPage);
+  const next = async () => {
+    await getParishes(nextPage);
   };
 
-  const prev = () => {
-    getParishes(prevPage);
+  const prev = async () => {
+    await getParishes(prevPage);
   };
 
-  const getParishes = (path) => {
-    axios.get(`/api/parish/${path}`).then((response) => {
-      if (response.status === 200) {
-        setParishes(null);
-        setParishes(response.data);
-        setNextPage(response.data.nextPage);
-        setPrevPage(response.data.previousPage);
-      } else {
-        //show errors
-      }
-    });
+  const getParishes = async (path = "", query = "") => {
+    const request = await axios.get(
+      `/api/parish?query=${query.length ? query : searchValue}&${path}`
+    );
+
+    if (request.status === 200) {
+      setParishes(null);
+      setParishes(request.data);
+      setNextPage(
+        request.data.nextPage?.slice(1, request.data.nextPage?.length)
+      );
+      setPrevPage(
+        request.data.previousPage?.slice(1, request.data.previousPage?.length)
+      );
+    }
+  };
+
+  const handleSearch = async (query) => {
+    setSearchValue(() => query);
+    await getParishes(undefined, query);
   };
 
   return (
@@ -61,13 +69,14 @@ function ParishFilledState() {
         </header>
         <div className="my-3 d-flex align-items-center justify-content-between">
           <div className="col-4">
-            <SearchInput />
+            <SearchInput handleSearch={handleSearch} />
           </div>
         </div>
 
         <table className="bg-white">
           <thead>
             <tr>
+              <th></th>
               <th>Parish Name</th>
               <th>Location</th>
               <th>Associated Priest</th>
@@ -77,8 +86,8 @@ function ParishFilledState() {
           </thead>
           <tbody>
             {parishes &&
-              parishes.data.map((item) => {
-                return <ParishItem key={item.id} {...item} />;
+              parishes.data.map((item, index) => {
+                return <ParishItem index={index + 1} key={item.id} {...item} />;
               })}
           </tbody>
           <tfoot>

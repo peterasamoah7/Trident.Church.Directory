@@ -21,7 +21,11 @@ namespace Application.Interfaces
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
+<<<<<<< HEAD
         Task UpdateParishGroup(UpdateParishGroupModel viewModel);
+=======
+        Task<ParishGroupViewModel> UpdateParishGroup(Guid parishGroupId, ParishGroupViewModel viewModel);
+>>>>>>> main
 
         /// <summary>
         /// DeleteParishGroup

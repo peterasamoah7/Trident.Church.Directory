@@ -15,33 +15,45 @@ import axios from "axios";
 
 function Units(props) {
   const [groups, setGroups] = useState(null);
-  const [nextPage, setNextPage] = useState(null);
-  const [prevPage, setPrevPage] = useState(null);
+  const [, setNextPage] = useState(null);
+  const [, setPrevPage] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
     let path = "";
     getGroups(path);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const next = () => {
-    getGroups(nextPage);
+  // const next = async () => {
+  //   await getGroups(nextPage);
+  // };
+
+  // const prev = async () => {
+  //   await getGroups(prevPage);
+  // };
+
+  const getGroups = async (path = "", query = "") => {
+    const request = await axios.get(
+      `/api/parishgroup/getall?query=${
+        query.length ? query : searchValue
+      }&${path}`
+    );
+
+    if (request.status === 200) {
+      setGroups(request.data);
+      setNextPage(
+        request.data.nextPage?.slice(1, request.data.nextPage?.length)
+      );
+      setPrevPage(
+        request.data.previousPage?.slice(1, request.data.previousPage?.length)
+      );
+    }
   };
 
-  const prev = () => {
-    getGroups(prevPage);
-  };
-
-  const getGroups = (path) => {
-    axios.get(`/api/parishgroup/getall/${path}`).then((response) => {
-      if (response.status === 200) {
-        setGroups(null);
-        setGroups(response.data);
-        setNextPage(response.data.nextPage);
-        setPrevPage(response.data.previousPage);
-      } else {
-        //show errors
-      }
-    });
+  const handleSearch = async (query) => {
+    setSearchValue(() => query);
+    await getGroups(undefined, query);
   };
 
   return (
@@ -63,7 +75,10 @@ function Units(props) {
         </header>
         <section className="my-4 d-flex align-items-center justify-content-between">
           <div className="col-4">
-            <SearchInput text="Enter a parish group name" />
+            <SearchInput
+              handleSearch={handleSearch}
+              text="Enter a parish group name"
+            />
           </div>
         </section>
 

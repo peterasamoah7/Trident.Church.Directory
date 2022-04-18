@@ -1,5 +1,6 @@
 ﻿using Core.Models;
 using Data.Entities;
+using Core.Extensions;
 
 namespace Core.MappingProfile
 {
@@ -11,8 +12,9 @@ namespace Core.MappingProfile
             {
                 Id = sacrament.Id,
                 Type = sacrament.Type,
-                CreatedOn = sacrament.CreatedOn,
-                UpdatedOn = sacrament.UpdatedOn
+                CreatedOn = sacrament.CreatedOn.ToDayMonth(),
+                UpdatedOn = sacrament.UpdatedOn.HasValue ? 
+                        sacrament.UpdatedOn.Value.ToDayMonth() : null
             };
 
             return model;

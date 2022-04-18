@@ -6,14 +6,70 @@ import "../../../styles/dist/datepicker.min.css";
 import "./dateSelect2.css";
 
 import Calendar from "../../../Elements/svgs/Calendar";
+import { useEffect } from "react";
+
+const DateInput = React.forwardRef(
+  (
+    {
+      id,
+      type,
+      inputClass,
+      onChange,
+      placeholder,
+      value,
+      onClick,
+      label,
+      large,
+      noIcon,
+      iconOne,
+      iconTwo,
+    },
+    ref
+  ) => {
+    return (
+      <React.Fragment>
+        <div
+          className={`input-container ${large ? "input-container__lg" : ""} ${
+            noIcon ? "icon-0" : ""
+          }`}
+          ref={ref}
+        >
+          <label>
+            {iconOne}
+            <input
+              id={id || "dateInput"}
+              type={type}
+              className={inputClass || "form-control input"}
+              onChange={onChange}
+              placeholder={placeholder || " "}
+              value={value}
+              onClick={onClick}
+              autoComplete="off"
+            />
+            {iconTwo}
+            <span className="input-label">{label}</span>
+          </label>
+          <section className="error-msg"></section>
+        </div>
+      </React.Fragment>
+    );
+  }
+);
 
 function DateSelect(props) {
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(props.date ?? null);
+
+  useEffect(() => {
+    setDate(() => props.date);
+  }, [props.date]);
+
   return (
     <Datepicker
-      selected={date}
+      selected={date && new Date(props.date)}
+      value={date && new Date(props.date)}
       onChange={(newDate) => {
         setDate(newDate);
+        props.setDate(newDate);
       }}
       customInput={
         <DateInput
@@ -22,7 +78,7 @@ function DateSelect(props) {
           type="text"
           className={props.inputContainerClass}
           large
-          label="Date of Birth"
+          label={props.label || "Date of Birth"}
         ></DateInput>
       }
       dateFormat={"dd MMMM yyyy"}
@@ -34,44 +90,44 @@ function DateSelect(props) {
 
 export default DateSelect;
 
-function DateInput({
-  id,
-  type,
-  inputClass,
-  onChange,
-  placeholder,
-  value,
-  onClick,
-  label,
-  large,
-  noIcon,
-  iconOne,
-  iconTwo,
-}) {
-  return (
-    <React.Fragment>
-      <div
-        className={`input-container ${large ? "input-container__lg" : ""} ${
-          noIcon ? "icon-0" : ""
-        }`}
-      >
-        <label>
-          {iconOne}
-          <input
-            id={id || "dateInput"}
-            type={type}
-            className={inputClass || "form-control input"}
-            onChange={onChange}
-            placeholder={placeholder || " "}
-            value={value}
-            onClick={onClick}
-            autoComplete="off"
-          />
-          {iconTwo}
-          <span className="input-label">{label}</span>
-        </label>
-        <section className="error-msg"></section>
-      </div>
-    </React.Fragment>
-  );
-}
+// function DateInput({
+//   id,
+//   type,
+//   inputClass,
+//   onChange,
+//   placeholder,
+//   value,
+//   onClick,
+//   label,
+//   large,
+//   noIcon,
+//   iconOne,
+//   iconTwo,
+// }) {
+//   return (
+//     <React.Fragment>
+//       <div
+//         className={`input-container ${large ? "input-container__lg" : ""} ${
+//           noIcon ? "icon-0" : ""
+//         }`}
+//       >
+//         <label>
+//           {iconOne}
+//           <input
+//             id={id || "dateInput"}
+//             type={type}
+//             className={inputClass || "form-control input"}
+//             onChange={onChange}
+//             placeholder={placeholder || " "}
+//             value={value}
+//             onClick={onClick}
+//             autoComplete="off"
+//           />
+//           {iconTwo}
+//           <span className="input-label">{label}</span>
+//         </label>
+//         <section className="error-msg"></section>
+//       </div>
+//     </React.Fragment>
+//   );
+// }

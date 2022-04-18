@@ -7,8 +7,37 @@ import Layout from "../../components/Layout";
 
 import SearchInput from "../../components/inputs/specialInputs/SearchInput";
 import DateSelect from "../../components/inputs/datePickers/DateSelect";
+import { useState } from "react";
+import axios from "axios";
+import { useEffect } from "react";
 
 function RecentActivities() {
+  const [recentActivities, setRecentActivities] = useState([]);
+  const [nextPage, setNextPage] = useState(null);
+  const [previousPage, setPreviousPage] = useState(null);
+  const [query] = useState("");
+
+  const fetchRecentActivities = async (path) => {
+    try {
+      const request = await axios.get(
+        `api/dashboard/getactivity?query=${query}&${path?.length && path}`
+      );
+      if (request.status === 200) {
+        setRecentActivities(() => request.data.data);
+        setNextPage(() =>
+          request.data?.nextPage?.slice(1, request.data.nextPage.length)
+        );
+        setPreviousPage(() =>
+          request.data?.previousPage?.slice(1, request.data.previousPage.length)
+        );
+      }
+    } catch (error) {}
+  };
+
+  useEffect(() => {
+    fetchRecentActivities();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <Layout type={1}>
       <header className="d-flex align-items-center justify-content-between">
@@ -50,7 +79,13 @@ function RecentActivities() {
           </select>
         </div>
       </div>
-      <RecentActivity type="full" />
+      <RecentActivity
+        type="full"
+        data={recentActivities}
+        nextPage={nextPage}
+        previousPage={previousPage}
+        fetcher={fetchRecentActivities}
+      />
     </Layout>
   );
 }

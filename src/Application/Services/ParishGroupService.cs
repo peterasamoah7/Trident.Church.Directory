@@ -50,14 +50,16 @@ namespace Application.Services
         public async Task DeleteParishGroup(Guid id)
         {
             var churchGroup = await _dbContext.ParishGroups
+                .Include(x => x.ParishionerParishGroups)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (churchGroup == null)
             {
                 return;
             }
-
+           
             _dbContext.ParishGroups.Remove(churchGroup);
+
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
@@ -180,17 +182,32 @@ namespace Application.Services
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
+<<<<<<< HEAD
         public async Task UpdateParishGroup(UpdateParishGroupModel viewModel)
         {
             var churchGroup = await _dbContext.ParishGroups
                 .FirstOrDefaultAsync(x => x.Id == viewModel.Id);
+=======
+        public async Task<ParishGroupViewModel> UpdateParishGroup(Guid parishId, ParishGroupViewModel viewModel)
+        {
+            var churchgroup = await _dbContext.ParishGroups
+                .FirstOrDefaultAsync(x => x.Id == parishId);
+>>>>>>> main
 
             if (churchGroup == null)
             {
                 return;
             }
+<<<<<<< HEAD
             /*churchgroup = ParishGroupMapping.MapEntity(viewModel);*/
             _mapper.Map(viewModel, churchGroup); 
+=======
+
+            churchgroup.Name = viewModel.Name;
+            churchgroup.Description = viewModel.Description;
+
+            _dbContext.Update(churchgroup);
+>>>>>>> main
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
@@ -235,14 +252,17 @@ namespace Application.Services
         {
             var parishioner = await _dbContext.Parishioners.Include(x => x.ParishGroups)
                 .FirstOrDefaultAsync(x => x.Id == parishionerId);
-            var churchGroup = await _dbContext.ParishGroups.FirstOrDefaultAsync(x => x.Id == parishGroupId);
+
+            var churchGroup = await _dbContext.ParishGroups
+                .Include(x => x.Parishioners)
+                .FirstOrDefaultAsync(x => x.Id == parishGroupId);
 
             if (parishioner == null || churchGroup == null || churchGroup.Parishioners.Any(x => x.Id == parishGroupId))
             {
                 return;
             }
 
-            parishioner.ParishGroups.Remove(churchGroup);
+            churchGroup.Parishioners.Remove(parishioner);
             await _dbContext.SaveChangesAsync();
         }
     }

@@ -31,7 +31,7 @@ namespace Data.Entities
         /// <summary>
         /// FK Parish
         /// </summary>
-        public Guid ParishId { get; set; }
+        public Guid? ParishId { get; set; }
 
         /// <summary>
         /// Nav Prop
@@ -43,5 +43,9 @@ namespace Data.Entities
         /// </summary>
         public ICollection<Parishioner> Parishioners { get; set; } = new List<Parishioner>();
 
+        /// <summary>
+        /// Joining table
+        /// </summary>
+        public ICollection<ParishionerParishGroup> ParishionerParishGroups { get; set; } = new List<ParishionerParishGroup>();
     }
 }

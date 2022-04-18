@@ -2,6 +2,7 @@
 using Core.Enums;
 using Core.Models;
 using Core.Pagination;
+using Data.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -45,9 +46,13 @@ namespace Web.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ParishionerViewModel>> Update(Guid id, UpdateParishionerModel viewModel)
         {
+<<<<<<< HEAD
              viewModel.Id = id;
              await _parishionerService.UpdateParishioner(id, viewModel);
              return Ok();
+=======
+            return await _parishionerService.UpdateParishioner(id, viewModel);
+>>>>>>> main
         }
 
         /// <summary>
@@ -79,10 +84,11 @@ namespace Web.Controllers
         /// <param name="pageQuery"></param>
         /// <returns></returns>
         [HttpGet]
-        public async Task<ActionResult<PageResult<IEnumerable<ParishionerViewModel>>>> GetAll([FromQuery]PageQuery pageQuery)
+        public async Task<ActionResult<PageResult<IEnumerable<ParishionerViewModel>>>> GetAll(
+            [FromQuery]PageQuery pageQuery, [FromQuery] ParishionerType type = ParishionerType.Member)
         {
             return await _parishionerService.GetAllParishioners(
-                User.Parish(), pageQuery.Query, pageQuery.PageNumber, pageQuery.PageSize);
+                User.Parish(), type, pageQuery.Query, pageQuery.PageNumber, pageQuery.PageSize);
         }
 
 

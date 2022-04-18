@@ -44,9 +44,13 @@ namespace Web.Controllers
         [HttpPut("{id}")]
         public async Task<ActionResult<ParishGroupViewModel>> Update(Guid id, UpdateParishGroupModel viewModel)
         {
+<<<<<<< HEAD
             viewModel.Id = id;
            await _parishGroupService.UpdateParishGroup(viewModel);
            return Ok();
+=======
+            return await _parishGroupService.UpdateParishGroup(id, viewModel);
+>>>>>>> main
         }
 
         /// <summary>
@@ -93,9 +97,9 @@ namespace Web.Controllers
         /// <returns></returns>
         [HttpGet("{id}")]
         public async Task<ActionResult<PageResult<IEnumerable<ParishionerViewModel>>>> GetParishioners(
-            Guid id, [FromQuery] int pageNumber, [FromQuery] int pageSize)
+            Guid id, [FromQuery]PageQuery query)
         {
-            return await _parishGroupService.GetAllParishioners(id, pageNumber, pageSize);
+            return await _parishGroupService.GetAllParishioners(id, query.PageNumber, query.PageSize);
         }
 
         /// <summary>
@@ -120,7 +124,7 @@ namespace Web.Controllers
         [HttpDelete("{parishId}/parishioner/{parishionerId}")]
         public async Task<IActionResult> DeleteParishioner(Guid parishId, Guid parishionerId)
         {
-            await _parishGroupService.AddParishionerToGroup(parishId, parishionerId);
+            await _parishGroupService.DeleteParishionerFromGroup(parishionerId, parishId);
             return Ok();
         }
     }

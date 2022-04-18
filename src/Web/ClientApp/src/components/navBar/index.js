@@ -5,6 +5,7 @@ import { NavLink } from "react-router-dom";
 // Stylesheet
 import "./navStyles.css";
 import UserPopup from "./UserPopup";
+import ProfileSvg from "../../Elements/svgs/ProfileSvg";
 
 function Navbar() {
   const modalRef = useRef();
@@ -17,7 +18,7 @@ function Navbar() {
           style={{ gap: "0.3em" }}
         >
           <Logo />
-          <h4 className="m-0 fw-2">Church Name</h4>
+          <h4 className="m-0 fw-2">Parish Portal</h4>
         </div>
         <ul
           className="navbar-nav ms-auto align-items-center"
@@ -52,7 +53,8 @@ function Navbar() {
               cursor: "pointer",
             }}
           >
-            <img src="./profile.png" alt="Profile Pic" />
+            {/* <img src="./profile.png" alt="Profile Pic" /> */}
+            <ProfileSvg/>
           </li>
           <UserPopup modalRef={modalRef} />
         </ul>

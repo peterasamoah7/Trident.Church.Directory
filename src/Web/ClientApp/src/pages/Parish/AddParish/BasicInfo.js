@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 
 // components
@@ -16,7 +16,6 @@ import EmojiMail from "../../../Elements/svgs/EmojiMail";
 import House from "../../../Elements/svgs/House";
 
 // data
-import data from "../parishData.json";
 
 function AddParish_BasicInfo(props) {
   const { parishName, location, creationDate, id } = props;

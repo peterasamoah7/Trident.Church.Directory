@@ -10,7 +10,6 @@ import SearchInput from "../../components/inputs/specialInputs/SearchInput";
 // Elements
 import CircledPlus from "../../Elements/svgs/CircledPlus";
 // data
-import data from "./data.json";
 import Layout from "../../components/Layout";
 import axios from "axios";
 
@@ -18,31 +17,43 @@ function Members() {
   const [members, setMembers] = useState(null);
   const [nextPage, setNextPage] = useState(null);
   const [prevPage, setPrevPage] = useState(null);
+  const [searchValue, setSearchValue] = useState("");
 
   useEffect(() => {
-    let path = '';
+    let path = "";
     getMembers(path);
-  }, [])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-  const getMembers = (path) => {
-    axios.get(`/api/parishioner/getall/${path}`)
-      .then((response) => {
-        if(response.status === 200){
-          setMembers(response.data);
-          setNextPage(response.data.nextPage);
-          setPrevPage(response.data.previousPage);
-        }else{
-          //show error
-        }
-      })
-  }
+  const getMembers = async (path = "", query = "") => {
+    const request = await axios.get(
+      `/api/parishioner/getall?query=${
+        query.length ? query : searchValue
+      }&${path}`
+    );
 
-  const next = () => {
-    getMembers(nextPage);
+    if (request.status === 200) {
+      setMembers(request.data);
+      setNextPage(
+        request.data.nextPage?.slice(1, request.data.nextPage?.length)
+      );
+      setPrevPage(
+        request.data.previousPage?.slice(1, request.data.previousPage?.length)
+      );
+    }
   };
 
-  const prev = () => {
-    getMembers(prevPage);
+  const handleSearch = async (query) => {
+    setSearchValue(() => query);
+    await getMembers(undefined, query);
+  };
+
+  const next = async () => {
+    await getMembers(nextPage);
+  };
+
+  const prev = async () => {
+    await getMembers(prevPage);
   };
 
   return (
@@ -61,17 +72,17 @@ function Members() {
       </header>
       <section className="my-5 d-flex align-items-center justify-content-between">
         <div className="col-4">
-          <SearchInput />
+          <SearchInput handleSearch={handleSearch} />
         </div>
       </section>
 
       <div
-        class="d-flex justify-content-between data-tables p-0 m-0 mt-4"
+        className="d-flex justify-content-between data-tables p-0 m-0 mt-4"
         style={{
           gap: "2rem",
         }}
       >
-        <table class="bg-white">
+        <table className="bg-white">
           <thead>
             <tr>
               <th></th>
@@ -84,40 +95,37 @@ function Members() {
             </tr>
           </thead>
           <tbody>
-            {members && members.data.map((item, index) => {
-              return <MemberItem item={item} index={index + 1}/>
-            })}
+            {members &&
+              members.data.map((item, index) => {
+                return <MemberItem key={index} item={item} index={index + 1} />;
+              })}
           </tbody>
           <tfoot>
-              <tr>
-                <td colSpan="7" className="small p-1">
-                  <div className="d-flex align-items-center justify-content-end me-4">
-                    <span className="col-5">Rows per page: </span>
-                    <select
-                      name="rowsPerPage"
-                      id="rowsPerPage"
-                      className="ms-5"
-                    >
-                      <option value="10" className="">
-                        {members && members.data.length}
-                      </option>
-                    </select>
-                    <div className="tableNav ms-4">
-                      {prevPage && (
-                        <button onClick={prev} className="btn border-none p-2">
-                          &lt;
-                        </button>
-                      )}
-                      {nextPage && (
-                        <button onClick={next} className="btn border-none p-2">
-                          &gt;
-                        </button>
-                      )}
-                    </div>
+            <tr>
+              <td colSpan="7" className="small p-1">
+                <div className="d-flex align-items-center justify-content-end me-4">
+                  <span className="col-5">Rows per page: </span>
+                  <select name="rowsPerPage" id="rowsPerPage" className="ms-5">
+                    <option value="10" className="">
+                      {members && members.data.length}
+                    </option>
+                  </select>
+                  <div className="tableNav ms-4">
+                    {prevPage && (
+                      <button onClick={prev} className="btn border-none p-2">
+                        &lt;
+                      </button>
+                    )}
+                    {nextPage && (
+                      <button onClick={next} className="btn border-none p-2">
+                        &gt;
+                      </button>
+                    )}
                   </div>
-                </td>
-              </tr>
-            </tfoot>
+                </div>
+              </td>
+            </tr>
+          </tfoot>
         </table>
       </div>
     </Layout>
@@ -131,8 +139,10 @@ function MemberItem(props) {
 
   return (
     <tr>
-      <td class="num text-center">{props.index}.</td>
-      <td>{props.item.firstName} {props.item.lastName}</td>
+      <td className="num text-center">{props.index}.</td>
+      <td>
+        {props.item.firstName} {props.item.lastName}
+      </td>
       <td>{props.item.type}</td>
       <td>{props.item.location}</td>
       <td>{props.item.phoneNumber}</td>

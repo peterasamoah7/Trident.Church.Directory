@@ -41,11 +41,12 @@ namespace Application.Services
             var audits = _context.Audits.AsQueryable();
             var count = audits.Count();
             var model = await audits.OrderByDescending(x => x.CreatedOn)
-                .Skip(request.PageNumber - 1)
+                .Skip((request.PageNumber - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .Select(x => _mapper.Map<AuditViewModel>(x))
                 .ToListAsync();
-            return new PageResult<IEnumerable<AuditViewModel>>(model, request.PageNumber, request.PageSize, count);
+            return new PageResult<IEnumerable<AuditViewModel>>(
+                model, request.PageNumber, request.PageSize, count);
         }
 
         public async Task<List<AuditViewModel>> GetAllAuditsAsnyc()
