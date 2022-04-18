@@ -12,6 +12,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Extensions;
 
 namespace Application.Services
 {
@@ -40,7 +41,8 @@ namespace Application.Services
 
             await _dbContext.Parishioners.AddAsync(parishioner);
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Created, $" Member {viewModel} Created");
+            await _auditService.CreateAuditAsync(
+                AuditType.Created, $" Member {viewModel.FirstName} {viewModel.LastName} Created");
 
             viewModel.Id = parishioner.Id;
             return viewModel;
@@ -63,7 +65,7 @@ namespace Application.Services
             }
 
             parishioner.PhoneNumber = viewModel.PhoneNumber;
-            parishioner.DateOfBirth = viewModel.DateOfBirth;
+            parishioner.DateOfBirth = viewModel.DateOfBirth.ToDateTime();
             parishioner.Location = viewModel.Location;
             parishioner.Occupation = viewModel.Occupation;
             parishioner.Email = viewModel.Email;
@@ -74,7 +76,8 @@ namespace Application.Services
 
             _dbContext.Parishioners.Update(parishioner);
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Updated, $"{viewModel} Details Updated");
+            await _auditService.CreateAuditAsync(
+                AuditType.Updated, $"{viewModel.FirstName} {viewModel.LastName} Details Updated");
 
             return viewModel;
         }
@@ -218,7 +221,7 @@ namespace Application.Services
         public async Task AddRelative(Guid id, CreateRelativeModel model)
         {
             if(!await _dbContext.Parishioners.AnyAsync(x => x.Id == id)
-                && !await _dbContext.Parishioners.AnyAsync(x => x.Id == id))
+                && !await _dbContext.Parishioners.AnyAsync(x => x.Id == model.RelativeId))
             {
                 return;
             }
@@ -244,6 +247,9 @@ namespace Application.Services
 
             _dbContext.Parishioners.Update(parishioner);
             await _dbContext.SaveChangesAsync();
+
+            await _auditService.CreateAuditAsync(
+                AuditType.Deleted, $"Relative added for {parishioner.FirstName} {parishioner.LastName}");
         }
     }
 }

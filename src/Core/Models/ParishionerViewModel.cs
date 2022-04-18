@@ -27,7 +27,7 @@ namespace Core.Models
         /// <summary>
         /// Date of Birth
         /// </summary>
-        public DateTime? DateOfBirth { get; set; }
+        public string DateOfBirth { get; set; }
 
         /// <summary>
         /// Birth Location
