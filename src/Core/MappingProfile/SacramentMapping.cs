@@ -12,9 +12,9 @@ namespace Core.MappingProfile
             {
                 Id = sacrament.Id,
                 Type = sacrament.Type,
-                CreatedOn = sacrament.CreatedOn.ToDayMonth(),
+                CreatedOn = sacrament.PeformedOn.ToFullDate(),
                 UpdatedOn = sacrament.UpdatedOn.HasValue ? 
-                        sacrament.UpdatedOn.Value.ToDayMonth() : null
+                        sacrament.UpdatedOn.Value.ToFullDate() : null
             };
 
             return model;

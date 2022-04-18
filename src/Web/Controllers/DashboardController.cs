@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Web.Extensions;
 
 namespace Web.Controllers
 {
@@ -29,7 +30,7 @@ namespace Web.Controllers
         [HttpGet]
         public async Task<ActionResult<DashboardViewModel>> GetDashboard()
         {
-            return await _dashboardService.GetDashboard();
+            return await _dashboardService.GetDashboard(User.Parish());
         }
 
         /// <summary>
@@ -41,7 +42,7 @@ namespace Web.Controllers
         public async Task<ActionResult<PageResult<IEnumerable<AuditViewModel>>>> GetActivity(
             [FromQuery] PageQuery query)
         {
-            return await _auditService.GetAllAuditsAsnyc(query.PageNumber, query.PageSize);
+            return await _auditService.GetAllAuditsAsnyc(query.PageNumber, query.PageSize, User.Parish());
         }
     }
 }

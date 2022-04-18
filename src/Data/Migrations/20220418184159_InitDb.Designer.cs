@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ChurchContext))]
-    [Migration("20220417183710_Update003")]
-    partial class Update003
+    [Migration("20220418184159_InitDb")]
+    partial class InitDb
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -59,12 +59,12 @@ namespace Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Message")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<Guid>("ParishId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<int>("Type")
                         .HasColumnType("int");
@@ -73,6 +73,8 @@ namespace Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParishId");
 
                     b.ToTable("Audits");
                 });
@@ -88,9 +90,6 @@ namespace Data.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Location")
                         .IsRequired()
@@ -122,9 +121,6 @@ namespace Data.Migrations
 
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Description")
                         .IsRequired()
@@ -158,9 +154,6 @@ namespace Data.Migrations
 
                     b.Property<DateTime?>("DateOfBirth")
                         .HasColumnType("datetime2");
-
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
 
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(max)");
@@ -237,9 +230,6 @@ namespace Data.Migrations
                     b.Property<DateTime>("CreatedOn")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("Deleted")
-                        .HasColumnType("bit");
-
                     b.Property<Guid?>("GodParentId")
                         .HasColumnType("uniqueidentifier");
 
@@ -265,6 +255,17 @@ namespace Data.Migrations
                     b.HasIndex("ParishionerId");
 
                     b.ToTable("Sacraments");
+                });
+
+            modelBuilder.Entity("Data.Entities.Audit", b =>
+                {
+                    b.HasOne("Data.Entities.Parish", "Parish")
+                        .WithMany("Audits")
+                        .HasForeignKey("ParishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parish");
                 });
 
             modelBuilder.Entity("Data.Entities.ParishGroup", b =>
@@ -326,6 +327,8 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Parish", b =>
                 {
+                    b.Navigation("Audits");
+
                     b.Navigation("ChurchGroups");
 
                     b.Navigation("Parishioners");

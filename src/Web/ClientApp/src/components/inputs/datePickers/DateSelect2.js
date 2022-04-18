@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Datepicker from "react-datepicker";
 
 import "../input.css";
 import "../../../styles/dist/datepicker.min.css";
@@ -35,7 +34,7 @@ const DateInput = React.forwardRef(
           ref={ref}
         >
           <label>
-            {iconOne}
+            {/* {iconOne} */}
             <input
               id={id || "dateInput"}
               type={type}
@@ -43,10 +42,10 @@ const DateInput = React.forwardRef(
               onChange={onChange}
               placeholder={placeholder || " "}
               value={value}
-              onClick={onClick}
-              autoComplete="off"
+              // onClick={onClick}
+              // autoComplete="off"
             />
-            {iconTwo}
+            {/* {iconTwo} */}
             <span className="input-label">{label}</span>
           </label>
           <section className="error-msg"></section>
@@ -57,34 +56,36 @@ const DateInput = React.forwardRef(
 );
 
 function DateSelect(props) {
-  const [date, setDate] = useState(props.date ?? null);
+  const [date, setDate] = useState(props.date ?? "");
 
   useEffect(() => {
     setDate(() => props.date);
   }, [props.date]);
 
   return (
-    <Datepicker
-      selected={date && new Date(props.date)}
-      value={date && new Date(props.date)}
-      onChange={(newDate) => {
-        setDate(newDate);
-        props.setDate(newDate);
+    <DateInput
+      id="dateInput"
+      iconTwo={<Calendar className="icon-two" />}
+      type="date"
+      className={props.inputContainerClass}
+      large
+      label={props.label || "Date of Birth"}
+      onChange={(e) => {
+        e.persist();
+        setDate(() => e.target.value);
+        props.setDate(() => e.target.value);
       }}
-      customInput={
-        <DateInput
-          id="dateInput"
-          iconTwo={<Calendar className="icon-two" />}
-          type="text"
-          className={props.inputContainerClass}
-          large
-          label={props.label || "Date of Birth"}
-        ></DateInput>
-      }
-      dateFormat={"dd MMMM yyyy"}
-      isClearable
-      placeholderText={props.placeholder || " "}
-    ></Datepicker>
+      value={date}
+    ></DateInput>
+    // <Datepicker
+    //   selected={date && new Date(props.date)}
+    //   value={date && new Date(props.date)}
+    //   customInput={
+    //   }
+    //   dateFormat={"dd MMMM yyyy"}
+    //   isClearable
+    //   placeholderText={props.placeholder || " "}
+    // ></Datepicker>
   );
 }
 

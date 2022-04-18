@@ -10,6 +10,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Core.Extensions;
 
 namespace Application.Services
 {
@@ -40,7 +41,10 @@ namespace Application.Services
             if (parishioner == null) return;
 
             var isExisting = await _dbContext.Sacraments
-                .AnyAsync(x => x.Id == parishioner.Id && x.Type == sacrament.Type && x.Type != SacramentType.Reconciliation);
+                .AnyAsync(x => 
+                x.ParishionerId == parishioner.Id && 
+                x.Type == sacrament.Type && 
+                x.Type != SacramentType.Reconciliation);
 
             if (isExisting) return;
 
@@ -50,13 +54,14 @@ namespace Application.Services
                 ParishionerId = id,
                 PriestId = sacrament.Priest,
                 GodParentId = sacrament.GodParent,
+                PeformedOn = sacrament.CreatedOn.ToDateTime(),
                 ParishId = parish
             };
 
             parishioner.Sacraments.Add(sacramentEntity);
             await  _dbContext.SaveChangesAsync();
 
-            await _auditService.CreateAuditAsync(AuditType.Created, "Sacrament Created");
+            await _auditService.CreateAuditAsync(AuditType.Created, $"{sacrament.Type} Sacrament Created", parish);
         }
 
         /// <summary>
@@ -67,15 +72,17 @@ namespace Application.Services
         /// <returns></returns>
         public async Task DeleteSacrament(Guid id)
         {
-            var sacrament = await _dbContext.Sacraments.FirstOrDefaultAsync(s => s.Id == id);
+            var sacrament = await _dbContext.Sacraments
+                .Include(x => x.Parish)
+                .FirstOrDefaultAsync(s => s.Id == id);
 
             if (sacrament == null)
             {
                 return;
             }
             _dbContext.Sacraments.Remove(sacrament);
-            await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Deleted, "Sacrament Deleted");
+            await _auditService.CreateAuditAsync(AuditType.Deleted, $"{sacrament.Type} Sacrament Deleted", sacrament.Parish.Id);
+            await _dbContext.SaveChangesAsync();            
         }
 
 
@@ -118,6 +125,7 @@ namespace Application.Services
         public async Task<SacramentViewModel> GetSacrament(Guid id)
         {
             var sacrament = await _dbContext.Sacraments
+                .Include(x => x.Parish)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (sacrament == null)
@@ -127,11 +135,9 @@ namespace Application.Services
 
             var viewModel = SacramentMapping.MapDto(sacrament);
 
-            if (sacrament.ParishId != null)
+            if (sacrament.Parish != null)
             {
-                var parish = await _dbContext.Parishes
-                    .FirstOrDefaultAsync(x => x.Id == sacrament.ParishId);
-                if (parish != null) viewModel.Parish = ParishMapping.MapDto(parish);
+                viewModel.Parish = ParishMapping.MapDto(sacrament.Parish);
             }
 
             if (sacrament.PriestId != null)
@@ -159,7 +165,9 @@ namespace Application.Services
         /// <returns></returns>        
         public async Task UpdateSacrament(Guid id, UpdateSacramentModel viewModel)
         {
-            var sacrament = await _dbContext.Sacraments.FirstOrDefaultAsync(x => x.Id == id);
+            var sacrament = await _dbContext.Sacraments
+                .Include(x => x.Parish)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (sacrament == null) return;
 
@@ -168,7 +176,7 @@ namespace Application.Services
             sacrament.GodParentId = viewModel.GodParent;
 
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Updated, $"{sacrament.Type} Updated");
+            await _auditService.CreateAuditAsync(AuditType.Updated, $"{sacrament.Type} Updated", sacrament.Parish.Id);
         }
 
         /// <summary>

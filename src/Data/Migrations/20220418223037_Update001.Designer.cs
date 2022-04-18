@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(ChurchContext))]
-    [Migration("20220417175040_Update001")]
+    [Migration("20220418223037_Update001")]
     partial class Update001
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -63,6 +63,9 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<Guid>("ParishId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<int>("Type")
                         .HasColumnType("int");
 
@@ -70,6 +73,8 @@ namespace Data.Migrations
                         .HasColumnType("datetime2");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ParishId");
 
                     b.ToTable("Audits");
                 });
@@ -234,6 +239,9 @@ namespace Data.Migrations
                     b.Property<Guid>("ParishionerId")
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<DateTime>("PeformedOn")
+                        .HasColumnType("datetime2");
+
                     b.Property<Guid?>("PriestId")
                         .HasColumnType("uniqueidentifier");
 
@@ -252,12 +260,23 @@ namespace Data.Migrations
                     b.ToTable("Sacraments");
                 });
 
+            modelBuilder.Entity("Data.Entities.Audit", b =>
+                {
+                    b.HasOne("Data.Entities.Parish", "Parish")
+                        .WithMany("Audits")
+                        .HasForeignKey("ParishId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Parish");
+                });
+
             modelBuilder.Entity("Data.Entities.ParishGroup", b =>
                 {
                     b.HasOne("Data.Entities.Parish", "Parish")
                         .WithMany("ChurchGroups")
                         .HasForeignKey("ParishId")
-                        .OnDelete(DeleteBehavior.NoAction);
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Parish");
                 });
@@ -277,13 +296,13 @@ namespace Data.Migrations
                     b.HasOne("Data.Entities.ParishGroup", "ParishGroup")
                         .WithMany("ParishionerParishGroups")
                         .HasForeignKey("ParishGroupId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Data.Entities.Parishioner", "Parishioner")
                         .WithMany("ParishionerParishGroups")
                         .HasForeignKey("ParishionerId")
-                        .OnDelete(DeleteBehavior.NoAction)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("ParishGroup");
@@ -311,6 +330,8 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Parish", b =>
                 {
+                    b.Navigation("Audits");
+
                     b.Navigation("ChurchGroups");
 
                     b.Navigation("Parishioners");

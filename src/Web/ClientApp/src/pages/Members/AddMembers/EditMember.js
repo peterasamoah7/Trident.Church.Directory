@@ -11,7 +11,7 @@ import { ErrorContext } from "../../../context/ErrorContext";
 
 function EditMember(props) {
   const navigate = useNavigate();
-  const [birthDate, setBirthDate] = useState(null);
+  const [dateOfBirth, setDateOfBirth] = useState("");
   const { showError } = useContext(ErrorContext);
 
   const params = useParams();
@@ -28,13 +28,15 @@ function EditMember(props) {
           birthPlace: data.birthPlace ?? "",
           email: data.email ?? "",
           countryCode: data.countryCode ?? "",
-          phone: data.phoneNumber ?? "",
+          phoneNumber: data.phoneNumber ?? "",
           occupation: data.occupation ?? "",
           postalCode: data.postalCode ?? "",
           homeAddress: data.homeAddress ?? "",
           location: data?.location ?? "",
         }));
-        setBirthDate(() => data.dateOfBirth);
+        setDateOfBirth(() =>
+          data.dateOfBirth ? formatDate(data.dateOfBirth) : ""
+        );
       }
     } catch (error) {}
   };
@@ -44,6 +46,18 @@ function EditMember(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  function formatDate(date) {
+    var d = new Date(date),
+      month = "" + (d.getMonth() + 1),
+      day = "" + d.getDate(),
+      year = d.getFullYear();
+
+    if (month.length < 2) month = "0" + month;
+    if (day.length < 2) day = "0" + day;
+
+    return [year, month, day].join("-");
+  }
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -51,7 +65,7 @@ function EditMember(props) {
     birthPlace: "",
     email: "",
     countryCode: "",
-    phone: "",
+    phoneNumber: "",
     occupation: "",
     postalCode: "",
     homeAddress: "",
@@ -75,7 +89,7 @@ function EditMember(props) {
       showError("Please the field Last name cannot be blank");
       return;
     }
-    if (!birthDate) {
+    if (!dateOfBirth) {
       showError("Please the field Birth date cannot be blank");
       return;
     }
@@ -88,7 +102,7 @@ function EditMember(props) {
       showError("Please the field Email cannot be blank");
       return;
     }
-    if (!formData.phone.length) {
+    if (!formData.phoneNumber.length) {
       showError("Please the field Phone cannot be blank");
       return;
     }
@@ -103,7 +117,7 @@ function EditMember(props) {
     }
     const data = {
       ...formData,
-      birthOfDate: birthDate,
+      dateOfBirth: dateOfBirth,
     };
 
     // make request to api to api member profile
@@ -182,8 +196,8 @@ function EditMember(props) {
               /> */}
 
               <DateSelect2
-                date={birthDate}
-                setDate={setBirthDate}
+                date={dateOfBirth}
+                setDate={setDateOfBirth}
                 label={"Date of Birth"}
                 inputContainerClass="input-container__lg"
               />
@@ -257,12 +271,12 @@ function EditMember(props) {
                   }}
                   name="phone"
                   // {...formik.getFieldProps("phone")}
-                  value={formData.phone}
+                  value={formData.phoneNumber}
                   onChange={(e) => {
                     e.persist();
                     setFormData((oldState) => ({
                       ...oldState,
-                      phone: e.target.value,
+                      phoneNumber: e.target.value,
                     }));
                   }}
                 />
@@ -370,7 +384,7 @@ function EditMember(props) {
                 onClick={handleSubmit}
                 type="button"
               >
-                Add new member
+                Save Changes
               </button>
             </div>
           </>

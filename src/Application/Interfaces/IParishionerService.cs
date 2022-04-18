@@ -49,14 +49,6 @@ namespace Application.Interfaces
         Task<PageResult<IEnumerable<ParishionerViewModel>>> GetAllParishioners(Guid parishId, ParishionerType type, string query, int pageNumber, int pageSize);
 
         /// <summary>
-        /// Add Sacrament
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="sacrament"></param>
-        /// <returns></returns>
-        Task AddSacrament(Guid id, Guid parish, CreateSacramentModel sacrament);
-
-        /// <summary>
         /// Add a parishioner relative
         /// </summary>
         /// <param name="id"></param>

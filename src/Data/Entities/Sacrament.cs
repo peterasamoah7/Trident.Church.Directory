@@ -21,6 +21,11 @@ namespace Data.Entities
         public Guid ParishionerId { get; set; }
 
         /// <summary>
+        /// Date sacrament performed
+        /// </summary>
+        public DateTime PeformedOn { get; set; }
+
+        /// <summary>
         /// The Parishioner
         /// </summary>
         public Parishioner Parishioner { get; set; }
