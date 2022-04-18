@@ -56,7 +56,7 @@ namespace Application.Services
             parishioner.Sacraments.Add(sacramentEntity);
             _dbContext.SaveChanges();
 
-            await _auditService.CreateAuditAsync(AuditType.Created, "Sacrament Created");
+            await _auditService.CreateAuditAsync(AuditType.Created, "Sacrament Created", parish);
         }
 
         /// <summary>
@@ -67,15 +67,17 @@ namespace Application.Services
         /// <returns></returns>
         public async Task DeleteSacrament(Guid id)
         {
-            var sacrament = await _dbContext.Sacraments.FirstOrDefaultAsync(s => s.Id == id);
+            var sacrament = await _dbContext.Sacraments
+                .Include(x => x.Parish)
+                .FirstOrDefaultAsync(s => s.Id == id);
 
             if (sacrament == null)
             {
                 return;
             }
             _dbContext.Sacraments.Remove(sacrament);
-            await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Deleted, "Sacrament Deleted");
+            await _auditService.CreateAuditAsync(AuditType.Deleted, "Sacrament Deleted", sacrament.Parish.Id);
+            await _dbContext.SaveChangesAsync();            
         }
 
 
@@ -159,7 +161,9 @@ namespace Application.Services
         /// <returns></returns>        
         public async Task UpdateSacrament(Guid id, UpdateSacramentModel viewModel)
         {
-            var sacrament = await _dbContext.Sacraments.FirstOrDefaultAsync(x => x.Id == id);
+            var sacrament = await _dbContext.Sacraments
+                .Include(x => x.Parish)
+                .FirstOrDefaultAsync(x => x.Id == id);
 
             if (sacrament == null) return;
 
@@ -168,7 +172,7 @@ namespace Application.Services
             sacrament.GodParentId = viewModel.GodParent;
 
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Updated, $"{sacrament.Type} Updated");
+            await _auditService.CreateAuditAsync(AuditType.Updated, $"{sacrament.Type} Updated", sacrament.Parish.Id);
         }
 
         /// <summary>

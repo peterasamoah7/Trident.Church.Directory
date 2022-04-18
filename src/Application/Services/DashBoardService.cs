@@ -16,7 +16,7 @@ namespace Application.Services
             _context = context;
             _auditService = auditService;
         }
-        public async Task<DashboardViewModel> GetDashboard()
+        public async Task<DashboardViewModel> GetDashboard(Guid parish)
         {
             var model = new DashboardViewModel();
             var date = DateTime.Now.AddDays(-30);
@@ -30,7 +30,8 @@ namespace Application.Services
                 Summary = $"{parishesCount} new parishes last month"
             });
 
-            var parishionerCount = await _context.Parishioners.CountAsync(x => x.CreatedOn > date);
+            var parishionerCount = await _context.Parishioners.CountAsync(
+                x => x.CreatedOn > date && x.ParishId == parish);
             model.Metrics.Add(new DashboardMetric
             {
                 Title = "Total Parishioners",
@@ -39,7 +40,8 @@ namespace Application.Services
                 Summary = $"{parishionerCount} new parishioners last month"
             });
 
-            var parishGroupCount = await _context.ParishGroups.CountAsync(x => x.CreatedOn > date);
+            var parishGroupCount = await _context.ParishGroups.CountAsync(
+                x => x.CreatedOn > date && x.ParishId == parish);
             model.Metrics.Add(new DashboardMetric
             {
                 Title = "Total Parish Groups",
@@ -48,7 +50,8 @@ namespace Application.Services
                 Summary = $"{parishGroupCount} new groups last month"
             });
 
-            var sacramentCount = await _context.Sacraments.CountAsync(x => x.CreatedOn > date);
+            var sacramentCount = await _context.Sacraments.CountAsync(
+                x => x.CreatedOn > date && x.ParishId == parish);
             model.Metrics.Add(new DashboardMetric
             {
                 Title = "Total Sacraments",
@@ -58,10 +61,10 @@ namespace Application.Services
             });
 
             model.TotalParishes = await _context.Parishes.CountAsync();
-            model.TotalSacraments = await _context.Sacraments.CountAsync();
-            model.TotalUnits = await _context.ParishGroups.CountAsync();
-            model.TotalMembers = await _context.Parishioners.CountAsync();
-            model.Audits = await _auditService.GetAllAuditsAsnyc();
+            model.TotalSacraments = await _context.Sacraments.CountAsync(x => x.ParishId == parish);
+            model.TotalUnits = await _context.ParishGroups.CountAsync(x => x.ParishId == parish);
+            model.TotalMembers = await _context.Parishioners.CountAsync(x => x.ParishId == parish);
+            model.Audits = await _auditService.GetAllAuditsAsnyc(parish);
 
             return model;
         }

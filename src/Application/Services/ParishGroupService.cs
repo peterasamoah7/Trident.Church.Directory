@@ -36,7 +36,7 @@ namespace Application.Services
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
-                AuditType.Created, $"{churchGroup.Name} Unit Added");
+                AuditType.Created, $"{churchGroup.Name} Unit Added", parishId);
 
             viewModel.Id = churchGroup.Id;
             return viewModel;
@@ -50,6 +50,7 @@ namespace Application.Services
         public async Task DeleteParishGroup(Guid id)
         {
             var churchGroup = await _dbContext.ParishGroups
+                .Include(x => x.ParishId)
                 .Include(x => x.ParishionerParishGroups)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -63,7 +64,7 @@ namespace Application.Services
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
-                AuditType.Deleted, $"{churchGroup.Name} Deleted");
+                AuditType.Deleted, $"{churchGroup.Name} Deleted", churchGroup.Parish.Id);
 
         }
 
@@ -199,7 +200,7 @@ namespace Application.Services
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
-                AuditType.Updated, $"{churchgroup.Name} Details  Updated");
+                AuditType.Updated, $"{churchgroup.Name} Details  Updated", parishId);
 
             return viewModel;
         }
@@ -221,7 +222,9 @@ namespace Application.Services
                 return;
             }
 
-            var churchGroup = await _dbContext.ParishGroups.FirstOrDefaultAsync(x => x.Id == parishGroupId);
+            var churchGroup = await _dbContext.ParishGroups
+                .Include(x => x.Parish)
+                .FirstOrDefaultAsync(x => x.Id == parishGroupId);
 
             if (churchGroup == null)
             {
@@ -230,6 +233,10 @@ namespace Application.Services
 
             parishioner.ParishGroups.Add(churchGroup);
             await _dbContext.SaveChangesAsync();
+
+            await _auditService.CreateAuditAsync(
+                AuditType.Created, $"{parishioner.FirstName} {parishioner.LastName} " +
+                $"added to {churchGroup.Name}", churchGroup.Parish.Id);
         }
 
         /// <summary>
@@ -244,6 +251,7 @@ namespace Application.Services
                 .FirstOrDefaultAsync(x => x.Id == parishionerId);
 
             var churchGroup = await _dbContext.ParishGroups
+                .Include(x => x.Parish)
                 .Include(x => x.Parishioners)
                 .FirstOrDefaultAsync(x => x.Id == parishGroupId);
 
@@ -254,6 +262,10 @@ namespace Application.Services
 
             churchGroup.Parishioners.Remove(parishioner);
             await _dbContext.SaveChangesAsync();
+
+            await _auditService.CreateAuditAsync(
+                AuditType.Created, $"{parishioner.FirstName} {parishioner.LastName} " +
+                $"removed from {churchGroup.Name}", churchGroup.Parish.Id);
         }
     }
 }

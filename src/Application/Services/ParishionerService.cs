@@ -42,7 +42,7 @@ namespace Application.Services
             await _dbContext.Parishioners.AddAsync(parishioner);
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(
-                AuditType.Created, $" Member {viewModel.FirstName} {viewModel.LastName} Created");
+                AuditType.Created, $" Member {viewModel.FirstName} {viewModel.LastName} Created", parishId);
 
             viewModel.Id = parishioner.Id;
             return viewModel;
@@ -57,6 +57,7 @@ namespace Application.Services
         public async Task<ParishionerViewModel> UpdateParishioner(Guid id, ParishionerViewModel viewModel)
         {
             var parishioner = await _dbContext.Parishioners
+                .Include(x => x.Parish)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             if (parishioner == null)
@@ -76,8 +77,10 @@ namespace Application.Services
 
             _dbContext.Parishioners.Update(parishioner);
             await _dbContext.SaveChangesAsync();
+
             await _auditService.CreateAuditAsync(
-                AuditType.Updated, $"{viewModel.FirstName} {viewModel.LastName} Details Updated");
+                AuditType.Updated, $"{viewModel.FirstName} {viewModel.LastName} " +
+                $"Details Updated", parishioner.Parish.Id);
 
             return viewModel;
         }
@@ -90,6 +93,7 @@ namespace Application.Services
         public async Task DeleteParishioner(Guid id)
         {
             var parishioner = await _dbContext.Parishioners
+                .Include(x => x.Parish)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             var memberDetail = $"{parishioner.FirstName} {parishioner.LastName}";
@@ -102,7 +106,8 @@ namespace Application.Services
             _dbContext.Remove(parishioner);
             await _dbContext.SaveChangesAsync();
 
-            await _auditService.CreateAuditAsync(AuditType.Deleted, $"Member {memberDetail} Deleted");
+            await _auditService.CreateAuditAsync(AuditType.Deleted, 
+                $"Member {memberDetail} Deleted", parishioner.Parish.Id);
         }
 
         /// <summary>
@@ -160,13 +165,14 @@ namespace Application.Services
             var pageRequest = new PageRequest(pageNumber, pageSize);
 
             var parishionerQuery = _dbContext.Parishioners.AsQueryable();
+
             if (!string.IsNullOrEmpty(query))
             {
                 parishionerQuery.Where(x => x.LastName
                     .Contains(query, StringComparison.OrdinalIgnoreCase));
             }
 
-            var parishioners = await _dbContext.Parishioners
+            var parishioners = await parishionerQuery
                 .Where(x => x.ParishId == parishId)
                 .Where(x => x.Type == type)
                 .Skip((pageRequest.PageNumber - 1) * pageRequest.PageSize)
@@ -174,40 +180,10 @@ namespace Application.Services
                 .Select(x => ParishionerMapping.MapDto(x))
                 .ToListAsync();
 
-            var count = await parishionerQuery.CountAsync(x => x.ParishId == parishId);
+            var count = await _dbContext.Parishioners.CountAsync(x => x.ParishId == parishId);
 
             return new PageResult<IEnumerable<ParishionerViewModel>>
                 (parishioners, pageRequest.PageNumber, pageRequest.PageSize, count);
-        }
-
-        /// <summary>
-        /// Add Sacrament
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="sacrament"></param>
-        /// <returns></returns>
-        public async Task AddSacrament(Guid id, Guid parish, CreateSacramentModel sacrament)
-        {
-            var parishioner = await _dbContext.Parishioners
-                .Include(x => x.Sacraments)
-                .FirstOrDefaultAsync(x => x.Id == id);
-
-            if (parishioner == null)
-            {
-                return;
-            }
-
-            var sacramentEntity = new Sacrament
-            {
-                Type = sacrament.Type,
-                ParishionerId = id,
-                PriestId = sacrament.Priest,
-                GodParentId = sacrament.GodParent,
-                ParishId = parish 
-            };
-
-            parishioner.Sacraments.Add(sacramentEntity);
-            _dbContext.SaveChanges();
         }
 
         /// <summary>
@@ -227,6 +203,7 @@ namespace Application.Services
             }
 
             var parishioner = await _dbContext.Parishioners
+                .Include(x => x.Parish)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
             switch (model.RelativeType)
@@ -249,7 +226,7 @@ namespace Application.Services
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
-                AuditType.Deleted, $"Relative added for {parishioner.FirstName} {parishioner.LastName}");
+                AuditType.Deleted, $"Relative added for {parishioner.FirstName} {parishioner.LastName}", parishioner.Parish.Id);
         }
     }
 }
