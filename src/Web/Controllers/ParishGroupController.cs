@@ -116,7 +116,7 @@ namespace Web.Controllers
         [HttpDelete("{parishId}/parishioner/{parishionerId}")]
         public async Task<IActionResult> DeleteParishioner(Guid parishId, Guid parishionerId)
         {
-            await _parishGroupService.DeleteParishionerFromGroup(parishId, parishionerId);
+            await _parishGroupService.DeleteParishionerFromGroup(parishionerId, parishId);
             return Ok();
         }
     }
