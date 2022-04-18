@@ -22,5 +22,9 @@ namespace Data.Entities
         /// Message
         /// </summary>
         public string Message { get; set; }
+
+        public Guid ParishId { get; set; }
+
+        public Parish Parish { get; set; }
     }
 }

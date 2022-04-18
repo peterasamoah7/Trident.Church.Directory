@@ -1,4 +1,5 @@
 ﻿using Core.Models;
+using System;
 using System.Threading.Tasks;
 
 namespace Application.Interfaces
@@ -9,6 +10,6 @@ namespace Application.Interfaces
         /// Get dashbiard information 
         /// </summary>
         /// <returns></returns>
-        Task<DashboardViewModel> GetDashboard();
+        Task<DashboardViewModel> GetDashboard(Guid parish);
     }
 }

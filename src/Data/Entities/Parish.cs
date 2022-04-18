@@ -47,5 +47,10 @@ namespace Data.Entities
         /// Sacraments
         /// </summary>
         public ICollection<Sacrament> Sacraments { get; set; } = new List<Sacrament>();
+
+        /// <summary>
+        /// Audits
+        /// </summary>
+        public ICollection<Audit> Audits { get; set; } = new List<Audit>();
     }
 }

@@ -39,7 +39,7 @@ namespace Application.Services
             await _dbContext.Parishes.AddAsync(parish);
             await _dbContext.SaveChangesAsync();
             viewModel.Id = parish.Id;
-            await _auditService.CreateAuditAsync(AuditType.Created, $" Parish {viewModel.Name} Added");
+            await _auditService.CreateAuditAsync(AuditType.Created, $" Parish {viewModel.Name} Added", parish.Id);
             return viewModel;
 
         }
@@ -57,8 +57,8 @@ namespace Application.Services
                 return;
             }
             _dbContext.Parishes.Remove(isParishExist);
+            await _auditService.CreateAuditAsync(AuditType.Deleted, "Parish Deleted", isParishExist.Id);
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Deleted, "Parish Deleted");
         }
 
         /// <summary>
@@ -192,7 +192,7 @@ namespace Application.Services
             }
             _mapper.Map(viewModel, parish);
             await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Updated, $"{parish.Name} Details Updated");
+            await _auditService.CreateAuditAsync(AuditType.Updated, $"{parish.Name} Details Updated", parish.Id);
             return viewModel;
         }
     }
