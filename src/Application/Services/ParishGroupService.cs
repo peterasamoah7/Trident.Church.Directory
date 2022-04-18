@@ -50,7 +50,7 @@ namespace Application.Services
         public async Task DeleteParishGroup(Guid id)
         {
             var churchGroup = await _dbContext.ParishGroups
-                .Include(x => x.ParishId)
+                .Include(x => x.Parish)
                 .Include(x => x.ParishionerParishGroups)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
