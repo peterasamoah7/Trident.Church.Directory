@@ -182,32 +182,21 @@ namespace Application.Services
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-<<<<<<< HEAD
-        public async Task UpdateParishGroup(UpdateParishGroupModel viewModel)
+
+        public async Task UpdateParishGroup(Guid parishId, UpdateParishGroupModel viewModel)
         {
             var churchGroup = await _dbContext.ParishGroups
-                .FirstOrDefaultAsync(x => x.Id == viewModel.Id);
-=======
-        public async Task<ParishGroupViewModel> UpdateParishGroup(Guid parishId, ParishGroupViewModel viewModel)
-        {
-            var churchgroup = await _dbContext.ParishGroups
                 .FirstOrDefaultAsync(x => x.Id == parishId);
->>>>>>> main
 
             if (churchGroup == null)
             {
                 return;
             }
-<<<<<<< HEAD
-            /*churchgroup = ParishGroupMapping.MapEntity(viewModel);*/
+
             _mapper.Map(viewModel, churchGroup); 
-=======
 
-            churchgroup.Name = viewModel.Name;
-            churchgroup.Description = viewModel.Description;
 
-            _dbContext.Update(churchgroup);
->>>>>>> main
+            _dbContext.Update(churchGroup);
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(

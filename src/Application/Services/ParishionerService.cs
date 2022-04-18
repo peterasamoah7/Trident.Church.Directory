@@ -40,15 +40,9 @@ namespace Application.Services
             parishioner.ParishId = parishId;
             await _dbContext.Parishioners.AddAsync(parishioner);
             await _dbContext.SaveChangesAsync();
-<<<<<<< HEAD
-            await _auditService.CreateAuditAsync(AuditType.Created, $" Member {viewModel} Created");
-=======
-            await _auditService.CreateAuditAsync(
-                AuditType.Created, $" Member {viewModel.FirstName} {viewModel.LastName} Created");
 
-            viewModel.Id = parishioner.Id;
-            return viewModel;
->>>>>>> main
+            await _auditService.CreateAuditAsync(
+                AuditType.Created, $" Member {viewModel.FirstName} {viewModel.LastName} Created");;
         }
 
         /// <summary>
@@ -64,34 +58,15 @@ namespace Application.Services
 
             if (parishioner == null)
             {
-                return ;
+                return;
             }
 
-<<<<<<< HEAD
-            /*parishioner = _mapper.Map<Parishioner>(viewModel);
-            _dbContext.Parishioners.Update(parishioner);*/
-            
-            _mapper.Map(viewModel, parishioner); 
-            await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Updated, $"{viewModel} Details Updated");
-=======
-            parishioner.PhoneNumber = viewModel.PhoneNumber;
-            parishioner.DateOfBirth = viewModel.DateOfBirth.ToDateTime();
-            parishioner.Location = viewModel.Location;
-            parishioner.Occupation = viewModel.Occupation;
-            parishioner.Email = viewModel.Email;
-            parishioner.HomeAddress = viewModel.HomeAddress;
-            parishioner.FirstName = viewModel.FirstName;
-            parishioner.LastName = viewModel.LastName;
-            parishioner.PostCode = viewModel.PostCode;
-
+            _mapper.Map(viewModel, parishioner);
             _dbContext.Parishioners.Update(parishioner);
+
             await _dbContext.SaveChangesAsync();
             await _auditService.CreateAuditAsync(
-                AuditType.Updated, $"{viewModel.FirstName} {viewModel.LastName} Details Updated");
-
-            return viewModel;
->>>>>>> main
+               AuditType.Updated, $"{viewModel.FirstName} {viewModel.LastName} Details Updated");
         }
 
         /// <summary>
