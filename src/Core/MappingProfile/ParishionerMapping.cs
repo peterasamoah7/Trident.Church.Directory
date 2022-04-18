@@ -23,7 +23,7 @@ namespace Core.MappingProfile
                 HomeAddress = parishioner.HomeAddress,
                 PostCode = parishioner.PostCode,
                 Occupation = parishioner.Occupation,
-
+                CreatedOn = parishioner.CreatedOn.ToFullDate(),
             };
 
             return model;
