@@ -36,7 +36,6 @@ function FilledState(props) {
     axios.get(`/api/parishioner/get/${params.id}`).then((response) => {
       if (response.status === 200) {
         setMember(response.data);
-        console.log("xxxx:", response.data);
       } else {
         //show errors
       }
