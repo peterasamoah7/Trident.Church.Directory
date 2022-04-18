@@ -14,7 +14,7 @@ import axios from "axios";
 function BasicInformation(props) {
   const navigate = useNavigate();
   const { showError } = useContext(ErrorContext);
-  const [birthDate, setBirthDate] = useState(null);
+  const [dateOfBirth, setDateOfBirth] = useState(null);
 
   const [formData, setFormData] = useState({
     firstName: "",
@@ -46,7 +46,7 @@ function BasicInformation(props) {
       showError("Please the field Last name cannot be blank");
       return;
     }
-    if (!birthDate) {
+    if (!dateOfBirth) {
       showError("Please the field Birth date cannot be blank");
       return;
     }
@@ -74,7 +74,7 @@ function BasicInformation(props) {
     }
     const data = {
       ...formData,
-      birthOfDate: new Date(birthDate),
+      dateOfBirth: new Date(dateOfBirth),
     };
 
     // make request to api to api member profile
@@ -146,8 +146,8 @@ function BasicInformation(props) {
               />
 
               <DateSelect2
-                date={birthDate}
-                setDate={setBirthDate}
+                date={dateOfBirth}
+                setDate={setDateOfBirth}
                 inputContainerClass="input-container__lg"
               />
 
