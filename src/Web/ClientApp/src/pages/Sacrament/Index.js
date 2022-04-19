@@ -65,7 +65,7 @@ function Sacrament(props) {
         >
           {sacrament &&
             sacrament.map((item, index) => {
-              return <UnitCard key={item.id} item={item} index={index} />;
+              return <UnitCard key={index} item={item} index={index} />;
             })}
         </section>
       </main>

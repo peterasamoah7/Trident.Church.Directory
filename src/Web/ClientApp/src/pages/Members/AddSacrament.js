@@ -24,7 +24,7 @@ function AddSacrament({ onLayoutType }) {
 
   // sacrament form data
   const [sacramentType, setSacramentType] = useState("");
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState("");
   const [sacramentPriest, setSacramentPriest] = useState(null);
   const [godParent, setGodParent] = useState(null);
 

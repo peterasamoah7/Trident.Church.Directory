@@ -53,7 +53,7 @@ function Sacrament({ model }) {
     <>
       <div className="sacrament py-1 d-flex border-bottom">
         <p className="date d-flex flex-column align-items-center justify-content-center col-2 border-end border-1 my-2">
-          <span className="fs-5">{convertDate(model.createdOn).getDay()}</span>
+          <span className="fs-5">{convertDate(model.createdOn).getDate()}</span>
           <span className="text-muted text-uppercase">
             {convertDate(model.createdOn).toLocaleString("en-us", {
               month: "short",
@@ -94,7 +94,7 @@ function Sacrament({ model }) {
           }}
         >
           <div className="d-flex flex-column border-end py-3 px-4 justify-content-center align-items-center">
-            <h5>{convertDate(model.createdOn).getDay()}</h5>
+            <h5>{convertDate(model.createdOn).getDate()}</h5>
             <p className="h5 lead text-muted text-uppercase">
               {convertDate(model.createdOn).toLocaleString("en-us", {
                 month: "short",
