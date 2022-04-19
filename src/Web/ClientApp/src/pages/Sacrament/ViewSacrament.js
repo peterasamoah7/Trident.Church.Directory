@@ -15,6 +15,7 @@ import Layout from "../../components/Layout";
 import axios from "axios";
 import { useContext } from "react";
 import { ErrorContext } from "../../context/ErrorContext";
+import DeleteSacramentModal from "../../components/modal/DeleteSacramentModal";
 
 function ViewSacrament({ onLayoutType }) {
   const [members, setMembers] = useState(null);
@@ -120,9 +121,12 @@ function ViewSacrament({ onLayoutType }) {
                             onView={() =>
                               navigate(`/members/view-member/${member.id}`)
                             }
+                            deletable
+                            onDelete={() => console.log("hello")}
                           />
                         </td>
                       </tr>
+                      {/* <DeleteSacramentModal sacramentId={}/> */}
                     </React.Fragment>
                   );
                 })}

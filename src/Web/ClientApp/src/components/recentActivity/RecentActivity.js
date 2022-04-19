@@ -36,7 +36,7 @@ function RecentActivity(props) {
       style={{
         minHeight: "100%",
       }}
-      {...props}
+      // {...props}
     >
       <div
         className={
