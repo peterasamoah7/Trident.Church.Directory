@@ -10,12 +10,21 @@ import { setAuthCookie } from "../../services/auth";
 
 // Formik
 import { useFormik } from "formik";
+import { useEffect } from "react";
 
 const Login = () => {
   let location = useLocation();
   let navigate = useNavigate();
 
-  const [authError, setAuthError] = useState(false)
+  const [authError, setAuthError] = useState(false);
+
+  const controller = new AbortController();
+
+  useEffect(() => {
+    return () => {
+      controller.abort();
+    };
+  });
 
   const formik = useFormik({
     initialValues: {
@@ -23,23 +32,25 @@ const Login = () => {
       password: "",
       rememberUser: false,
     },
-    onSubmit: async(values) => {
-      console.log("entered")
+    onSubmit: async (values) => {
+      console.log("entered");
       try {
-        
-        const response = await axios.post(`/api/account/login`, { ...values })
+        const response = await axios.post(
+          `/api/account/login`,
+          { ...values },
+          { signal: controller.signal }
+        );
 
         if (response.status === 200) {
           setAuthCookie();
           navigate(from, { replace: true });
         } else {
           //handle errors.
-          setAuthError(true)
+          setAuthError(true);
         }
-      
       } catch (error) {
-        console.log("occurred")
-        setAuthError(true)
+        console.log("occurred");
+        setAuthError(true);
       }
     },
     validate: (values) => {
@@ -141,13 +152,11 @@ const Login = () => {
                 })
               : null}
 
-              {
-                authError ?
-                  <li className={"bad"}>
-                      Invalid Credientials Provided, Please Try Again
-                    </li>
-                    : null
-              }
+            {authError ? (
+              <li className={"bad"}>
+                Invalid Credientials Provided, Please Try Again
+              </li>
+            ) : null}
           </section>
           <header className="mb-2">
             <h4 className="mb-1">Login</h4>

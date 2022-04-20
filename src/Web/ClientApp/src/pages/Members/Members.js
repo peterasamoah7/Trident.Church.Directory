@@ -19,9 +19,19 @@ function Members() {
   const [prevPage, setPrevPage] = useState(null);
   const [searchValue, setSearchValue] = useState("");
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   useEffect(() => {
     let path = "";
     getMembers(path);
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -29,7 +39,8 @@ function Members() {
     const request = await axios.get(
       `/api/parishioner/getall?query=${
         query.length ? query : searchValue
-      }&${path}`
+      }&${path}`,
+      { signal: controller.signal }
     );
 
     if (request.status === 200) {

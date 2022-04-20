@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import EmailInput from "../../components/inputs/specialInputs/EmailInput";
 import AuthenticationLogo from "./AuthenticationLogo";
 import { Link } from "react-router-dom";
@@ -9,6 +9,13 @@ import axios from "axios";
 import { useFormik } from "formik";
 
 const ForgotPassword = () => {
+  const controller = new AbortController();
+
+  useEffect(() => {
+    return () => {
+      controller.abort();
+    };
+  });
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -17,7 +24,9 @@ const ForgotPassword = () => {
       console.log(values);
 
       axios
-        .get(`/api/account/resetpassword?email=${values.email}`)
+        .get(`/api/account/resetpassword?email=${values.email}`, {
+          signal: controller.signal,
+        })
         .then((response) => {
           if (response.status === 200) {
             setInComplete(false);

@@ -19,9 +19,19 @@ function Units(props) {
   const [, setPrevPage] = useState(null);
   const [searchValue, setSearchValue] = useState("");
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   useEffect(() => {
     let path = "";
     getGroups(path);
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -37,7 +47,8 @@ function Units(props) {
     const request = await axios.get(
       `/api/parishgroup/getall?query=${
         query.length ? query : searchValue
-      }&${path}`
+      }&${path}`,
+      { signal: controller.signal }
     );
 
     if (request.status === 200) {

@@ -14,11 +14,19 @@ function EditMember(props) {
   const [dateOfBirth, setDateOfBirth] = useState("");
   const { showError } = useContext(ErrorContext);
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   const params = useParams();
 
   const fetchMember = async () => {
     try {
-      const request = await axios.get(`/api/parishioner/get/${params.id}`);
+      const request = await axios.get(`/api/parishioner/get/${params.id}`, {
+        signal: controller.signal,
+      });
 
       if (request.status === 200) {
         const data = request.data;
@@ -43,6 +51,10 @@ function EditMember(props) {
 
   useEffect(() => {
     fetchMember();
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -124,7 +136,8 @@ function EditMember(props) {
     try {
       const request = await axios.put(
         `/api/parishioner/update/${params.id}`,
-        data
+        data,
+        { signal: controller.signal }
       );
       if (request.status === 200 || request.status === 201) {
         showError("Profile Successfully Updated", "success");

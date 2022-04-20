@@ -17,10 +17,17 @@ function RecentActivities() {
   const [previousPage, setPreviousPage] = useState(null);
   const [query] = useState("");
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   const fetchRecentActivities = async (path) => {
     try {
       const request = await axios.get(
-        `api/dashboard/getactivity?query=${query}&${path?.length && path}`
+        `api/dashboard/getactivity?query=${query}&${path?.length && path}`,
+        { signal: controller.signal }
       );
       if (request.status === 200) {
         setRecentActivities(() => request.data.data);
@@ -36,6 +43,10 @@ function RecentActivities() {
 
   useEffect(() => {
     fetchRecentActivities();
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (

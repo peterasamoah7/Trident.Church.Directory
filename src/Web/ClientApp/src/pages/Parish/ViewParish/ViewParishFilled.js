@@ -18,6 +18,10 @@ function ViewParishFilled() {
   useEffect(() => {
     let path = "";
     getMembers(path);
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -29,9 +33,17 @@ function ViewParishFilled() {
     getMembers(prevPage);
   };
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   const getMembers = (path) => {
     axios
-      .get(`/api/parish/${params.id}/parishioners/${path}`)
+      .get(`/api/parish/${params.id}/parishioners/${path}`, {
+        signal: controller.signal,
+      })
       .then((response) => {
         if (response.status === 200) {
           setMemebers(null);

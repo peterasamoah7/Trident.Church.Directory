@@ -20,9 +20,19 @@ function ParishFilledState() {
 
   const [searchValue, setSearchValue] = useState("");
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   useEffect(() => {
     let path = "";
     getParishes(path);
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -36,7 +46,10 @@ function ParishFilledState() {
 
   const getParishes = async (path = "", query = "") => {
     const request = await axios.get(
-      `/api/parish?query=${query.length ? query : searchValue}&${path}`
+      `/api/parish?query=${query.length ? query : searchValue}&${path}`,
+      {
+        signal: controller.signal,
+      }
     );
 
     if (request.status === 200) {

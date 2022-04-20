@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useFormik } from "formik";
 
@@ -17,6 +17,14 @@ import axios from "axios";
 function InviteMember() {
   const modalRef = useRef();
 
+  const controller = new AbortController();
+
+  useEffect(() => {
+    return () => {
+      controller.abort();
+    };
+  });
+
   const formik = useFormik({
     initialValues: {
       firstName: "",
@@ -24,13 +32,19 @@ function InviteMember() {
       email: "",
     },
     onSubmit: (values) => {
-      axios.post("/api/account/register", { ...values }).then((response) => {
-        if (response.status === 200) {
-          modalRef.current.classList.remove("modal__hidden");
-        } else {
-          //show error
-        }
-      });
+      axios
+        .post(
+          "/api/account/register",
+          { ...values },
+          { signal: controller.signal }
+        )
+        .then((response) => {
+          if (response.status === 200) {
+            modalRef.current.classList.remove("modal__hidden");
+          } else {
+            //show error
+          }
+        });
     },
     validate: (values) => {
       let errors = {

@@ -23,14 +23,26 @@ function AddFamilyRelatives() {
 
   const { id } = useParams();
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   useEffect(() => {
-    axios.get(`/api/parishioner/get/${id}`).then((response) => {
-      if (response.status === 200) {
-        setMember(response.data);
-      } else {
-        //show errors
-      }
-    });
+    axios
+      .get(`/api/parishioner/get/${id}`, { signal: controller.signal })
+      .then((response) => {
+        if (response.status === 200) {
+          setMember(response.data);
+        } else {
+          //show errors
+        }
+      });
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -62,7 +74,8 @@ function AddFamilyRelatives() {
   ) => {
     firstTime = firstTime ? firstTime : !firstTime && page <= 1 ? true : false;
     const request = await axios.get(
-      `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}`
+      `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}`,
+      { signal: controller.signal }
     );
     if (request.status === 200) {
       const { data: result } = request;
@@ -109,6 +122,10 @@ function AddFamilyRelatives() {
         false
       );
     }
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [relativesPage]);
 
@@ -142,7 +159,8 @@ function AddFamilyRelatives() {
     try {
       const request = await axios.put(
         `/api/parishioner/addrelative/${id}`,
-        data
+        data,
+        { signal: controller.signal }
       );
       if (request.status === 200 || request.status === 201) {
         navigate(`/members/view-member/${id}`);

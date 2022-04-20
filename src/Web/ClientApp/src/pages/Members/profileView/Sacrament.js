@@ -8,21 +8,36 @@ import RoundPerson from "../../../Elements/svgs/RoundPerson";
 import BlueParish from "../../../Elements/svgs/BlueParish";
 import axios from "axios";
 import { ErrorContext } from "../../../context/ErrorContext";
+import SvgRoundPen from "../../../Elements/svgs/RoundPen";
+import DeleteSacramentModal from "../../../components/modal/DeleteSacramentModal";
+import { useNavigate } from "react-router-dom";
 
 function Sacrament({ model }) {
   const modalRef = useRef();
-  const [sacrament, setSacrament] = useState({});
+  const [sacrament, setSacrament] = useState(null);
   const { showError } = useContext(ErrorContext);
+  const [showModal, setShowModal] = useState(false);
+  const deleteModalRef = useRef();
+  const navigate = useNavigate();
 
-  function handleCreate(e) {
+  function handleShowModal(e) {
     e.preventDefault();
+    setShowModal((state) => !state);
     modalRef.current.classList.toggle("modal__hidden");
-    // 	console.log(modalRef.current);
   }
+
+  function handleShowDeleteModal(e) {
+    e.preventDefault();
+    deleteModalRef.current.classList.toggle("modal__hidden");
+  }
+
+  const controller = new AbortController();
 
   const fetchSacrament = async () => {
     try {
-      const request = await axios.get(`/api/sacrament/get/${model.id}`);
+      const request = await axios.get(`/api/sacrament/get/${model.id}`, {
+        signal: controller.signal,
+      });
       if (request.status === 200) {
         setSacrament(() => request.data);
       }
@@ -33,21 +48,30 @@ function Sacrament({ model }) {
   };
 
   useEffect(() => {
-    fetchSacrament();
+    if (showModal && sacrament === null) {
+      fetchSacrament();
+    }
+    return () => {
+      controller.abort();
+    };
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [showModal]);
 
   function convertDate(dateStr) {
-    if (dateStr !== null) {
-      if (dateStr.indexOf("T") >= 0) {
-        dateStr = dateStr.split("T")[0];
-      }
-      if (dateStr.indexOf("+") >= 0) {
-        dateStr = dateStr.split("+")[0];
-      }
-    }
     return new Date(dateStr);
   }
+
+  const handleDeleteFunc = async () => {
+    try {
+      const request = await axios.delete(`/api/sacrament/delete/${model.id}`);
+      if (request.status === 200) {
+        navigate(0);
+      }
+    } catch (error) {
+      showError("There was an unexpected error");
+    }
+  };
 
   return (
     <>
@@ -65,13 +89,13 @@ function Sacrament({ model }) {
           <section>
             <h6 className="m-0">{model.type}</h6>
           </section>
-          <section>
+          <section className="d-flex">
             {/* <p className="text-muted m-0">{parish}</p> */}
             <p className="m-0 p-0 d-flex align-items-center flex-fill justify-content-end">
               <GreenFolder />
               <span
                 className="border-start border-1 border-primary ps-2 ms-2 m-0 p-0 text-primary text-decoration-underline"
-                onClick={handleCreate}
+                onClick={handleShowModal}
                 style={{
                   cursor: "pointer",
                 }}
@@ -79,9 +103,34 @@ function Sacrament({ model }) {
                 View Event
               </span>
             </p>
+
+            <p className="m-0 ms-2 p-0 d-flex align-items-center flex-fill justify-content-end">
+              <SvgRoundPen
+                size="1.7em"
+                className="text-success text-danger"
+                style={{
+                  fontSize: "0.7rem",
+                }}
+              />
+              <span
+                className="border-start border-1 border-primary ps-2 ms-2 m-0 p-0 text-primary text-decoration-underline"
+                onClick={handleShowDeleteModal}
+                style={{
+                  cursor: "pointer",
+                }}
+              >
+                Delete Event
+              </span>
+            </p>
           </section>
         </div>
       </div>
+
+      <DeleteSacramentModal
+        modalRef={deleteModalRef}
+        sacramentId={model.id}
+        handleDeleteFunc={handleDeleteFunc}
+      />
 
       <Modal refer={modalRef}>
         <div

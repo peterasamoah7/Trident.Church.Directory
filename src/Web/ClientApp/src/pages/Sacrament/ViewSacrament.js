@@ -15,7 +15,7 @@ import Layout from "../../components/Layout";
 import axios from "axios";
 import { useContext } from "react";
 import { ErrorContext } from "../../context/ErrorContext";
-import DeleteSacramentModal from "../../components/modal/DeleteSacramentModal";
+// import DeleteSacramentModal from "../../components/modal/DeleteSacramentModal";
 
 function ViewSacrament({ onLayoutType }) {
   const [members, setMembers] = useState(null);
@@ -27,12 +27,19 @@ function ViewSacrament({ onLayoutType }) {
   let { id } = useParams();
   const navigate = useNavigate();
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   const getSacramentMembers = async (path, query = "") => {
     try {
       const request = await axios.get(
         `/api/sacrament/getparishioners/${id}?query=${query}&${
           path?.length ? path : `pageNumber=${page}&pageSize=10`
-        }`
+        }`,
+        { signal: controller.signal }
       );
 
       if (request.status === 200) {
@@ -60,6 +67,10 @@ function ViewSacrament({ onLayoutType }) {
 
   useEffect(() => {
     getSacramentMembers();
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 

@@ -32,26 +32,39 @@ function FilledState(props) {
     deleteModalRef.current.classList.toggle("modal__hidden");
   };
 
-  useEffect(() => {
-    axios.get(`/api/parishioner/get/${params.id}`).then((response) => {
-      if (response.status === 200) {
-        setMember(response.data);
-      } else {
-        //show errors
-      }
+  const controller = new AbortController();
 
-      if (response.status === 204) {
-        showError("User does not exist");
-        navigate("/");
-      }
-    });
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
+  useEffect(() => {
+    axios
+      .get(`/api/parishioner/get/${params.id}`, { signal: controller.signal })
+      .then((response) => {
+        if (response.status === 200) {
+          setMember(response.data);
+        } else {
+          //show errors
+        }
+
+        if (response.status === 204) {
+          showError("User does not exist");
+          navigate("/");
+        }
+      });
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const deleteGroup = async () => {
     try {
       const request = await axios.delete(
-        `/api/parishioner/delete/${params.id}`
+        `/api/parishioner/delete/${params.id}`,
+        { signal: controller.signal }
       );
 
       if (request.status === 204 || request.status === 200) {
