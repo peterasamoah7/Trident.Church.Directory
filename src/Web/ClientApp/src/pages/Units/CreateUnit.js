@@ -1,4 +1,4 @@
-import React, { useRef, useState, useContext, useEffect } from "react";
+import React, { useRef, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 
 // components
@@ -24,10 +24,10 @@ function CreateUnit(props) {
 
   const controller = new AbortController();
 
-  useEffect(() => {
-    return controller.abort();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  });
+  // useEffect(() => {
+  //   return controller.abort();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // });
 
   async function handleSubmit(e) {
     e.preventDefault();

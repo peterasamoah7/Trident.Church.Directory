@@ -17,13 +17,16 @@ function EllipseNModal(props) {
   const { editable, deletable } = props;
 
   useEffect(() => {
-    window.addEventListener("click", (e) => {
+    const eventTarget = window.addEventListener("click", (e) => {
       if (!Array.of(...e.target.classList).includes("ellpise")) {
         setClicked(() => false);
       }
     });
 
-    return () => [];
+    return function () {
+      // setClicked(null);
+      window.removeEventListener("click", eventTarget, true);
+    };
   }, []);
 
   //

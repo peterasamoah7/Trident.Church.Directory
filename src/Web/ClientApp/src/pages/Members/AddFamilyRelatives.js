@@ -318,9 +318,11 @@ function AddFamilyRelatives() {
           </Link> */}
 
           <div className=" mt-4 d-flex align-items-center justify-content-between">
-            <button className="btn btn-outline-primary rounded-1 px-4">
-              Cancel
-            </button>
+            <Link to={`/members/view-member/${id}`}>
+              <button className="btn btn-outline-primary rounded-1 px-4">
+                Cancel
+              </button>
+            </Link>
             <input
               type="button"
               value="Add Relative"

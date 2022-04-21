@@ -153,13 +153,22 @@ function Sacrament({ model }) {
           <div className=" py-3  ">
             <h5 className="text-capitalize">{model.type}</h5>
           </div>
-          <div className=" py-3 px-4  d-flex flex-column justify-content-center align-items-center">
-            <RoundPerson />
-          </div>
-          <div className=" py-3  ">
-            <h5>{`${sacrament?.priest?.firstName} ${sacrament?.priest?.lastName}`}</h5>
-            <p className="text-muted fw-lighter ">Sacrament Priest</p>
-          </div>
+          {sacrament?.priest ? (
+            <>
+              <div className=" py-3 px-4  d-flex flex-column justify-content-center align-items-center">
+                <RoundPerson />
+              </div>
+              <div className=" py-3  ">
+                <h5>{`${sacrament?.priest?.firstName} ${sacrament?.priest?.lastName}`}</h5>
+                <p className="text-muted fw-lighter ">Sacrament Priest</p>
+              </div>
+            </>
+          ) : (
+            <>
+              <div></div>
+              <div></div>
+            </>
+          )}
           <div className=" py-3  px-4 d-flex flex-column justify-content-center align-items-center">
             <BlueParish />
           </div>

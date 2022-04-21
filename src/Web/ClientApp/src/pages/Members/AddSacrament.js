@@ -94,8 +94,8 @@ function AddSacrament({ onLayoutType }) {
 
     const data = {
       type: sacramentType,
-      priest: sacramentPriest.id,
-      godParent: godParent.id,
+      priest: sacramentPriest?.id,
+      godParent: godParent?.id,
       createdOn: date,
     };
 

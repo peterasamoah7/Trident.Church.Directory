@@ -33,9 +33,12 @@ function RecentActivity(props) {
           ? "recent-activities px-0 py-0 bg-white rounded-3 border-muted border border-1 mt-5"
           : "recent-activities px-4 py-3 bg-white rounded-3 border-muted border border-1 mt-5"
       }
-      style={{
-        minHeight: "100%",
-      }}
+      style={
+        {
+          // minHeight: "100%",
+          // maxHeight: "100%",
+        }
+      }
       // {...props}
     >
       <div
@@ -88,12 +91,12 @@ function RecentActivity(props) {
           <span className="range"></span>
           {previousPage && (
             <button className="btn py-1 p-2" onClick={paginatePrevious}>
-              &lt;
+              &lt; Prev
             </button>
           )}
           {nextPage && (
             <button className="btn py-1 p-2" onClick={paginateNext}>
-              &gt;
+              Next &gt;
             </button>
           )}
         </small>

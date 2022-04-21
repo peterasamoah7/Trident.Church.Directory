@@ -41,7 +41,7 @@ const DateInput = React.forwardRef(
               className={inputClass || "form-control input"}
               onChange={onChange}
               placeholder={placeholder || " "}
-              value={value}
+              value={value ?? ""}
               // onClick={onClick}
               // autoComplete="off"
             />

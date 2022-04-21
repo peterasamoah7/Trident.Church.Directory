@@ -221,9 +221,11 @@ function FilledState(props) {
                     fontSize: "0.7rem",
                   }}
                 />
-                <span className="border-start border-1 border-primary ps-2 ms-2 m-0 p-0">
-                  Delete Profile
-                </span>
+                <u className="text-primary">
+                  <span className="underline border-start border-1 border-primary ps-2 ms-2 m-0 p-0">
+                    Delete Profile
+                  </span>
+                </u>
               </span>
             </p>
             <Link to="/members" className="text-decoration-none">

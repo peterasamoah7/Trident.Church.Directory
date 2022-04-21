@@ -38,9 +38,9 @@ function ViewUnit({ onLayoutType }) {
 
   const controller = new AbortController();
 
-  //useEffect(() => {
+  // useEffect(() => {
   //   return controller.abort();
-  //  });
+  // });
 
   const fetchGroup = async () => {
     try {

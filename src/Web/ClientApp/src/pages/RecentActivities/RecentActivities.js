@@ -6,7 +6,7 @@ import RecentActivity from "../../components/recentActivity/RecentActivity";
 import Layout from "../../components/Layout";
 
 import SearchInput from "../../components/inputs/specialInputs/SearchInput";
-import DateSelect from "../../components/inputs/datePickers/DateSelect";
+import DateSelect from "../../components/inputs/datePickers/DateSelect2";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
@@ -67,7 +67,7 @@ function RecentActivities() {
             gap: "5px",
           }}
         >
-          <DateSelect placeholder="Date" />
+          <DateSelect label="Date" />
           <select
             name="parish"
             id="parish"
