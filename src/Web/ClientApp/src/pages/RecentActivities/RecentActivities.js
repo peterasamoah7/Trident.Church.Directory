@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import RecentActivity from "../../components/recentActivity/RecentActivity";
 import Layout from "../../components/Layout";
 
-import SearchInput from "../../components/inputs/specialInputs/SearchInput";
-import DateSelect from "../../components/inputs/datePickers/DateSelect2";
+// import SearchInput from "../../components/inputs/specialInputs/SearchInput";
+// import DateSelect from "../../components/inputs/datePickers/DateSelect2";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
@@ -57,7 +57,7 @@ function RecentActivities() {
           &lt; Back to Dashboard
         </Link>
       </header>
-      <div className="my-5 d-flex align-items-center justify-content-between">
+      {/* <div className="my-5 d-flex align-items-center justify-content-between">
         <div className="col-5">
           <SearchInput />
         </div>
@@ -89,7 +89,7 @@ function RecentActivities() {
             <option value="">Sort</option>
           </select>
         </div>
-      </div>
+      </div> */}
       <RecentActivity
         type="full"
         data={recentActivities}
