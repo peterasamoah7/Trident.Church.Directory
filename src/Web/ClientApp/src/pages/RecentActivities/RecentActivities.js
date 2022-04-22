@@ -26,7 +26,7 @@ function RecentActivities() {
   const fetchRecentActivities = async (path) => {
     try {
       const request = await axios.get(
-        `api/dashboard/getactivity?query=${query}&${path?.length && path}`,
+        `api/dashboard/getactivity?${path?.length && path}`,
         { signal: controller.signal }
       );
       if (request.status === 200) {
