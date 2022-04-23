@@ -46,7 +46,13 @@ function ParishFilledState() {
 
   const getParishes = async (path = "", query = "") => {
     const request = await axios.get(
-      `/api/parish?query=${query.length ? query : searchValue}&${path}`,
+      `/api/parish${path?.length ? path : ""}${
+        query?.length
+          ? path?.length
+            ? `&query=${query.length ? query : searchValue}`
+            : `?query=${query.length ? query : searchValue}`
+          : ""
+      }`,
       {
         signal: controller.signal,
       }
@@ -55,12 +61,8 @@ function ParishFilledState() {
     if (request.status === 200) {
       setParishes(null);
       setParishes(request.data);
-      setNextPage(
-        request.data.nextPage?.slice(1, request.data.nextPage?.length)
-      );
-      setPrevPage(
-        request.data.previousPage?.slice(1, request.data.previousPage?.length)
-      );
+      setNextPage(request.data.nextPage);
+      setPrevPage(request.data.previousPage);
     }
   };
 
@@ -116,12 +118,12 @@ function ParishFilledState() {
                   <div className="tableNav ms-4">
                     {prevPage && (
                       <button onClick={prev} className="btn border-none p-2">
-                        &lt;
+                        &lt; Prev
                       </button>
                     )}
                     {nextPage && (
                       <button onClick={next} className="btn border-none p-2">
-                        &gt;
+                        Next &gt;
                       </button>
                     )}
                   </div>

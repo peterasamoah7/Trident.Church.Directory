@@ -45,20 +45,20 @@ function Units(props) {
 
   const getGroups = async (path = "", query = "") => {
     const request = await axios.get(
-      `/api/parishgroup/getall?query=${
-        query.length ? query : searchValue
-      }&${path}`,
+      `/api/parishgroup/getall${path?.length ? path : ""}${
+        query?.length
+          ? path?.length
+            ? `&query=${query.length ? query : searchValue}`
+            : `?query=${query.length ? query : searchValue}`
+          : ""
+      }`,
       { signal: controller.signal }
     );
 
     if (request.status === 200) {
       setGroups(request.data);
-      setNextPage(
-        request.data.nextPage?.slice(1, request.data.nextPage?.length)
-      );
-      setPrevPage(
-        request.data.previousPage?.slice(1, request.data.previousPage?.length)
-      );
+      setNextPage(request.data.nextPage);
+      setPrevPage(request.data.previousPage);
     }
   };
 

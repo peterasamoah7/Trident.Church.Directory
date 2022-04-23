@@ -26,17 +26,19 @@ function RecentActivities() {
   const fetchRecentActivities = async (path) => {
     try {
       const request = await axios.get(
-        `api/dashboard/getactivity?${path?.length && path}`,
+        `api/dashboard/getactivity${path?.length ? path : ""}${
+          query?.length
+            ? path?.length
+              ? `&query=${query}`
+              : `?query=${query}`
+            : ""
+        }`,
         { signal: controller.signal }
       );
       if (request.status === 200) {
         setRecentActivities(() => request.data.data);
-        setNextPage(() =>
-          request.data?.nextPage?.slice(1, request.data.nextPage.length)
-        );
-        setPreviousPage(() =>
-          request.data?.previousPage?.slice(1, request.data.previousPage.length)
-        );
+        setNextPage(() => request.data?.nextPage);
+        setPreviousPage(() => request.data?.previousPage);
       }
     } catch (error) {}
   };
