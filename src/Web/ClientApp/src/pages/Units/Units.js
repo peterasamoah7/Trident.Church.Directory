@@ -40,7 +40,7 @@ function Units(props) {
   };
 
   const prev = async () => {
-    await getGroups(prevPage);
+    await getGroups(previousPage);
   };
 
   const getGroups = async (path = "", query = "") => {
