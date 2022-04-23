@@ -15,8 +15,8 @@ import axios from "axios";
 
 function Units(props) {
   const [groups, setGroups] = useState(null);
-  const [, setNextPage] = useState(null);
-  const [, setPrevPage] = useState(null);
+  const [nextPage, setNextPage] = useState(null);
+  const [previousPage, setPrevPage] = useState(null);
   const [searchValue, setSearchValue] = useState("");
 
   const controller = new AbortController();
@@ -35,13 +35,13 @@ function Units(props) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // const next = async () => {
-  //   await getGroups(nextPage);
-  // };
+  const next = async () => {
+    await getGroups(nextPage);
+  };
 
-  // const prev = async () => {
-  //   await getGroups(prevPage);
-  // };
+  const prev = async () => {
+    await getGroups(prevPage);
+  };
 
   const getGroups = async (path = "", query = "") => {
     const request = await axios.get(
@@ -105,6 +105,35 @@ function Units(props) {
             groups.data.map((item, index) => {
               return <UnitCard key={item.id} item={item} index={index} />;
             })}
+        </section>
+
+        <section className="d-flex justify-content-center">
+          <div className="d-flex ">
+            {previousPage?.length > 0 && (
+              <div
+                style={{
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+                className="me-3"
+                onClick={prev}
+              >
+                {" "}
+                &lt; Prev
+              </div>
+            )}
+            {nextPage?.length > 0 && (
+              <div
+                style={{
+                  textDecoration: "underline",
+                  cursor: "pointer",
+                }}
+                onClick={next}
+              >
+                Next &gt;
+              </div>
+            )}
+          </div>
         </section>
       </main>
     </Layout>
