@@ -15,14 +15,27 @@ import axios from "axios";
 function Sacrament(props) {
   const [sacrament, setSacrament] = useState(null);
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   useEffect(() => {
     getSacraments();
+
+    return () => {
+      controller.abort();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getSacraments = async (query = "") => {
     try {
       const request = await axios.get(
-        `/api/sacrament/getmetrics?pageNumber=1&pageSize=10&query=${query}`
+        `/api/sacrament/getmetrics?pageNumber=1&pageSize=10&query=${query}`,
+        { signal: controller.signal }
       );
 
       if (request.status === 200) {
@@ -65,7 +78,7 @@ function Sacrament(props) {
         >
           {sacrament &&
             sacrament.map((item, index) => {
-              return <UnitCard key={item.id} item={item} index={index} />;
+              return <UnitCard key={index} item={item} index={index} />;
             })}
         </section>
       </main>

@@ -22,6 +22,13 @@ function CreateUnit(props) {
   const [groupDescription, setGroupDescription] = useState("");
   const [group, setGroup] = useState();
 
+  const controller = new AbortController();
+
+  // useEffect(() => {
+  //   return controller.abort();
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // });
+
   async function handleSubmit(e) {
     e.preventDefault();
 
@@ -37,7 +44,9 @@ function CreateUnit(props) {
 
     // call api here
     try {
-      const request = await axios.post("/api/parishgroup/create", data);
+      const request = await axios.post("/api/parishgroup/create", data, {
+        signal: controller.signal,
+      });
 
       if (request.status === 200 || request.status === 201) {
         modalRef.current.classList.toggle("modal__hidden");

@@ -5,8 +5,8 @@ import { Link } from "react-router-dom";
 import RecentActivity from "../../components/recentActivity/RecentActivity";
 import Layout from "../../components/Layout";
 
-import SearchInput from "../../components/inputs/specialInputs/SearchInput";
-import DateSelect from "../../components/inputs/datePickers/DateSelect";
+// import SearchInput from "../../components/inputs/specialInputs/SearchInput";
+// import DateSelect from "../../components/inputs/datePickers/DateSelect2";
 import { useState } from "react";
 import axios from "axios";
 import { useEffect } from "react";
@@ -17,25 +17,38 @@ function RecentActivities() {
   const [previousPage, setPreviousPage] = useState(null);
   const [query] = useState("");
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   const fetchRecentActivities = async (path) => {
     try {
       const request = await axios.get(
-        `api/dashboard/getactivity?query=${query}&${path?.length && path}`
+        `api/dashboard/getactivity${path?.length ? path : ""}${
+          query?.length
+            ? path?.length
+              ? `&query=${query}`
+              : `?query=${query}`
+            : ""
+        }`,
+        { signal: controller.signal }
       );
       if (request.status === 200) {
         setRecentActivities(() => request.data.data);
-        setNextPage(() =>
-          request.data?.nextPage?.slice(1, request.data.nextPage.length)
-        );
-        setPreviousPage(() =>
-          request.data?.previousPage?.slice(1, request.data.previousPage.length)
-        );
+        setNextPage(() => request.data?.nextPage);
+        setPreviousPage(() => request.data?.previousPage);
       }
     } catch (error) {}
   };
 
   useEffect(() => {
     fetchRecentActivities();
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
@@ -46,7 +59,7 @@ function RecentActivities() {
           &lt; Back to Dashboard
         </Link>
       </header>
-      <div className="my-5 d-flex align-items-center justify-content-between">
+      {/* <div className="my-5 d-flex align-items-center justify-content-between">
         <div className="col-5">
           <SearchInput />
         </div>
@@ -56,7 +69,7 @@ function RecentActivities() {
             gap: "5px",
           }}
         >
-          <DateSelect placeholder="Date" />
+          <DateSelect label="Date" />
           <select
             name="parish"
             id="parish"
@@ -78,7 +91,7 @@ function RecentActivities() {
             <option value="">Sort</option>
           </select>
         </div>
-      </div>
+      </div> */}
       <RecentActivity
         type="full"
         data={recentActivities}

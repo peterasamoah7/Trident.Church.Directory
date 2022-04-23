@@ -151,7 +151,7 @@ namespace Application.Services
             {
                 var parishioner = await _dbContext.Parishioners
                     .FirstOrDefaultAsync(x => x.Id == sacrament.GodParentId);
-                if (parishioner != null) viewModel.Priest = ParishionerMapping.MapDto(parishioner);
+                if (parishioner != null) viewModel.GodParent = ParishionerMapping.MapDto(parishioner);
             }
 
             return viewModel;

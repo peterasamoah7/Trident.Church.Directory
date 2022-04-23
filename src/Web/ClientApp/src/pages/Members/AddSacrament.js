@@ -24,7 +24,7 @@ function AddSacrament({ onLayoutType }) {
 
   // sacrament form data
   const [sacramentType, setSacramentType] = useState("");
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState("");
   const [sacramentPriest, setSacramentPriest] = useState(null);
   const [godParent, setGodParent] = useState(null);
 
@@ -42,6 +42,12 @@ function AddSacrament({ onLayoutType }) {
   const [showGodParent, setShowGodParent] = useState(false);
   const [GodParentPage, setGodParentPage] = useState(1);
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   // generic fetch for getting sacrament priest and godfather
   const fetchParisher = async (
     searchValue = "",
@@ -55,7 +61,8 @@ function AddSacrament({ onLayoutType }) {
     const request = await axios.get(
       `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}${
         isPriest === true ? "&type=priest" : ""
-      }`
+      }`,
+      { signal: controller.signal }
     );
     if (request.status === 200) {
       const { data: result } = request;
@@ -74,27 +81,29 @@ function AddSacrament({ onLayoutType }) {
   async function handleCreate(e) {
     e.preventDefault();
 
-    if (!sacramentPriest) {
-      showError("Please select a Sacrament Priest");
-      return;
-    }
+    // if (!sacramentPriest) {
+    //   showError("Please select a Sacrament Priest");
+    //   return;
+    // }
 
-    if (!godParent) {
-      showError("Please select a God Parent");
-      return;
-    }
+    // if (!godParent) {
+    //   showError("Please select a God Parent");
+    //   return;
+    // }
     setLoading(() => true);
 
     const data = {
       type: sacramentType,
-      priest: sacramentPriest.id,
-      godParent: godParent.id,
+      priest: sacramentPriest?.id,
+      godParent: godParent?.id,
       createdOn: date,
     };
 
     // call endpoint to add sacrament here
     try {
-      const request = await axios.post(`/api/sacrament/create/${id}`, data);
+      const request = await axios.post(`/api/sacrament/create/${id}`, data, {
+        signal: controller.signal,
+      });
 
       if (request.status === 200 || request.status === 201) {
         modalRef.current.classList.toggle("modal__hidden");
@@ -111,7 +120,9 @@ function AddSacrament({ onLayoutType }) {
   const [SACRAMENT_TYPE, setSACRAMENT_TYPE] = useState([]);
 
   const fetchSacramentType = async () => {
-    const request = await axios.get("/api/sacrament/getdefault");
+    const request = await axios.get("/api/sacrament/getdefault", {
+      signal: controller.signal,
+    });
 
     if (request.status === 200) {
       const data = request.data;
@@ -122,6 +133,9 @@ function AddSacrament({ onLayoutType }) {
 
   useEffect(() => {
     fetchSacramentType();
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -160,6 +174,10 @@ function AddSacrament({ onLayoutType }) {
         true
       );
     }
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchSacramentPriest]);
 
@@ -178,6 +196,10 @@ function AddSacrament({ onLayoutType }) {
         true
       );
     }
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sacramentPriestPage]);
 
@@ -209,6 +231,12 @@ function AddSacrament({ onLayoutType }) {
         true
       );
     }
+
+    return () => {
+      controller.abort();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchGodParent]);
 
   // onchange for searching of god parent
@@ -226,6 +254,10 @@ function AddSacrament({ onLayoutType }) {
         false
       );
     }
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [GodParentPage]);
 

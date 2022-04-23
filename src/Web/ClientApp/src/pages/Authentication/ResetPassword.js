@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import AuthenticationLogo from "./AuthenticationLogo";
 import PasswordInput from "../../components/inputs/specialInputs/PasswordInput";
 import { Link } from "react-router-dom";
@@ -10,6 +10,14 @@ import { useParams } from "react-router-dom";
 import { useFormik } from "formik";
 
 const ResetPassword = () => {
+  const controller = new AbortController();
+
+  useEffect(() => {
+    return () => {
+      controller.abort();
+    };
+  });
+
   let params = useParams();
   const formik = useFormik({
     initialValues: {
@@ -18,7 +26,11 @@ const ResetPassword = () => {
     },
     onSubmit: (values) => {
       axios
-        .post(`/api/account/resetpassword`, { ...values })
+        .post(
+          `/api/account/resetpassword`,
+          { ...values },
+          { signal: controller.signal }
+        )
         .then((response) => {
           if (response.status === 200) {
             setInComplete(false);

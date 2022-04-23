@@ -19,27 +19,38 @@ function Members() {
   const [prevPage, setPrevPage] = useState(null);
   const [searchValue, setSearchValue] = useState("");
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   useEffect(() => {
     let path = "";
     getMembers(path);
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const getMembers = async (path = "", query = "") => {
     const request = await axios.get(
-      `/api/parishioner/getall?query=${
-        query.length ? query : searchValue
-      }&${path}`
+      `/api/parishioner/getall${path?.length ? path : ""}${
+        query?.length
+          ? path?.length
+            ? `&query=${query.length ? query : searchValue}`
+            : `?query=${query.length ? query : searchValue}`
+          : ""
+      }`,
+      { signal: controller.signal }
     );
 
     if (request.status === 200) {
       setMembers(request.data);
-      setNextPage(
-        request.data.nextPage?.slice(1, request.data.nextPage?.length)
-      );
-      setPrevPage(
-        request.data.previousPage?.slice(1, request.data.previousPage?.length)
-      );
+      setNextPage(request.data.nextPage);
+      setPrevPage(request.data.previousPage);
     }
   };
 
@@ -113,12 +124,12 @@ function Members() {
                   <div className="tableNav ms-4">
                     {prevPage && (
                       <button onClick={prev} className="btn border-none p-2">
-                        &lt;
+                        &lt; Prev
                       </button>
                     )}
                     {nextPage && (
                       <button onClick={next} className="btn border-none p-2">
-                        &gt;
+                        Next &gt;
                       </button>
                     )}
                   </div>

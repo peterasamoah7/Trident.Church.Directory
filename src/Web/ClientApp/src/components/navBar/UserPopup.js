@@ -22,6 +22,12 @@ function UserPopup({ modalRef }) {
 
   const router = useNavigate();
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   function handleEditUserName() {
     modalRef.current.classList.add("modal__hidden");
     // show next modal
@@ -96,7 +102,11 @@ function UserPopup({ modalRef }) {
       },
       onSubmit: (values) => {
         axios
-          .post("api/account/changeemail", { ...values })
+          .post(
+            "api/account/changeemail",
+            { ...values },
+            { signal: controller.signal }
+          )
           .then((response) => {
             if (response.status === 200) {
               refer.current.classList.add("modal__hidden");
@@ -178,7 +188,11 @@ function UserPopup({ modalRef }) {
         // display success modal
 
         axios
-          .post("api/account/changepassword", { ...values })
+          .post(
+            "api/account/changepassword",
+            { ...values },
+            { signal: controller.signal }
+          )
           .then((response) => {
             if (response.status === 200) {
               refer.current.classList.add("modal__hidden");

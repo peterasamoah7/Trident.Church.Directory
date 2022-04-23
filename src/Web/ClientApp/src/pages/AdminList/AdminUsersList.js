@@ -16,22 +16,35 @@ import EllipseNModal from "../../components/modal/EllipseNModal";
 function AdminUsersList(props) {
   const [adminUser, setAdminUsers] = useState(null);
 
+  const controller = new AbortController();
+
   useEffect(() => {
-    axios.get("/api/account/getusers").then((response) => {
-      if (response.status === 200) {
-        setAdminUsers(response.data);
-      } else {
-      }
-    });
+    axios
+      .get("/api/account/getusers", { signal: controller.signal })
+      .then((response) => {
+        if (response.status === 200) {
+          setAdminUsers(response.data);
+        } else {
+        }
+      });
+
+    return () => {
+      controller.abort();
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const searchUser = (query) => {
-    axios.get(`/api/account/getusers?query=${query}`).then((response) => {
-      if (response.status === 200) {
-        setAdminUsers(response.data);
-      } else {
-      }
-    });
+    axios
+      .get(`/api/account/getusers?query=${query}`, {
+        signal: controller.signal,
+      })
+      .then((response) => {
+        if (response.status === 200) {
+          setAdminUsers(response.data);
+        } else {
+        }
+      });
   };
 
   // const deleteUser = (id) => {

@@ -11,31 +11,38 @@ function SpecialInput({
 }) {
   return (
     <React.Fragment>
-      <div class="input-group mb">
-        <span class="input-group-text bg-white" id="basic-addon1" style={{borderRight: "none", display: isTextArea ? "block" : "flex"}}>
+      <div className="input-group mb">
+        <span
+          className="input-group-text bg-white"
+          id="basic-addon1"
+          style={{
+            borderRight: "none",
+            display: isTextArea ? "block" : "flex",
+          }}
+        >
           {icon}
         </span>
         {!isTextArea ? (
           <input
             type={type ?? "text"}
-            class="form-control pb-2"
+            className="form-control pb-2"
             placeholder={placeholder}
             aria-label={name}
             value={value}
             onChange={(e) => setValue(e.target.value)}
             aria-describedby="basic-addon1"
-            style={{borderLeft: "none"}}
+            style={{ borderLeft: "none" }}
           />
         ) : (
           <textarea
             cols="30"
             rows="10"
             width="100%"
-            class="form-control"
+            className="form-control"
             aria-label={name}
             value={value}
-            onChange={e=>setValue(e.target.value)}
-            style={{borderLeft: "none", resize: "none"}}
+            onChange={(e) => setValue(e.target.value)}
+            style={{ borderLeft: "none", resize: "none" }}
             placeholder={placeholder}
           ></textarea>
         )}

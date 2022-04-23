@@ -10,3 +10,5 @@ export const removeAuthCookie = async () => {
   }
 };
 export const getAuthCookie = () => getCookie("authenticated");
+
+// controller.abort();

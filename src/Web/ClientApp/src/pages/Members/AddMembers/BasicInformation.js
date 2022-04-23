@@ -16,6 +16,12 @@ function BasicInformation(props) {
   const { showError } = useContext(ErrorContext);
   const [dateOfBirth, setDateOfBirth] = useState("");
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -79,7 +85,9 @@ function BasicInformation(props) {
 
     // make request to api to api member profile
     try {
-      const request = await axios.post(`/api/parishioner/create`, data);
+      const request = await axios.post(`/api/parishioner/create`, data, {
+        signal: controller.signal,
+      });
       if (request.status === 200 || request.status === 201) {
         const data = request.data;
         showError("Member Successfully Created", "success");

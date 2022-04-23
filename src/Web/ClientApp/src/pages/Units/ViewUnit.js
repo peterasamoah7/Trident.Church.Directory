@@ -36,9 +36,17 @@ function ViewUnit({ onLayoutType }) {
   let params = useParams();
   let id = params.id;
 
+  const controller = new AbortController();
+
+  // useEffect(() => {
+  //   return controller.abort();
+  // });
+
   const fetchGroup = async () => {
     try {
-      const request = await axios.get(`/api/parishgroup/get/${id}`);
+      const request = await axios.get(`/api/parishgroup/get/${id}`, {
+        signal: controller.signal,
+      });
       if (request.status === 200) {
         setGroup(request.data);
         setMembers(request.data.parishioners);
@@ -52,12 +60,19 @@ function ViewUnit({ onLayoutType }) {
 
   useEffect(() => {
     fetchGroup();
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const searchMember = async (query) => {
     try {
-      const request = await axios.get(`/api/parishgroup/getall/query=${query}`);
+      const request = await axios.get(
+        `/api/parishgroup/getall/query=${query}`,
+        { signal: controller.signal }
+      );
       if (request.status === 200) {
         setMembers(request.data);
         setNextPage(request.data.nextPage);
@@ -71,7 +86,8 @@ function ViewUnit({ onLayoutType }) {
   const deletemember = async (memberId) => {
     try {
       const request = await axios.delete(
-        `/api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`
+        `/api/parishgroup/deleteparishioner/${id}/parishioner/${memberId}`,
+        { signal: controller.signal }
       );
       if (request.status === 200) {
         getMembers();
@@ -84,7 +100,9 @@ function ViewUnit({ onLayoutType }) {
 
   const deleteGroup = async () => {
     try {
-      const request = await axios.delete(`/api/parishgroup/delete/${id}`);
+      const request = await axios.delete(`/api/parishgroup/delete/${id}`, {
+        signal: controller.signal,
+      });
 
       if (request.status === 204 || request.status === 200) {
         showError("Successfull Delete Group", "success");
@@ -105,7 +123,9 @@ function ViewUnit({ onLayoutType }) {
 
   const getMembers = (path = "") => {
     axios
-      .get(`/api/parishgroup/getparishioners/${id}/${path}`)
+      .get(`/api/parishgroup/getparishioners/${id}/${path}`, {
+        signal: controller.signal,
+      })
       .then((response) => {
         if (response.status === 200) {
           setMembers(null);

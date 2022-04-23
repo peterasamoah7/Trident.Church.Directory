@@ -24,9 +24,17 @@ function EditUnit(props) {
   const [, setGroup] = useState(null);
   const [loading, setLoading] = useState(false);
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   const fetchGroup = async () => {
     try {
-      const request = await axios.get(`/api/parishgroup/get/${id}`);
+      const request = await axios.get(`/api/parishgroup/get/${id}`, {
+        signal: controller.signal,
+      });
       if (request.status === 200) {
         const data = request.data;
         setGroupName(() => data.name);
@@ -57,7 +65,9 @@ function EditUnit(props) {
     // call api here
     try {
       setLoading(() => true);
-      const request = await axios.put(`/api/parishgroup/update/${id}`, data);
+      const request = await axios.put(`/api/parishgroup/update/${id}`, data, {
+        signal: controller.signal,
+      });
 
       if (request.status === 200 || request.status === 201) {
         modalRef.current.classList.toggle("modal__hidden");
@@ -75,6 +85,10 @@ function EditUnit(props) {
   useEffect(() => {
     //   call end to fetch detail of a grup with the id and populate state
     fetchGroup();
+
+    return () => {
+      controller.abort();
+    };
     // if not found redirect to groups overview by uncommenting next line
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);

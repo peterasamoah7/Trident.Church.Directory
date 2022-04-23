@@ -13,17 +13,23 @@ function EllipseNModal(props) {
   const popupRef = useRef();
   const ellipseRef = useRef();
   const modalRef = useRef();
+  let mounted = useRef(false);
 
   const { editable, deletable } = props;
 
   useEffect(() => {
-    window.addEventListener("click", (e) => {
+    mounted.current = true;
+    const eventTarget = window.addEventListener("click", (e) => {
       if (!Array.of(...e.target.classList).includes("ellpise")) {
-        setClicked(() => false);
+        if (mounted.current) setClicked(() => false);
       }
     });
 
-    return () => [];
+    return function () {
+      // setClicked(null);
+      mounted.current = false;
+      window.removeEventListener("click", eventTarget, true);
+    };
   }, []);
 
   //

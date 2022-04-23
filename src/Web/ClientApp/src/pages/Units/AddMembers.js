@@ -32,6 +32,12 @@ function AddMembers(props) {
   const [showParishioner, setShowParishioner] = useState(false);
   const [parishionerPage, setParishionerPage] = useState(1);
 
+  const controller = new AbortController();
+
+  //useEffect(() => {
+  //   return controller.abort();
+  //  });
+
   const fetchParisher = async (
     searchValue = "",
     setHasMore,
@@ -41,7 +47,8 @@ function AddMembers(props) {
   ) => {
     firstTime = firstTime ? firstTime : !firstTime && page <= 1 ? true : false;
     const request = await axios.get(
-      `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}`
+      `/api/parishioner/getall?pageNumber=${page}&pageSize=10&query=${searchValue}`,
+      { signal: controller.signal }
     );
     if (request.status === 200) {
       const { data: result } = request;
@@ -71,6 +78,12 @@ function AddMembers(props) {
         true
       );
     }
+
+    return () => {
+      controller.abort();
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchParishioner]);
 
   const handleNextParishioner = async () => {
@@ -87,6 +100,10 @@ function AddMembers(props) {
         false
       );
     }
+
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [parishionerPage]);
 
@@ -105,7 +122,9 @@ function AddMembers(props) {
   const addmember = async (memberId) => {
     try {
       const request = await axios.post(
-        `api/parishgroup/addparishioner/${id}/parishioner/${memberId}`
+        `api/parishgroup/addparishioner/${id}/parishioner/${memberId}`,
+        null,
+        { signal: controller.signal }
       );
 
       if (request.status === 200 || request.status === 201) {

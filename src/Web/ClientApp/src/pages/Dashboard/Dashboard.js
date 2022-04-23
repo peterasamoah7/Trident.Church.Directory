@@ -22,9 +22,13 @@ const Dashboard = ({ onLayoutType }) => {
   const [viewModel, setViewModel] = useState(null);
   const navigate = useNavigate();
 
+  const controller = new AbortController();
+
   const fetchDashboard = async () => {
     try {
-      const request = await axios.get("api/dashboard/getdashboard");
+      const request = await axios.get("api/dashboard/getdashboard", {
+        signal: controller.signal,
+      });
 
       if (request.status === 200) {
         setViewModel(request.data);
@@ -43,7 +47,9 @@ const Dashboard = ({ onLayoutType }) => {
 
   useEffect(() => {
     fetchDashboard();
-    return () => [];
+    return () => {
+      controller.abort();
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
