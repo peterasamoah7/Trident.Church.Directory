@@ -37,12 +37,14 @@ namespace Application.Services
         public async Task CreateParishioner(Guid parishId, CreateParishionerModel viewModel)
         {
             var parishioner = _mapper.Map<Parishioner>(viewModel);
+            parishioner.Type = ParishionerType.Member;
             parishioner.ParishId = parishId;
             await _dbContext.Parishioners.AddAsync(parishioner);
             await _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(
                 AuditType.Created, $" Member {viewModel.FirstName} {viewModel.LastName} Created", parishId);
+            
         }
 
         /// <summary>
