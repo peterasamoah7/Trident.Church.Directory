@@ -159,7 +159,7 @@ function BasicInformation(props) {
                 inputContainerClass="input-container__lg"
               />
 
-              <Input
+              {/* <Input
                 large
                 noIcon
                 type="text"
@@ -175,7 +175,7 @@ function BasicInformation(props) {
                     birthPlace: e.target.value,
                   }));
                 }}
-              />
+              /> */}
               <Input
                 large
                 noIcon
@@ -291,25 +291,25 @@ function BasicInformation(props) {
                   }));
                 }}
               />
-              <div
+              {/* <div
                 style={{
                   gridColumn: "1/-1",
                 }}
-              >
-                <Input
-                  large
-                  noIcon
-                  label="Home Address"
-                  value={formData.homeAddress}
-                  onChange={(e) => {
-                    e.persist();
-                    setFormData((oldState) => ({
-                      ...oldState,
-                      homeAddress: e.target.value,
-                    }));
-                  }}
-                />
-              </div>
+              > */}
+              <Input
+                large
+                noIcon
+                label="Home Address"
+                value={formData.homeAddress}
+                onChange={(e) => {
+                  e.persist();
+                  setFormData((oldState) => ({
+                    ...oldState,
+                    homeAddress: e.target.value,
+                  }));
+                }}
+              />
+              {/* </div> */}
             </div>
             <div className="mt-4 px-4 d-flex align-items-center justify-content-between">
               <button
