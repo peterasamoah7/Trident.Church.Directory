@@ -60,6 +60,9 @@ function App() {
             }
           />
 
+          {/* Not Found Route */}
+          <Route path="*" element={<NotfoundPage />} />
+
           {/* <Route path="/*" element={} /> */}
 
           {/* Units */}
@@ -101,7 +104,6 @@ function App() {
               </RequireAuth>
             }
           />
-
           {/* Not Found Route */}
           <Route path="*" element={<NotfoundPage />} />
         </Routes>

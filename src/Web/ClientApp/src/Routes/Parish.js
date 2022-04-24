@@ -22,6 +22,7 @@ import data from "../pages/Parish/parishData.json";
 
 // components
 import ParishView from "../pages/Parish/ViewParish/index";
+import NotfoundPage from "../components/404";
 
 function Parish() {
   return (
@@ -44,6 +45,8 @@ function AddParish() {
       <Route path="associated-priest1" element={<AssociatedPriestS1 />} />
       <Route path="associated-priest2" element={<AssociatedPriestS2 />} />
       <Route path="associated-priest3" element={<AssociatedPriestS3 />} />
+      {/* Not Found Route */}
+      <Route path="*" element={<NotfoundPage />} />
     </Routes>
   );
 }
