@@ -28,62 +28,6 @@ namespace Application.Services
 
 
         /// <summary>
-        /// Create a Parish
-        /// </summary>
-        /// <param name="viewModel"></param>
-        /// <returns></returns>
-        public async Task<ParishViewModel> CreateParish(ParishViewModel viewModel)
-        {
-            var parish = _mapper.Map<Parish>(viewModel);
-
-            await _dbContext.Parishes.AddAsync(parish);
-            await _dbContext.SaveChangesAsync();
-            viewModel.Id = parish.Id;
-            await _auditService.CreateAuditAsync(AuditType.Created, $" Parish {viewModel.Name} Added", parish.Id);
-            return viewModel;
-
-        }
-
-        /// <summary>
-        /// Delete Parish
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        public async Task DeleteParish(Guid id)
-        {
-            var isParishExist = await _dbContext.Parishes.FirstOrDefaultAsync(x => x.Id == id);
-            if (isParishExist == null)
-            {
-                return;
-            }
-            _dbContext.Parishes.Remove(isParishExist);
-            await _auditService.CreateAuditAsync(AuditType.Deleted, "Parish Deleted", isParishExist.Id);
-            await _dbContext.SaveChangesAsync();
-        }
-
-        /// <summary>
-        /// Get all Groups of Parish
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        public async Task<PageResult<IEnumerable<ParishGroupViewModel>>> GetParishGroups(Guid id, int pageNumber, int pageSize)
-        {
-            var resquest = new PageRequest(pageNumber, pageSize);
-
-            var parish = await _dbContext.Parishes.Include(x => x.ChurchGroups).FirstOrDefaultAsync(x => x.Id == id);
-
-            var churchGroups = parish.ChurchGroups;
-            var count = churchGroups.Count();
-            var viewModels = churchGroups.Select(x => _mapper.Map<ParishGroupViewModel>(x))
-                .ToList();
-            return new PageResult<IEnumerable<ParishGroupViewModel>>
-                (viewModels, resquest.PageNumber, resquest.PageSize, count);
-        }
-
-
-        /// <summary>
         /// Get all Parishioners of a Parish
         /// </summary>
         /// <param name="id"></param>
@@ -173,26 +117,6 @@ namespace Application.Services
             viewModel.MemberCount = await _dbContext.Parishioners
                 .CountAsync(x => x.ParishId == id);
 
-            return viewModel;
-        }
-
-
-        /// <summary>
-        /// Update a parish
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="viewModel"></param>
-        /// <returns></returns>
-        public async Task<ParishViewModel> UpdateParish(Guid id, ParishViewModel viewModel)
-        {
-            var parish = await _dbContext.Parishes.FirstOrDefaultAsync(x => x.Id == id);
-            if (parish == null)
-            {
-                return null;
-            }
-            _mapper.Map(viewModel, parish);
-            await _dbContext.SaveChangesAsync();
-            await _auditService.CreateAuditAsync(AuditType.Updated, $"{parish.Name} Details Updated", parish.Id);
             return viewModel;
         }
     }

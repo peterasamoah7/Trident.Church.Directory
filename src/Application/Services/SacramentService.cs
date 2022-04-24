@@ -59,7 +59,7 @@ namespace Application.Services
             };
 
             parishioner.Sacraments.Add(sacramentEntity);
-            _dbContext.SaveChanges();
+            await  _dbContext.SaveChangesAsync();
 
             await _auditService.CreateAuditAsync(AuditType.Created, $"{sacrament.Type} Sacrament Created", parish);
         }

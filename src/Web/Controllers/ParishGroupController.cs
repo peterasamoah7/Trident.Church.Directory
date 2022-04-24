@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Microsoft.VisualBasic.CompilerServices;
 using Web.Extensions;
 
 namespace Web.Controllers
@@ -28,9 +29,10 @@ namespace Web.Controllers
         /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<ParishGroupViewModel>> Create(ParishGroupViewModel viewModel)
+        public async Task<ActionResult<ParishGroupViewModel>> Create(CreateParishGroupModel viewModel)
         {
-            return await _parishGroupService.CreateParishGroup(User.Parish(), viewModel);
+            await _parishGroupService.CreateParishGroup(User.Parish(), viewModel);
+            return Ok();
         }
 
         /// <summary>
@@ -40,9 +42,10 @@ namespace Web.Controllers
         /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ParishGroupViewModel>> Update(Guid id, ParishGroupViewModel viewModel)
+        public async Task<ActionResult<ParishGroupViewModel>> Update(Guid id, UpdateParishGroupModel viewModel)
         {
-            return await _parishGroupService.UpdateParishGroup(id, viewModel);
+            await _parishGroupService.UpdateParishGroup(id, viewModel);
+            return Ok();
         }
 
         /// <summary>

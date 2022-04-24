@@ -34,18 +34,15 @@ namespace Application.Services
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishionerViewModel> CreateParishioner(Guid parishId, ParishionerViewModel viewModel)
+        public async Task CreateParishioner(Guid parishId, CreateParishionerModel viewModel)
         {
-            var parishioner = ParishionerMapping.MapEntity(viewModel);
+            var parishioner = _mapper.Map<Parishioner>(viewModel);
             parishioner.ParishId = parishId;
-
             await _dbContext.Parishioners.AddAsync(parishioner);
             await _dbContext.SaveChangesAsync();
+
             await _auditService.CreateAuditAsync(
                 AuditType.Created, $" Member {viewModel.FirstName} {viewModel.LastName} Created", parishId);
-
-            viewModel.Id = parishioner.Id;
-            return viewModel;
         }
 
         /// <summary>
@@ -54,7 +51,7 @@ namespace Application.Services
         /// <param name="id"></param>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task<ParishionerViewModel> UpdateParishioner(Guid id, ParishionerViewModel viewModel)
+        public async Task UpdateParishioner(Guid id, UpdateParishionerModel viewModel)
         {
             var parishioner = await _dbContext.Parishioners
                 .Include(x => x.Parish)
@@ -62,27 +59,15 @@ namespace Application.Services
 
             if (parishioner == null)
             {
-                return null;
+                return;
             }
 
-            parishioner.PhoneNumber = viewModel.PhoneNumber;
-            parishioner.DateOfBirth = viewModel.DateOfBirth.ToDateTime();
-            parishioner.Location = viewModel.Location;
-            parishioner.Occupation = viewModel.Occupation;
-            parishioner.Email = viewModel.Email;
-            parishioner.HomeAddress = viewModel.HomeAddress;
-            parishioner.FirstName = viewModel.FirstName;
-            parishioner.LastName = viewModel.LastName;
-            parishioner.PostCode = viewModel.PostCode;
-
+            _mapper.Map(viewModel, parishioner);
             _dbContext.Parishioners.Update(parishioner);
+
             await _dbContext.SaveChangesAsync();
-
             await _auditService.CreateAuditAsync(
-                AuditType.Updated, $"{viewModel.FirstName} {viewModel.LastName} " +
-                $"Details Updated", parishioner.Parish.Id);
-
-            return viewModel;
+               AuditType.Updated, $"{viewModel.FirstName} {viewModel.LastName} Details Updated", parishioner.Parish.Id);
         }
 
         /// <summary>
@@ -165,14 +150,13 @@ namespace Application.Services
             var pageRequest = new PageRequest(pageNumber, pageSize);
 
             var parishionerQuery = _dbContext.Parishioners.AsQueryable();
-
             if (!string.IsNullOrEmpty(query))
             {
                 parishionerQuery.Where(x => x.LastName
                     .Contains(query, StringComparison.OrdinalIgnoreCase));
             }
 
-            var parishioners = await parishionerQuery
+            var parishioners = await _dbContext.Parishioners
                 .Where(x => x.ParishId == parishId)
                 .Where(x => x.Type == type)
                 .Skip((pageRequest.PageNumber - 1) * pageRequest.PageSize)
@@ -180,7 +164,7 @@ namespace Application.Services
                 .Select(x => ParishionerMapping.MapDto(x))
                 .ToListAsync();
 
-            var count = await _dbContext.Parishioners.CountAsync(x => x.ParishId == parishId);
+            var count = await parishionerQuery.CountAsync(x => x.ParishId == parishId);
 
             return new PageResult<IEnumerable<ParishionerViewModel>>
                 (parishioners, pageRequest.PageNumber, pageRequest.PageSize, count);

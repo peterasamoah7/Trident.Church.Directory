@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Threading.Tasks;
 using Web.Extensions;
 
@@ -30,9 +31,10 @@ namespace Web.Controllers
         /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPost]
-        public async Task<ActionResult<ParishionerViewModel>> Create(ParishionerViewModel viewModel)
+        public async Task<ActionResult<ParishionerViewModel>> Create(CreateParishionerModel viewModel)
         {
-            return await _parishionerService.CreateParishioner(User.Parish(), viewModel);
+            await _parishionerService.CreateParishioner(User.Parish(), viewModel);
+            return Ok();
         }
 
         /// <summary>
@@ -42,9 +44,10 @@ namespace Web.Controllers
         /// <param name="viewModel"></param>
         /// <returns></returns>
         [HttpPut("{id}")]
-        public async Task<ActionResult<ParishionerViewModel>> Update(Guid id, ParishionerViewModel viewModel)
+        public async Task<ActionResult<ParishionerViewModel>> Update(Guid id, UpdateParishionerModel viewModel)
         {
-            return await _parishionerService.UpdateParishioner(id, viewModel);
+            await _parishionerService.UpdateParishioner(id, viewModel);
+            return Ok();
         }
 
         /// <summary>
