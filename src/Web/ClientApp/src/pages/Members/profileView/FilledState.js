@@ -210,7 +210,7 @@ function FilledState(props) {
                 </span>
               </Link>
               <span
-                style={{ pointer: "cursor" }}
+                style={{ cursor: "pointer" }}
                 className="m-0 p-0 d-flex align-items-center"
                 onClick={showDeleteModal}
               >
