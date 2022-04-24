@@ -4,6 +4,7 @@ import { getAuthCookie } from "../../services/auth";
 
 const AuthPagesGuard = ({ children }) => {
   var location = useLocation();
+  //debugger;
   var user = getAuthCookie();
 
   let from = location.state?.from?.pathname || "/";

@@ -33,7 +33,6 @@ const Login = () => {
       rememberUser: false,
     },
     onSubmit: async (values) => {
-      console.log("entered");
       try {
         const response = await axios.post(
           `/api/account/login`,

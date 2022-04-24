@@ -10,15 +10,15 @@ import axios from "axios";
 import { ErrorContext } from "../../../context/ErrorContext";
 import SvgRoundPen from "../../../Elements/svgs/RoundPen";
 import DeleteSacramentModal from "../../../components/modal/DeleteSacramentModal";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 
-function Sacrament({ model }) {
+function Sacrament({ model, setMember }) {
   const modalRef = useRef();
   const [sacrament, setSacrament] = useState(null);
   const { showError } = useContext(ErrorContext);
   const [showModal, setShowModal] = useState(false);
   const deleteModalRef = useRef();
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   function handleShowModal(e) {
     e.preventDefault();
@@ -66,7 +66,13 @@ function Sacrament({ model }) {
     try {
       const request = await axios.delete(`/api/sacrament/delete/${model.id}`);
       if (request.status === 200) {
-        navigate(0);
+        // navigate(0);
+        setMember((oldState) => ({
+          ...oldState,
+          sacraments: oldState.sacraments?.filter(
+            (sacrament) => sacrament.id !== model.id
+          ),
+        }));
       }
     } catch (error) {
       showError("There was an unexpected error");

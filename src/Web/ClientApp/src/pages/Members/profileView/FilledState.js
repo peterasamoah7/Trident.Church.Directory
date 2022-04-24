@@ -286,7 +286,9 @@ function FilledState(props) {
             <section className="sacrment-view">
               {member &&
                 member.sacraments.map((item, index) => {
-                  return <Sacrament key={index} model={item} />;
+                  return (
+                    <Sacrament key={index} model={item} setMember={setMember} />
+                  );
                 })}
             </section>
           </section>

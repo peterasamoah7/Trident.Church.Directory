@@ -6,7 +6,8 @@ export const removeAuthCookie = async () => {
   const request = await axios.get("/api/account/logout");
 
   if (request.status === 200) {
-      setCookie("authenticated", "false", 0);      
+    setCookie("authenticated", "false", 0);
+    //debugger;
   }
 };
 export const getAuthCookie = () => getCookie("authenticated");

@@ -19,9 +19,9 @@ const MobileViewBlock = ({ children }) => {
     return (
       <div id="notfound">
         <div className="notfound">
-          <div className="notfound-404">
+          {/* <div className="notfound-404">
             <h1>Oops!</h1>
-          </div>
+          </div> */}
           <h2>Mobile View Not Supported</h2>
           <p>Sorry, this website is only available on desktop devices.</p>
         </div>
