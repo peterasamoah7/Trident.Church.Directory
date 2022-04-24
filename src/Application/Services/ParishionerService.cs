@@ -65,7 +65,17 @@ namespace Application.Services
                 return;
             }
 
-            _mapper.Map(viewModel, parishioner);
+            //_mapper.Map(viewModel, parishioner);
+            parishioner.FirstName = viewModel.FirstName;
+            parishioner.LastName = viewModel.LastName;
+            parishioner.DateOfBirth = viewModel.DateOfBirth;
+            parishioner.Location = viewModel.Location;
+            parishioner.PhoneNumber = viewModel.PhoneNumber;
+            parishioner.Email = viewModel.Email;
+            parishioner.HomeAddress = viewModel.HomeAddress;
+            parishioner.PostCode = viewModel.PostCode;
+            parishioner.Occupation = viewModel.Occupation;
+
             _dbContext.Parishioners.Update(parishioner);
 
             await _dbContext.SaveChangesAsync();
