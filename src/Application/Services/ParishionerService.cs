@@ -34,7 +34,7 @@ namespace Application.Services
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        public async Task CreateParishioner(Guid parishId, CreateParishionerModel viewModel)
+        public async Task<ParishGroupViewModel> CreateParishioner(Guid parishId, CreateParishionerModel viewModel)
         {
             var parishioner = _mapper.Map<Parishioner>(viewModel);
             parishioner.Type = ParishionerType.Member;
@@ -44,7 +44,8 @@ namespace Application.Services
 
             await _auditService.CreateAuditAsync(
                 AuditType.Created, $" Member {viewModel.FirstName} {viewModel.LastName} Created", parishId);
-            
+
+            return new ParishGroupViewModel { Id = parishioner.Id };
         }
 
         /// <summary>

@@ -15,7 +15,7 @@ namespace Application.Interfaces
         /// </summary>
         /// <param name="viewModel"></param>
         /// <returns></returns>
-        Task CreateParishioner(Guid parishId, CreateParishionerModel viewModel);
+        Task<ParishGroupViewModel> CreateParishioner(Guid parishId, CreateParishionerModel viewModel);
 
         /// <summary>
         /// UpdateParishioner

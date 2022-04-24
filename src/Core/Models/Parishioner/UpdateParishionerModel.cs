@@ -57,25 +57,5 @@ namespace Core.Models
         /// Parishioner Occupation
         /// </summary>
         public string Occupation { get; set; }
-
-        /// <summary>
-        /// Father
-        /// </summary>
-        public Guid? Father { get; set; }
-
-        /// <summary>
-        /// Type of Parishioner
-        /// </summary>
-        public ParishionerType Type { get; set; }
-
-        /// <summary>
-        /// Mother
-        /// </summary>
-        public Guid? Mother { get; set; }
-
-        /// <summary>
-        /// Partner
-        /// </summary>
-        public Guid? Partner { get; set; }
     }
 }

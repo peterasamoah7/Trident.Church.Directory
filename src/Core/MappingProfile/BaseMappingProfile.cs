@@ -11,7 +11,7 @@ namespace Core.MappingProfile
         {
             CreateMap<Parish, ParishViewModel>().ReverseMap();
             CreateMap<Parish, CreateParishModel>().ReverseMap();
-            CreateMap<Parish, UpdateParishionerModel>().ReverseMap();
+            CreateMap<Parish, UpdateParishModel>().ReverseMap();
 
             CreateMap<Parishioner, ParishionerViewModel>().ReverseMap();
             CreateMap<Parishioner, CreateParishionerModel>().ReverseMap();

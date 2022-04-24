@@ -33,8 +33,8 @@ namespace Web.Controllers
         [HttpPost]
         public async Task<ActionResult<ParishionerViewModel>> Create(CreateParishionerModel viewModel)
         {
-            await _parishionerService.CreateParishioner(User.Parish(), viewModel);
-            return Ok();
+            var response = await _parishionerService.CreateParishioner(User.Parish(), viewModel);
+            return Ok(response);
         }
 
         /// <summary>
