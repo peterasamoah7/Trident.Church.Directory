@@ -9,28 +9,6 @@ namespace Application.Interfaces
     public interface IParishService
     {
         /// <summary>
-        /// CreateParish
-        /// </summary>
-        /// <param name="viewModel"></param>
-        /// <returns></returns>
-        Task CreateParish(CreateParishModel viewModel);
-
-        /// <summary>
-        /// UpdateParish
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="viewModel"></param>
-        /// <returns></returns>
-        Task UpdateParish(Guid id, UpdateParishModel viewModel);
-
-        /// <summary>
-        /// DeleteParish
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
-        Task DeleteParish(Guid id);
-
-        /// <summary>
         /// GetParish
         /// </summary>
         /// <param name="id"></param>
@@ -45,16 +23,6 @@ namespace Application.Interfaces
         /// <param name="pageSize"></param>
         /// <returns></returns>
         Task<PageResult<IEnumerable<ParishViewModel>>> GetAllParishs(string query, int pageNumber, int pageSize);
-
-
-        /// <summary>
-        /// SearchParishs
-        /// </summary>
-        /// <param name="id"></param>
-        /// <param name="pageNumber"></param>
-        /// <param name="pageSize"></param>
-        /// <returns></returns>
-        Task<PageResult<IEnumerable<ParishGroupViewModel>>> GetParishGroups(Guid id, int pageNumber, int pageSize);
 
         /// <summary>
         /// SearchParishs
