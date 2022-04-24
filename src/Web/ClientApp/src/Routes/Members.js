@@ -12,6 +12,7 @@ import FilledState from "../pages/Members/profileView/FilledState";
 import AddRelative from "../pages/Members/AddFamilyRelatives";
 import AddSacrament from "../pages/Members/AddSacrament";
 import EditMember from "../pages/Members/AddMembers/EditMember";
+import NotfoundPage from "../components/404";
 
 function MembersRoute() {
   return (
@@ -27,6 +28,8 @@ function MembersRoute() {
       <Route path="view-member" element={<FilledState />} />
       <Route path="view-member/:id/add-relative" element={<AddRelative />} />
       <Route path="view-member/:id/add-sacrament" element={<AddSacrament />} />
+      {/* Not Found Route */}
+      <Route path="*" element={<NotfoundPage />} />
     </Routes>
   );
 }

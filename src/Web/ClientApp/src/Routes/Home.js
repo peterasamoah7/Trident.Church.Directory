@@ -7,6 +7,7 @@ import InviteMember from "../pages/InviteMember/InviteMember";
 import AdminUsersList from "../pages/AdminList/AdminUsersList";
 import RecentActivities from "../pages/RecentActivities/RecentActivities";
 import RequireAuth from "../pages/Authentication/RequireAuth";
+import NotfoundPage from "../components/404";
 
 function Home() {
   return (
@@ -38,6 +39,9 @@ function Home() {
           </RequireAuth>
         }
       />
+
+      {/* Not Found Route */}
+      <Route path="*" element={<NotfoundPage />} />
     </Routes>
   );
 }
