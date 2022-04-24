@@ -137,6 +137,9 @@ namespace Web.Controllers
         [HttpDelete("{userId}")]
         public async Task<IActionResult> DeleteUser(Guid userId)
         {
+            if (userId == User.UserId())
+                return BadRequest();
+
             await _userService.RemoveUser(userId);
 
             return Ok();

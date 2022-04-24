@@ -65,7 +65,6 @@ namespace Application.Services
                 return;
             }
 
-            //_mapper.Map(viewModel, parishioner);
             parishioner.FirstName = viewModel.FirstName;
             parishioner.LastName = viewModel.LastName;
             parishioner.DateOfBirth = viewModel.DateOfBirth;
@@ -202,6 +201,9 @@ namespace Application.Services
             var parishioner = await _dbContext.Parishioners
                 .Include(x => x.Parish)
                 .FirstOrDefaultAsync(x => x.Id == id);
+
+            if (parishioner.Id == model.RelativeId)
+                return;
 
             switch (model.RelativeType)
             {
