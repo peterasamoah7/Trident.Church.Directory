@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import "../../styles/dist/table.css";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import Layout from "../../components/Layout";
 
@@ -12,11 +12,14 @@ import SearchInput from "../../components/inputs/specialInputs/SearchInput";
 
 import axios from "axios";
 import EllipseNModal from "../../components/modal/EllipseNModal";
+import { ErrorContext } from "../../context/ErrorContext";
 
 function AdminUsersList(props) {
   const [adminUser, setAdminUsers] = useState(null);
 
   const controller = new AbortController();
+
+  const { showError } = useContext(ErrorContext);
 
   useEffect(() => {
     axios
@@ -47,14 +50,20 @@ function AdminUsersList(props) {
       });
   };
 
-  // const deleteUser = (id) => {
-  //   axios.delete(`/api/account/deleteuser/${id}`).then((response) => {
-  //     if (response.status === 200) {
-  //       setAdminUsers(response.data);
-  //     } else {
-  //     }
-  //   });
-  // };
+  const deleteUser = async (id) => {
+    try {
+      const request = await axios.delete(`/api/account/deleteuser/${id}`);
+
+      if (request.status === 200) {
+        setAdminUsers((oldState) => ({
+          ...oldState,
+          data: oldState.data?.filter((user) => user.id !== id),
+        }));
+      }
+    } catch (error) {
+      showError("An unexpected error occurred");
+    }
+  };
 
   return (
     <Layout type={1}>
@@ -98,6 +107,7 @@ function AdminUsersList(props) {
                   email={item.email}
                   number={index + 1}
                   id={item.id}
+                  deleteUserFunc={deleteUser}
                 />
               );
             })}
@@ -110,8 +120,8 @@ function AdminUsersList(props) {
 export default AdminUsersList;
 
 function AdminUser(props) {
-  let { number, name, role, email, id } = props;
-  const navigate = useNavigate();
+  let { number, name, role, email, id, deleteUserFunc } = props;
+  // const navigate = useNavigate();
 
   return (
     <tr className={props.class}>
@@ -128,7 +138,11 @@ function AdminUser(props) {
           }}
           o
         /> */}
-        <EllipseNModal onView={() => navigate(`/members/view-member/${id}`)} />
+        <EllipseNModal
+          // onView={() => navigate(`/members/view-member/${id}`)}
+          deletable={true}
+          onDelete={async () => await deleteUserFunc(id)}
+        />
       </td>
     </tr>
   );

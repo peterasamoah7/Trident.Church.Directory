@@ -8,8 +8,8 @@ import Layout from "../../../components/Layout";
 //Elements
 import Info from "../../../Elements/svgs/Info";
 import ContactCard from "../../../Elements/svgs/ContactCard";
-import BluePhone from "../../../Elements/svgs/BluePhone";
-import BlueMail from "../../../Elements/svgs/BlueMail";
+// import BluePhone from "../../../Elements/svgs/BluePhone";
+// import BlueMail from "../../../Elements/svgs/BlueMail";
 import GreenPlus from "../../../Elements/svgs/GreenPlus";
 import GreenPen from "../../../Elements/svgs/RoundPen";
 import GreenFolder from "../../../Elements/svgs/GreenFolder";
@@ -82,18 +82,18 @@ function FilledState(props) {
         <div className="col-4 d-flex flex-column justify-content-start align-items-start p-0 m-0">
           <section className="member-summary py-4 pb-0 px-4 m-0 bg-white d-flex flex-column justify-content-start align-items-center container-fluid">
             <div className="d-flex align-items-center justify-content-start col-12">
-              <h5 className="member-name m-0 col-6">
+              <h5 className="member-name m-0">
                 {member?.firstName} {member?.lastName}
               </h5>
-              <a
+              {/* <a
                 href={`tel:${member?.phoneNumber}`}
                 className="p-0 btn col-1 me-2"
               >
                 <BluePhone />
-              </a>
-              <a href="mailto:email@example.com" className="p-0 btn col-1 me-2">
+              </a> */}
+              {/* <a href="mailto:email@example.com" className="p-0 btn col-1 me-2">
                 <BlueMail />
-              </a>
+              </a> */}
             </div>
             <div className="summary-info col-12 mt-3  d-flex flex-column align-items-start gx-3">
               <div>

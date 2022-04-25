@@ -14,6 +14,7 @@ function Input({
   name,
   onChange,
   onBlur,
+  disabled,
 }) {
   return (
     <div
@@ -33,6 +34,7 @@ function Input({
           name={name}
           onChange={onChange}
           onBlur={onBlur}
+          disabled={disabled}
         />
         <span className="input-label">{label}</span>
       </label>

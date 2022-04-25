@@ -15,7 +15,7 @@ function EllipseNModal(props) {
   const modalRef = useRef();
   let mounted = useRef(false);
 
-  const { editable, deletable } = props;
+  const { editable, deletable, viewable = true } = props;
 
   useEffect(() => {
     mounted.current = true;
@@ -90,6 +90,7 @@ function EllipseNModal(props) {
             className="btn py-2 m-0"
             style={{
               cursor: "pointer",
+              display: viewable && props.onView ? "initial" : "none",
             }}
             onClick={() => {
               setClicked(false);
@@ -131,7 +132,8 @@ function EllipseNModal(props) {
               onClick={async () => {
                 await props.onDelete();
 
-                modalRef.current.classList.add("modal__hidden");
+                if (modalRef.current)
+                  modalRef.current.classList.add("modal__hidden");
               }}
               className="px-4 btn btn-primary rounded-0 ms-3"
             >

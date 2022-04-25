@@ -200,7 +200,7 @@ function BasicInformation(props) {
                 //   gridTemplateColumns: "0.35fr 1fr",
                 // }}
               >
-                <Input
+                {/* <Input
                   large
                   noIcon
                   type="tel"
@@ -219,7 +219,54 @@ function BasicInformation(props) {
                       phoneNumber: e.target.value,
                     }));
                   }}
-                />
+                /> */}
+
+                <div
+                  className=" input-group"
+                  style={{
+                    display: "grid",
+                    gridTemplateColumns: "0.35fr 1fr",
+                  }}
+                >
+                  <Input
+                    large
+                    noIcon
+                    type="text"
+                    label="+233"
+                    name="countryCode"
+                    // {...formik.getFieldProps("countryCode")}
+                    value={formData.countryCode}
+                    onChange={(e) => {
+                      e.persist();
+                      setFormData((oldState) => ({
+                        ...oldState,
+                        countryCode: e.target.value,
+                      }));
+                    }}
+                    disabled={true}
+                  />
+
+                  <Input
+                    large
+                    noIcon
+                    type="tel"
+                    label="Phone number"
+                    inputStyle={{
+                      borderTopLeftRadius: "0",
+                      borderBottomLeftRadius: "0",
+                    }}
+                    name="phone"
+                    // {...formik.getFieldProps("phone")}
+                    value={formData.phoneNumber}
+                    onChange={(e) => {
+                      e.persist();
+                      setFormData((oldState) => ({
+                        ...oldState,
+                        phoneNumber: e.target.value,
+                      }));
+                    }}
+                  />
+                </div>
               </div>
             </div>
             <div className="d-flex align-items-center justify-content-between mx-4 mb-3">

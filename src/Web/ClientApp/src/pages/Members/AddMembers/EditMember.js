@@ -271,6 +271,7 @@ function EditMember(props) {
                       countryCode: e.target.value,
                     }));
                   }}
+                  disabled={true}
                 />
 
                 <Input
