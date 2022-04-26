@@ -10,7 +10,7 @@ function ParishItem(props) {
   return (
     <>
       <tr>
-        <td>{props.index}</td>
+        <td>{props.index}.</td>
         <td>{props.name}</td>
         <td>{props.location}</td>
         <td>

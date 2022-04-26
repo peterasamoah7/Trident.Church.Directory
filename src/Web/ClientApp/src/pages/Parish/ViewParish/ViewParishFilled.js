@@ -72,6 +72,7 @@ function ViewParishFilled() {
         <table className="bg-white">
           <thead>
             <tr>
+              <th></th>
               <th>Name</th>
               <th>Email</th>
               <th>Role</th>
@@ -81,7 +82,7 @@ function ViewParishFilled() {
           </thead>
           <tbody>
             {members?.data?.map((item, index) => {
-              return <ParishMembers key={index} {...item} />;
+              return <ParishMembers key={index} {...item} index={index + 1} />;
             })}
           </tbody>
           <tfoot>
@@ -121,6 +122,7 @@ export default ViewParishFilled;
 function ParishMembers(props) {
   return (
     <tr>
+      <td>{props.index}.</td>
       <td>
         {props.firstName} {props.lastName}
       </td>
