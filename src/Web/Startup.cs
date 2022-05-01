@@ -47,8 +47,6 @@ namespace Web
                     options.Cookie.SameSite = SameSiteMode.Strict;
                 });
 
-
-
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
             ConfigureDatabase(services);
@@ -101,8 +99,6 @@ namespace Web
                 app.UseExceptionHandler("/Error");
             }
 
-            AddTestUser(app);
-
             app.UseStaticFiles();
             app.UseSpaStaticFiles();
 
@@ -127,55 +123,6 @@ namespace Web
                     spa.UseReactDevelopmentServer(npmScript: "start");
                 }
             });
-        }
-
-        public void AddTestUser(IApplicationBuilder app)
-        {
-            var context = app.ApplicationServices
-                .CreateScope()
-                .ServiceProvider
-                .GetRequiredService<ChurchContext>();                       
-
-            if (context.Users.Any())
-            {
-                return;
-            }
-
-            var parish = new Parish
-            {
-                Id = Guid.Parse("e7ebc196-4b43-422d-b889-3181dac47358"),
-                Name =  "St Augustine's Catholic Church",
-                Location = "Cape Coast"
-            };
-
-            context.Parishes.Add(parish);
-
-            var user = new ApplicationUser
-            {
-                Parish = Guid.Parse("e7ebc196-4b43-422d-b889-3181dac47358"),
-                Email = "test@test.com",
-                Password = BCrypt.Net.BCrypt.HashPassword("Psalm23#"),
-                FullName = "Peter Asamoah",
-                UserRole = UserRole.Admin
-            };
-
-            context.Users.Add(user);
-            context.SaveChanges();
-
-            var priest = new Parishioner
-            {
-                FirstName = "Stephen",
-                LastName =  "Amoah Gyasi",
-                DateOfBirth = DateTime.Parse("12/12/1991"),
-                Type = ParishionerType.Priest,
-                Location = "Accra",
-                PhoneNumber = "123456789",
-                Email = "father@priest.com",
-                ParishId = Guid.Parse("e7ebc196-4b43-422d-b889-3181dac47358")
-            };
-
-            context.Parishioners.Add(priest);
-            context.SaveChanges();
-        }
+        }       
     }
 }
