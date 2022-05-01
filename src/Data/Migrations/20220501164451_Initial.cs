@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Data.Migrations
 {
-    public partial class InitDb : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -11,13 +11,13 @@ namespace Data.Migrations
                 name: "Parishes",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Location = table.Column<string>(type: "TEXT", nullable: false),
+                    Address = table.Column<string>(type: "TEXT", nullable: true),
+                    PostCode = table.Column<string>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -28,12 +28,12 @@ namespace Data.Migrations
                 name: "Users",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Parish = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    FullName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    UserRole = table.Column<int>(type: "int", nullable: false)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Parish = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Email = table.Column<string>(type: "TEXT", nullable: false),
+                    Password = table.Column<string>(type: "TEXT", nullable: false),
+                    FullName = table.Column<string>(type: "TEXT", nullable: false),
+                    UserRole = table.Column<int>(type: "INTEGER", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -44,12 +44,12 @@ namespace Data.Migrations
                 name: "Audits",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Message = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParishId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    Message = table.Column<string>(type: "TEXT", nullable: false),
+                    ParishId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -66,13 +66,13 @@ namespace Data.Migrations
                 name: "ParishGroups",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Active = table.Column<bool>(type: "bit", nullable: false),
-                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ParishId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Name = table.Column<string>(type: "TEXT", nullable: false),
+                    Active = table.Column<bool>(type: "INTEGER", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: false),
+                    ParishId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -89,23 +89,23 @@ namespace Data.Migrations
                 name: "Parishioners",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DateOfBirth = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    FatherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    MotherId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    PartnerId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    HomeAddress = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    PostCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Occupation = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ParishId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    FirstName = table.Column<string>(type: "TEXT", nullable: false),
+                    LastName = table.Column<string>(type: "TEXT", nullable: false),
+                    DateOfBirth = table.Column<DateTime>(type: "TEXT", nullable: true),
+                    FatherId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    MotherId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    PartnerId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    Location = table.Column<string>(type: "TEXT", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "TEXT", nullable: true),
+                    Email = table.Column<string>(type: "TEXT", nullable: true),
+                    HomeAddress = table.Column<string>(type: "TEXT", nullable: true),
+                    PostCode = table.Column<string>(type: "TEXT", nullable: true),
+                    Occupation = table.Column<string>(type: "TEXT", nullable: true),
+                    ParishId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -122,8 +122,8 @@ namespace Data.Migrations
                 name: "ParishionerParishGroup",
                 columns: table => new
                 {
-                    ParishionerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    ParishGroupId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    ParishionerId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    ParishGroupId = table.Column<Guid>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -146,14 +146,15 @@ namespace Data.Migrations
                 name: "Sacraments",
                 columns: table => new
                 {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Type = table.Column<int>(type: "int", nullable: false),
-                    ParishionerId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PriestId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    GodParentId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    ParishId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-                    CreatedOn = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedOn = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    Id = table.Column<Guid>(type: "TEXT", nullable: false),
+                    Type = table.Column<int>(type: "INTEGER", nullable: false),
+                    ParishionerId = table.Column<Guid>(type: "TEXT", nullable: false),
+                    PeformedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    PriestId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    GodParentId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    ParishId = table.Column<Guid>(type: "TEXT", nullable: true),
+                    CreatedOn = table.Column<DateTime>(type: "TEXT", nullable: false),
+                    UpdatedOn = table.Column<DateTime>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {

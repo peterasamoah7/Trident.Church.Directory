@@ -47,11 +47,11 @@ namespace Web
                     options.Cookie.SameSite = SameSiteMode.Strict;
                 });
 
+
+
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-            services.AddDbContext<ChurchContext>(options =>
-                options.UseInMemoryDatabase(
-                    Configuration.GetConnectionString("DefaultConnection")));
+            ConfigureDatabase(services);
 
             services.RegisterApplication();
             services.AddControllersWithViews().AddNewtonsoftJson(opt =>
@@ -66,6 +66,27 @@ namespace Web
             {
                 configuration.RootPath = "ClientApp/build";
             });
+        }
+
+        public void ConfigureDatabase(IServiceCollection services)
+        {
+            var environment = Configuration["Environment"];
+
+            switch (environment)
+            {
+                case "Prod":
+                    services.AddDbContext<ChurchContext>(options => options.UseSqlServer(
+                        Configuration.GetConnectionString("DefaultConnection")));
+                    break;
+                case "Dev":
+                    services.AddDbContext<ChurchContext>(options => options.UseSqlite(
+                       Configuration.GetConnectionString("DefaultConnection")));
+                    break;
+                default:
+                    services.AddDbContext<ChurchContext>(options => options.UseInMemoryDatabase(
+                        Configuration.GetConnectionString("DefaultConnection")));
+                    break;
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -123,8 +144,8 @@ namespace Web
             var parish = new Parish
             {
                 Id = Guid.Parse("e7ebc196-4b43-422d-b889-3181dac47358"),
-                Name =  "St Mark's Catholic Church",
-                Location = "Accra"
+                Name =  "St Augustine's Catholic Church",
+                Location = "Cape Coast"
             };
 
             context.Parishes.Add(parish);
